@@ -15,6 +15,11 @@
 		<div class="kc2">
 			<img src="kci_image/im2.jpg">
 		</div>
+		<button class="menu-toggle" aria-label="Toggle Menu" aria-expanded="false">
+			<span></span>
+			<span></span>
+			<span></span>
+		</button>
 		<div class="kc3">
 			<ul>
 				<li><a href="index.php">Home</a>
