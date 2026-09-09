@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" type="text/css" href="https://www.w3school.com/lib/w3.com">
+	<meta name="description" content="Kingdomite Church Int'l">
+	<link rel="stylesheet" type="text/css" href="kci.css">
+	<link rel="icon" type="image/png" href="kci_image">
+	<title>About Us - Kingdomite Church Int'l</title>
+
+	<!-- inserting of icon link from cdjns -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+</head>
+<body>
+	<section class="kc1">
+		<div class="kc2">
+			<img src="kci_image/im2.jpg">
+		</div>
+		<div class="kc3">
+			<ul>
+				<li><a href="index.php">Home</a>
+					<div class="line"></div>
+				</li>
+				<li><a href="aboutus.php">About</a>
+					<div class="linea"></div>
+				</li>
+				<li ><a href="events.php">Events   v</a>
+					<div class="linec"></div>
+					<ul>
+						<li><a href="events/oil.php">Oil & Wine Summit</a></li>
+						<li><a href="events/conf.php">June Confrence</a></li>
+						<li><a href="events/embers.php">Embers Of Glory</a></li>
+					</ul>
+				</li>
+				<li class="linef"><a href="min.php">Ministries         v</a>
+					<div class="lined"></div>
+					<ul>
+						<li><a href="miss.php">Missions</a></li>
+						<li><a href="wom.php">Women's Ministry</a></li>
+						<li><a href="yot.php">YC-The Youth Church</a></li>
+						<li><a href="mte.php">MTC-Mighty Teens Church</a></li>
+						<li><a href="chi.php">Children Church</a></li>
+					</ul>
+				</li>
+				<li><a href="contact.php">Contact</a>
+					<div class="linee"></div>
+				</li>
+			</ul>
+		</div>
+		<div class="kc4">
+			<a href="giving.php">Give</a>
+		</div>
+	</section>
+
+	<!-- hero section -->
+	<section class="kc42">
+		<div class="kc43">
+			<span class="kc44">ABOUT US</span>
+			<h1>Why We Started<br>This Church</h1>
+			<p>While clarifying focus for married and single, we set goals for building Christ-focused values in Oyigbo</p>
+			<a href="#first" class="btn-primary">Explore ></a>
+		</div>
+	</section>
+
+	<!-- Contrast section -->
+
+	<section class="kc45" id="first">
+		<div class="kc46">
+			<div class="kc47">
+				<div class="kc48">
+					<span class="kc49">ABOUT</span>
+					<h2>We're / What to</h2>
+					<p>In the Kingdomite Church, we are a spirit filled family, your call, text, connection and care describes our church vision and mission. A hearfelt heart ultimately from the word.</p>
+				</div>
+				<div class="kc50">
+					<img src="kci_image/img20.png">
+					<img src="kci_image/img17.jpg">
+				</div>
+			</div>
+
+			<!-- Card grid style -->
+
+			<div class="kc51">
+				<div class="kc52">
+					<div>
+						<svg class="kc53">
+							<i class="fa-regular fa-star" style="color: rgb(205, 93, 33); font-size: 40px; margin-top: 8%;"></i>
+						</svg>
+						<h3>We're Expecting</h3>
+					</div>
+					<span class="kc54">In 2026</span>
+					<p><i class="fa-regular fa-circle-check" style="color: rgb(205, 93, 33); font-size: 38px; padding-right: 25px;"></i> We are expecting everyone, and will take everyone there for the meeting. Join us and become part of our coummunity environment.</p>
+				</div>
+				<div class="kc52">
+					<div>
+						<svg class="kc53">
+							<i class="fa-regular fa-circle-check" style="color: rgb(205, 93, 33); font-size: 40px; margin-top: 8%;"></i>
+						</svg>
+						<h3>What to Expect</h3>
+					</div>
+					<span class="kc54">In 2026</span>
+					<p><i class="fa-regular fa-circle-check" style="color: rgb(205, 93, 33); font-size: 38px; padding-right: 25px;"></i>Lower hearts in center like, to actually feel close to your family and real connections.</p>
+				</div>
+				<div class="kc52">
+					<div>
+						<svg class="kc53">
+							<i class="fa-solid fa-cube" style="color: rgb(205, 93, 33); font-size: 40px; margin-top: 8%;"></i>
+						</svg>
+						<h3>Community</h3>
+					</div>
+					<span class="kc54">In 2026</span>
+					<p><i class="fa-regular fa-circle-check" style="color: rgb(205, 93, 33); font-size: 38px; padding-right: 25px;"></i>We are warmly accept lower,broken or anykind of hearts in Church, not religiosity, welcome into church and team of connections.</p>
+				</div>
+			</div>
+			<div class="kc55">
+				<span class="kc56"></span>
+				<span class="kc56"></span>
+				<span class="kc56"></span>
+			</div>
+		</div>
+	</section>
+
+	<!-- team section -->
+	<section class="kc57">
+		<div class="kc58">
+			<span>VISIT 1</span>
+			<h2>Meet the Team</h2>
+			<p>Love and family stay on time for day.</p>
+		</div>
+
+		<div class="kc59">
+
+			<div class="kc60">
+				<div class="kc61" style="background-image: url('kci_image/img24.webp');"></div>
+				<div class="kc62">3</div>
+				<div class="kc63">
+					<h3>Meet the Team</h3>
+					<p>Community love, care and welcome. Or some story here.</p>
+				</div>
+				<div class="kc64"> <!-- white footer -->
+					<img src="kci_image/img16.jpg" alt="Worship" class="kcsam">
+					<div>
+						<h4>Worship</h4>
+						<p>Love from within, have you more amazing and wonderful.</p>
+					</div>
+				</div>
+			</div>
+
+			<div class="kc60">
+				<div class="kc61" style="background-image: url('kci_image/img23.jpg');"></div>
+				<div class="kc62">4</div>
+				<div class="kc63">
+					<h3>Teaching</h3>
+					<p>Love from the people, the word, the teaching.</p>
+				</div>
+				<div class="kc64">
+					<img src="kci_image/img25.jpg" alt="Teaching" class="kcsam">
+					<div>
+						<h4>Teaching</h4>
+						<p>A heart felt teaching, with deep and clear word that sink deep into the heart of the people.</p>
+					</div>
+				</div>
+			</div>
+
+			<div class="kc60">
+				<div class="kc61" style="background-image: url('kci_image/img22.webp');"></div>
+				<div class="kc62">5</div>
+				<div class="kc63">
+					<h3>Testimony</h3>
+					<p>Find God, find hope. Or some story here will help you believe.</p>
+				</div>
+				<div class="kc64">
+					<img src="kci_image/img26.jpg" alt="Community" class="kcsam">
+					<div>
+						<h4>Community</h4>
+						<p>Love from within, have you more amazing.</p>
+					</div>
+				</div>
+			</div>	
+		</div>
+	</section>
+	
+	<!-- footer section -->
+
+	<section class="kc65">
+		<div class="kc66">
+			<div class="kc67">
+				<span class="kc68">VISIT 7</span>
+				<div class="kc69">
+					<div class="kc70">
+						<div class="kc71"><img src="kci_image/img27.jpg"><div><h4>David & Chisom</h4><p>Members for 3 years</p></div></div>
+						<h5>Vision To See People Connected</h5>
+						<p>Growing together. Serving together.<br>Because Community is where faith comes alive.<br><br>This church has helped us grow and find faith in our real community,A family where faith grows and lives are shared,Connected to God, Connected to each orther.</p>
+						<span>Sunday Service 8:00 AM</span>
+					</div>
+					<div class="kc70">
+						<div class="kc71"><img src="kci_image/img28.jpg"><div><h4>Bro Micheal</h4><p>First time visitor</p></div></div>
+						<h5>Weekly Teaching Quotes</h5>
+						<p>The teaching is practical and helps me apply the Bible to my daily life.<br>Teaching that shapes your heart and direct your steps.<br><br>Fresh insight from God's word every week. Learn,grow,and apply the word each week.</p>
+						<span>Wednesday Service 5:00 PM</span>
+					</div>
+				</div>
+			</div>
+			<div class="kc72">
+				<h3>Join Us This Sunday</h3>
+				<p><i class="fa-solid fa-location-dot" style="font-size: 38px; margin-left: 10px;"></i> Beside Jumbo Close off ogboso road,Obaema,Oyigbo,Rivers State,Nigeria.</p>
+				<p><i class="fa-solid fa-clock" style="font-size: 35px; margin-left: 6px;"></i> 8:00 AM</p>
+				<input type="email" placeholder="Email to connect...">
+				<button>Let's Go</button>
+			</div>
+		</div>
+	</section>
+</body>
+</html>
