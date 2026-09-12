@@ -82,7 +82,7 @@ if (!$event) { http_response_code(404); }
 			</ul>
 		</nav>
 		<div class="kc4">
-			<a href="giving.php">Give</a>
+			<a href="giving.php"><i class="fa-solid fa-hand-holding-heart kc-give-icon"></i>Give</a>
 		</div>
 		<button class="kc-menu-toggle" id="menuToggle" aria-label="Toggle menu">
 			<span></span>

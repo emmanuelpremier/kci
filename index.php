@@ -51,7 +51,7 @@
 			</ul>
 		</nav>
 		<div class="kc4">
-			<a href="giving.php">Give</a>
+			<a href="giving.php"><i class="fa-solid fa-hand-holding-heart kc-give-icon"></i>Give</a>
 		</div>
 		<button class="kc-menu-toggle" id="menuToggle" aria-label="Toggle menu">
 			<span></span>
@@ -298,25 +298,47 @@
 	</script>
 	</div>
 	
-	<div class="kc37">
-		<div class="kc38">
-			<img src="kci_image/img13.png">
-			<h2>Contact:</h2>
-			<h3>+234 806 497 9241</h3>
-			<h4>+234 901 319 4092</h4>
-		</div>
-		<div class="kc39">
-			<h2>Location:</h2>
-			<h3>NO 6 Beside Jumbo Close Off Ogboso Road Obaema, Oyigbo, Rivers State, Nigeria </h3>
-		</div>
-		<div class="kc40">
-			<h2>Stay Connected</h2>
-			<h3>You can follow us by clicking the link above, to get the latest updates and post from our facebook page.</h3>
-		</div>
-	</div>
-	<div class="kc41">
-		<p>©2026 - Kingdomite Church International | All Rights Reserved</p>
-	</div>
+	<footer class="kc118">
+    <div class="kc119">
+        <div class="kc120">
+            <div class="kc121">
+                <div class="kc122"><img src="kci_image/img13.png"></div>
+                <div class="kc123">
+                    <strong>KINGDOMITE</strong>
+                    <span>CHURCH INTERNATIONAL</span>
+                </div>
+            </div>
+            <p>
+                Building a people who know God, love people
+                and live out His purpose.
+            </p>
+        </div>
+
+        <div class="kc124">
+            <h4>Quick Links</h4>
+            <a href="index.php">Home</a>
+            <a href="aboutus.php">About</a>
+            <a href="events.php">Events</a>
+            <a href="contact.php">Contact</a>
+        </div>
+
+        <div class="kc124">
+            <h4>Contact</h4>
+            <p>Phone: +234 806 497 9241</p>
+            <p>Email: info@kingdomitechurch@gmail.com</p>
+        </div>
+
+        <div class="kc124">
+            <h4>Location</h4>
+            <p>Kingdomite Church International</p>
+            <p>Nigeria</p>
+        </div>
+    </div>
+
+    <div class="kc125">
+        <p>© <?= date('Y') ?> Kingdomite Church International. All Rights Reserved.</p>
+    </div>
+</footer>
 	<script type="text/javascript">
 		// Mobile menu toggle
 		var menuToggle = document.getElementById('menuToggle');

@@ -54,7 +54,7 @@
 			</ul>
 		</nav>
 		<div class="kc4">
-			<a href="giving.php">Give</a>
+			<a href="giving.php"><i class="fa-solid fa-hand-holding-heart kc-give-icon"></i>Give</a>
 		</div>
 		<button class="kc-menu-toggle" id="menuToggle" aria-label="Toggle menu">
 			<span></span>
@@ -215,6 +215,47 @@
 			</div>
 		</div>
 	</section>
+	<footer class="kc118">
+    <div class="kc119">
+        <div class="kc120">
+            <div class="kc121">
+                <div class="kc122"><img src="kci_image/img13.png"></div>
+                <div class="kc123">
+                    <strong>KINGDOMITE</strong>
+                    <span>CHURCH INTERNATIONAL</span>
+                </div>
+            </div>
+            <p>
+                Building a people who know God, love people
+                and live out His purpose.
+            </p>
+        </div>
+
+        <div class="kc124">
+            <h4>Quick Links</h4>
+            <a href="index.php">Home</a>
+            <a href="aboutus.php">About</a>
+            <a href="events.php">Events</a>
+            <a href="contact.php">Contact</a>
+        </div>
+
+        <div class="kc124">
+            <h4>Contact</h4>
+            <p>Phone: +234 806 497 9241</p>
+            <p>Email: info@kingdomitechurch@gmail.com</p>
+        </div>
+
+        <div class="kc124">
+            <h4>Location</h4>
+            <p>Kingdomite Church International</p>
+            <p>Nigeria</p>
+        </div>
+    </div>
+
+    <div class="kc125">
+        <p>© <?= date('Y') ?> Kingdomite Church International. All Rights Reserved.</p>
+    </div>
+</footer>
 	<script type="text/javascript">
 		// Mobile menu toggle
 		var menuToggle = document.getElementById('menuToggle');
