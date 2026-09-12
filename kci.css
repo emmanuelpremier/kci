@@ -1248,6 +1248,136 @@ to {
 	margin-top: 2%;
 }
 
+@media (max-width: 1024px) {
+	.kc1 {
+		justify-content: space-between;
+		height: auto;
+		padding: 12px 16px;
+		margin-top: -2%;
+	}
+	.kc2 {
+		width: auto;
+	}
+	.kc2 img {
+		margin: 0;
+		width: 58px;
+		height: 58px;
+	}
+	.kc4 {
+		width: auto;
+		padding-top: 0;
+	}
+	.kc3 {
+		display: none;
+		width: 100%;
+		height: auto;
+		order: 3;
+	}
+	.kc3.open {
+		display: block;
+	}
+	.kc3 ul {
+		flex-direction: column;
+		width: 100%;
+		background: rgba(13, 13, 13, 0.96);
+		border-radius: 10px;
+		overflow: hidden;
+	}
+	.kc3 ul li {
+		padding: 14px 18px;
+		border-bottom: 1px solid rgba(255,255,255,0.08);
+	}
+	.kc3 ul li ul {
+		position: static;
+		width: 100%;
+		display: none;
+		opacity: 1;
+		visibility: visible;
+		background: rgba(255,255,255,0.05);
+		margin-top: 10px;
+	}
+	.kc3 ul li.open > ul {
+		display: block;
+	}
+	.kc3 ul li:hover ul {
+		transform: none;
+	}
+	.menu-toggle {
+		display: block;
+	}
+}
+
+@media (max-width: 768px) {
+	.kc1 {
+		margin-top: 0;
+		position: sticky;
+		top: 0;
+	}
+	.kc5 {
+		margin-top: 0;
+	}
+	.kc11,
+	.kc12 {
+		width: 100%;
+		margin-left: 0;
+		border-right: none;
+	}
+	.kc11 h2,
+	.kc12 h2 {
+		margin-left: 0;
+	}
+	.kc11 a,
+	.kc12 a {
+		margin-left: 0;
+		display: inline-block;
+	}
+	.kc10 {
+		height: auto;
+		padding: 30px 20px;
+		gap: 20px;
+	}
+}
+
+@media (max-width: 600px) {
+	.kc1 {
+		padding: 10px 14px;
+	}
+	.kc4 a {
+		padding: 10px 18px;
+		font-size: 13px;
+	}
+	.kc2 img {
+		width: 52px;
+		height: 52px;
+	}
+}
+
+<script>
+	const menuToggle = document.querySelector('.menu-toggle');
+	const nav = document.querySelector('.kc3');
+
+	if (menuToggle && nav) {
+		menuToggle.addEventListener('click', function () {
+			const isOpen = nav.classList.toggle('open');
+			menuToggle.classList.toggle('active', isOpen);
+			menuToggle.setAttribute('aria-expanded', String(isOpen));
+		});
+	}
+
+	if (window.innerWidth <= 1024) {
+		document.querySelectorAll('.kc3 li').forEach(function (item) {
+			const submenu = item.querySelector('ul');
+			if (!submenu) return;
+
+			item.addEventListener('click', function (event) {
+				if (window.innerWidth <= 1024) {
+					event.preventDefault();
+					item.classList.toggle('open');
+				}
+			});
+		});
+	}
+</script>
 
 
 
