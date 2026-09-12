@@ -48,7 +48,7 @@ $events = [
     <!-- inserting of icon link from cdjns -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
-<body>
+<body class="events-page">
     <!--header-->
     <section class="kc1">
         <div class="kc2">
@@ -379,11 +379,11 @@ $events = [
         });
 
         // Mobile dropdown toggle
-        var dropdownParents = document.querySelectorAll('.kc3 ul li.linef, .kc3 ul li:nth-child(3)');
+        var dropdownParents = document.querySelectorAll('#mainNav > ul > li.linef, #mainNav > ul > li:nth-child(3)');
         dropdownParents.forEach(function(parent) {
             var link = parent.querySelector('a');
             link.addEventListener('click', function(e) {
-                if (window.innerWidth <= 900) {
+                if (window.innerWidth <= 900 && e.target.closest('.arrow')) {
                     e.preventDefault();
                     parent.classList.toggle('dropdown-open');
                 }

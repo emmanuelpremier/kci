@@ -7,11 +7,12 @@
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 	<link rel="stylesheet" type="text/css" href="kci.css">
 	<link rel="icon" type="image/png" href="kci_image">
 	<title>Kingdomite Church Int'l</title>
 </head>
-<body>
+<body class="home-page">
 	<!--header-->
 	<section class="kc1">
 		<div class="kc2">
@@ -206,49 +207,35 @@
 	</script>
 	<div class="kc29">
 		<div class="kc30">
-		</div>
-		<div class="kc31">
-			<div class="kc32"><h2>CONNECT</h2><p>________________</p></div>
-			<h3>WITH US</h3>
-		</div>
-		<div class="testimoney">
-			<p>
-				During the embers of glory program,i wrote my prayer
-				points as my pastor requested.all together i ended up
-				writing four,my last request was very urgent being the 
-				fourth one.i asked GOD to provide money for me so i
-				will be able to pay my childrens school fees which was
-				already an disturbing issue because the term will soon start. So
-				during the program i recieve a call that i least expected from and
-				it solve the disturing issue that was on ground, before the embers
-				of glory program end. So i just want to thank God for what he has
-				done may his name be glorified in Jesus Name Amen.
-				Pst.Mrs.Lucy David
-			</p>
-			<p>
-				Praise the Lord Hallelujah........ My elder sister has 
-				this particular pain in her stomach and it has been for
-				a very long time, recently finding out that it is fibroid
-				so anytime i make a video call with her she is always
-				crying, then i meet my pastor because she was about to
-				have an operation the following day and she was scared
-				so i told my pator to pray and my pastor said she will
-				come out of the operation room without any harm and i
-				say amen. The following morning my elder sister was the
-				first person to call me how am i doing, i was suprised
-				because this is the same person that anytime we talk on
-				phone she is always crying, and she said the operation
-				was successful. Bro.Prince 
-			</p>
-			<p>
-				I have been asking God for to make my daughter pass her
-				exams that she wont rewrite her jamb exam twice, and 
-				she will also pass her post utme exam and to God be
-				the glory he answered the prayer. I am so happy because 
-				i have been struggling to pay her fees right from waec
-				and God has been so faithful may his name be praised
-				forever in Jesus name Amen. Mrs Emmanuel
-			</p>
+			<div class="kc31">
+				<div class="kc32"><h2>CONNECT</h2><p>________________</p></div>
+				<h3>WITH US</h3>
+			</div>
+			<div class="testimoney">
+				<div class="testimoney-slide active">
+					<i class="fa-solid fa-quote-left quote-icon"></i>
+					<p>During the embers of glory program, i wrote my prayer points as my pastor requested. all together i ended up writing four, my last request was very urgent being the fourth one. i asked GOD to provide money for me so i will be able to pay my childrens school fees which was already an disturbing issue because the term will soon start. So during the program i recieve a call that i least expected from and it solve the disturing issue that was on ground, before the embers of glory program end. So i just want to thank God for what he has done may his name be glorified in Jesus Name Amen.</p>
+					<span class="testimonial-author">— Pst. Mrs. Lucy David</span>
+					<i class="fa-solid fa-quote-right quote-icon"></i>
+				</div>
+				<div class="testimoney-slide">
+					<i class="fa-solid fa-quote-left quote-icon"></i>
+					<p>Praise the Lord Hallelujah........ My elder sister has this particular pain in her stomach and it has been for a very long time, recently finding out that it is fibroid so anytime i make a video call with her she is always crying, then i meet my pastor because she was about to have an operation the following day and she was scared so i told my pator to pray and my pastor said she will come out of the operation room without any harm and i say amen. The following morning my elder sister was the first person to call me how am i doing, i was suprised because this is the same person that anytime we talk on phone she is always crying, and she said the operation was successful.</p>
+					<span class="testimonial-author">— Bro. Prince</span>
+					<i class="fa-solid fa-quote-right quote-icon"></i>
+				</div>
+				<div class="testimoney-slide">
+					<i class="fa-solid fa-quote-left quote-icon"></i>
+					<p>I have been asking God for to make my daughter pass her exams that she wont rewrite her jamb exam twice, and she will also pass her post utme exam and to God be the glory he answered the prayer. I am so happy because i have been struggling to pay her fees right from waec and God has been so faithful may his name be praised forever in Jesus name Amen.</p>
+					<span class="testimonial-author">— Mrs. Emmanuel</span>
+					<i class="fa-solid fa-quote-right quote-icon"></i>
+				</div>
+				<div class="testimoney-dots">
+					<span class="dot active" data-index="0"></span>
+					<span class="dot" data-index="1"></span>
+					<span class="dot" data-index="2"></span>
+				</div>
+			</div>
 		</div>
 	</div>
 	<div class="kc33">
@@ -340,11 +327,11 @@
 		});
 
 		// Mobile dropdown toggle
-		var dropdownParents = document.querySelectorAll('.kc3 ul li.linef, .kc3 ul li:nth-child(3)');
+		var dropdownParents = document.querySelectorAll('#mainNav > ul > li.linef, #mainNav > ul > li:nth-child(3)');
 		dropdownParents.forEach(function(parent) {
 			var link = parent.querySelector('a');
 			link.addEventListener('click', function(e) {
-				if (window.innerWidth <= 900) {
+				if (window.innerWidth <= 900 && e.target.closest('.arrow')) {
 					e.preventDefault();
 					parent.classList.toggle('dropdown-open');
 				}
@@ -360,6 +347,62 @@
 				header.classList.remove('scrolled');
 			}
 		});
+
+		// Testimonial slider
+		(function() {
+			var slides = document.querySelectorAll('.testimoney-slide');
+			var dots = document.querySelectorAll('.testimoney-dots .dot');
+			var currentSlide = 0;
+			var totalSlides = slides.length;
+			var intervalTime = 5000;
+			var slideInterval;
+
+			function showSlide(index) {
+				slides.forEach(function(slide) {
+					slide.classList.remove('active', 'exit-left');
+				});
+				dots.forEach(function(dot) {
+					dot.classList.remove('active');
+				});
+				if (slides[currentSlide] && currentSlide !== index) {
+					slides[currentSlide].classList.add('exit-left');
+				}
+				slides[index].classList.add('active');
+				dots[index].classList.add('active');
+				currentSlide = index;
+			}
+
+			function nextSlide() {
+				var next = (currentSlide + 1) % totalSlides;
+				showSlide(next);
+			}
+
+			function startAutoSlide() {
+				slideInterval = setInterval(nextSlide, intervalTime);
+			}
+
+			function stopAutoSlide() {
+				clearInterval(slideInterval);
+			}
+
+			showSlide(0);
+			startAutoSlide();
+
+			dots.forEach(function(dot) {
+				dot.addEventListener('click', function() {
+					var index = parseInt(this.getAttribute('data-index'));
+					showSlide(index);
+					stopAutoSlide();
+					startAutoSlide();
+				});
+			});
+
+			var testimonialContainer = document.querySelector('.testimoney');
+			if (testimonialContainer) {
+				testimonialContainer.addEventListener('mouseenter', stopAutoSlide);
+				testimonialContainer.addEventListener('mouseleave', startAutoSlide);
+			}
+		})();
 	</script>
 </body>
 </html>

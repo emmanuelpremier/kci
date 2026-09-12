@@ -15,7 +15,7 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 </head>
-<body>
+<body class="about-page">
 	<!--header-->
 	<section class="kc1">
 		<div class="kc2">
@@ -69,7 +69,7 @@
 			<span class="kc44">ABOUT US</span>
 			<h1>Why We Started<br>This Church</h1>
 			<p>While clarifying focus for married and single, we set goals for building Christ-focused values in Oyigbo</p>
-			<a href="#first" class="btn-primary">Explore ></a>
+			<a href="#first" class="btn-primary">Explore <span>→</span></a>
 		</div>
 	</section>
 
@@ -94,33 +94,27 @@
 			<div class="kc51">
 				<div class="kc52">
 					<div>
-						<svg class="kc53">
-							<i class="fa-regular fa-star" style="color: rgb(205, 93, 33); font-size: 40px; margin-top: 8%;"></i>
-						</svg>
+						<i class="fa-regular fa-star kc53" aria-hidden="true"></i>
 						<h3>We're Expecting</h3>
 					</div>
 					<span class="kc54">In 2026</span>
-					<p><i class="fa-regular fa-circle-check" style="color: rgb(205, 93, 33); font-size: 38px; padding-right: 25px;"></i> We are expecting everyone, and will take everyone there for the meeting. Join us and become part of our coummunity environment.</p>
+					<p><i class="fa-regular fa-circle-check" aria-hidden="true"></i> We are expecting everyone, and will take everyone there for the meeting. Join us and become part of our coummunity environment.</p>
 				</div>
 				<div class="kc52">
 					<div>
-						<svg class="kc53">
-							<i class="fa-regular fa-circle-check" style="color: rgb(205, 93, 33); font-size: 40px; margin-top: 8%;"></i>
-						</svg>
+						<i class="fa-regular fa-circle-check kc53" aria-hidden="true"></i>
 						<h3>What to Expect</h3>
 					</div>
 					<span class="kc54">In 2026</span>
-					<p><i class="fa-regular fa-circle-check" style="color: rgb(205, 93, 33); font-size: 38px; padding-right: 25px;"></i>Lower hearts in center like, to actually feel close to your family and real connections.</p>
+					<p><i class="fa-regular fa-circle-check" aria-hidden="true"></i>Lower hearts in center like, to actually feel close to your family and real connections.</p>
 				</div>
 				<div class="kc52">
 					<div>
-						<svg class="kc53">
-							<i class="fa-solid fa-cube" style="color: rgb(205, 93, 33); font-size: 40px; margin-top: 8%;"></i>
-						</svg>
+						<i class="fa-solid fa-cube kc53" aria-hidden="true"></i>
 						<h3>Community</h3>
 					</div>
 					<span class="kc54">In 2026</span>
-					<p><i class="fa-regular fa-circle-check" style="color: rgb(205, 93, 33); font-size: 38px; padding-right: 25px;"></i>We are warmly accept lower,broken or anykind of hearts in Church, not religiosity, welcome into church and team of connections.</p>
+					<p><i class="fa-regular fa-circle-check" aria-hidden="true"></i>We are warmly accept lower,broken or anykind of hearts in Church, not religiosity, welcome into church and team of connections.</p>
 				</div>
 			</div>
 			<div class="kc55">
@@ -231,11 +225,11 @@
 		});
 
 		// Mobile dropdown toggle
-		var dropdownParents = document.querySelectorAll('.kc3 ul li.linef, .kc3 ul li:nth-child(3)');
+		var dropdownParents = document.querySelectorAll('#mainNav > ul > li.linef, #mainNav > ul > li:nth-child(3)');
 		dropdownParents.forEach(function(parent) {
 			var link = parent.querySelector('a');
 			link.addEventListener('click', function(e) {
-				if (window.innerWidth <= 900) {
+				if (window.innerWidth <= 900 && e.target.closest('.arrow')) {
 					e.preventDefault();
 					parent.classList.toggle('dropdown-open');
 				}
