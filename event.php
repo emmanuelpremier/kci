@@ -34,11 +34,62 @@ if (!$event) { http_response_code(404); }
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Kingdomite Church Int'l">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="kci.css">
+<link rel="icon" type="image/png" href="kci_image">
 <title><?= $event ? htmlspecialchars($event['title']) : 'Event Not Found' ?> | Kingdomite Church International</title>
-<link rel="stylesheet" href="css/events.css">
 </head>
 <body>
+	<!--header-->
+	<section class="kc1">
+		<div class="kc2">
+			<img src="kci_image/im2.jpg">
+			<span class="kc-logo-text">KCI</span>
+		</div>
+		<nav class="kc3" id="mainNav">
+			<ul>
+				<li><a href="index.php">Home</a>
+					<div class="line"></div>
+				</li>
+				<li><a href="aboutus.php">About</a>
+					<div class="linea"></div>
+				</li>
+				<li><a href="events.php">Events<span class="arrow">&#709;</span></a>
+					<div class="linec"></div>
+					<ul class="dropdown">
+						<li><a href="events/oil.php">Oil & Wine Summit</a></li>
+						<li><a href="events/conf.php">June Conference</a></li>
+						<li><a href="events/embers.php">Embers Of Glory</a></li>
+					</ul>
+				</li>
+				<li class="linef"><a href="min.php">Ministries<span class="arrow">&#709;</span></a>
+					<div class="lined"></div>
+					<ul class="dropdown">
+						<li><a href="miss.php">Missions</a></li>
+						<li><a href="wom.php">Women's Ministry</a></li>
+						<li><a href="yot.php">YC-The Youth Church</a></li>
+						<li><a href="mte.php">MTC-Mighty Teens Church</a></li>
+						<li><a href="chi.php">Children Church</a></li>
+					</ul>
+				</li>
+				<li><a href="contact.php">Contact</a>
+					<div class="linee"></div>
+				</li>
+			</ul>
+		</nav>
+		<div class="kc4">
+			<a href="giving.php">Give</a>
+		</div>
+		<button class="kc-menu-toggle" id="menuToggle" aria-label="Toggle menu">
+			<span></span>
+			<span></span>
+			<span></span>
+		</button>
+	</section>
 <?php if ($event): ?>
 <main class="event-detail-page">
 <section class="event-detail-hero">
@@ -74,5 +125,36 @@ if (!$event) { http_response_code(404); }
 <?php else: ?>
 <main class="event-not-found"><div class="event-not-found-content"><span class="event-not-found-label">404</span><h1>Event Not Found</h1><p>Sorry, the event you are looking for does not exist or may have been removed.</p><a href="events.php" class="event-not-found-button">Back to Events</a></div></main>
 <?php endif; ?>
+	<script type="text/javascript">
+		// Mobile menu toggle
+		var menuToggle = document.getElementById('menuToggle');
+		var mainNav = document.getElementById('mainNav');
+		menuToggle.addEventListener('click', function() {
+			mainNav.classList.toggle('open');
+			menuToggle.classList.toggle('active');
+		});
+
+		// Mobile dropdown toggle
+		var dropdownParents = document.querySelectorAll('.kc3 ul li.linef, .kc3 ul li:nth-child(3)');
+		dropdownParents.forEach(function(parent) {
+			var link = parent.querySelector('a');
+			link.addEventListener('click', function(e) {
+				if (window.innerWidth <= 900) {
+					e.preventDefault();
+					parent.classList.toggle('dropdown-open');
+				}
+			});
+		});
+
+		// Header scroll behavior - glassmorphism on scroll
+		window.addEventListener('scroll', function() {
+			var header = document.querySelector('.kc1');
+			if (window.scrollY > 50) {
+				header.classList.add('scrolled');
+			} else {
+				header.classList.remove('scrolled');
+			}
+		});
+	</script>
 </body>
 </html>

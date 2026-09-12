@@ -3,8 +3,10 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" type="text/css" href="https://www.w3school.com/lib/w3.com">
 	<meta name="description" content="Kingdomite Church Int'l">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="kci.css">
 	<link rel="icon" type="image/png" href="kci_image">
 	<title>Kingdomite Church Int'l</title>
@@ -14,8 +16,9 @@
 	<section class="kc1">
 		<div class="kc2">
 			<img src="kci_image/im2.jpg">
+			<span class="kc-logo-text">KCI</span>
 		</div>
-		<div class="kc3">
+		<nav class="kc3" id="mainNav">
 			<ul>
 				<li><a href="index.php">Home</a>
 					<div class="line"></div>
@@ -23,17 +26,17 @@
 				<li><a href="aboutus.php">About</a>
 					<div class="linea"></div>
 				</li>
-				<li ><a href="events.php">Events   v</a>
+				<li><a href="events.php">Events<span class="arrow">&#709;</span></a>
 					<div class="linec"></div>
-					<ul>
+					<ul class="dropdown">
 						<li><a href="events/oil.php">Oil & Wine Summit</a></li>
-						<li><a href="events/conf.php">June Confrence</a></li>
+						<li><a href="events/conf.php">June Conference</a></li>
 						<li><a href="events/embers.php">Embers Of Glory</a></li>
 					</ul>
 				</li>
-				<li class="linef"><a href="min.php">Ministries         v</a>
+				<li class="linef"><a href="min.php">Ministries<span class="arrow">&#709;</span></a>
 					<div class="lined"></div>
-					<ul>
+					<ul class="dropdown">
 						<li><a href="miss.php">Missions</a></li>
 						<li><a href="wom.php">Women's Ministry</a></li>
 						<li><a href="yot.php">YC-The Youth Church</a></li>
@@ -45,10 +48,15 @@
 					<div class="linee"></div>
 				</li>
 			</ul>
-		</div>
+		</nav>
 		<div class="kc4">
 			<a href="giving.php">Give</a>
 		</div>
+		<button class="kc-menu-toggle" id="menuToggle" aria-label="Toggle menu">
+			<span></span>
+			<span></span>
+			<span></span>
+		</button>
 	</section>
 
 	<div class="kc5">
@@ -203,6 +211,45 @@
 			<div class="kc32"><h2>CONNECT</h2><p>________________</p></div>
 			<h3>WITH US</h3>
 		</div>
+		<div class="testimoney">
+			<p>
+				During the embers of glory program,i wrote my prayer
+				points as my pastor requested.all together i ended up
+				writing four,my last request was very urgent being the 
+				fourth one.i asked GOD to provide money for me so i
+				will be able to pay my childrens school fees which was
+				already an disturbing issue because the term will soon start. So
+				during the program i recieve a call that i least expected from and
+				it solve the disturing issue that was on ground, before the embers
+				of glory program end. So i just want to thank God for what he has
+				done may his name be glorified in Jesus Name Amen.
+				Pst.Mrs.Lucy David
+			</p>
+			<p>
+				Praise the Lord Hallelujah........ My elder sister has 
+				this particular pain in her stomach and it has been for
+				a very long time, recently finding out that it is fibroid
+				so anytime i make a video call with her she is always
+				crying, then i meet my pastor because she was about to
+				have an operation the following day and she was scared
+				so i told my pator to pray and my pastor said she will
+				come out of the operation room without any harm and i
+				say amen. The following morning my elder sister was the
+				first person to call me how am i doing, i was suprised
+				because this is the same person that anytime we talk on
+				phone she is always crying, and she said the operation
+				was successful. Bro.Prince 
+			</p>
+			<p>
+				I have been asking God for to make my daughter pass her
+				exams that she wont rewrite her jamb exam twice, and 
+				she will also pass her post utme exam and to God be
+				the glory he answered the prayer. I am so happy because 
+				i have been struggling to pay her fees right from waec
+				and God has been so faithful may his name be praised
+				forever in Jesus name Amen. Mrs Emmanuel
+			</p>
+		</div>
 	</div>
 	<div class="kc33">
 		<a href="https://web.facebook.com/The Kingdomites Church International" class="fb-link" data-tooltip="Follow us on Facebook">
@@ -283,5 +330,36 @@
 	<div class="kc41">
 		<p>©2026 - Kingdomite Church International | All Rights Reserved</p>
 	</div>
+	<script type="text/javascript">
+		// Mobile menu toggle
+		var menuToggle = document.getElementById('menuToggle');
+		var mainNav = document.getElementById('mainNav');
+		menuToggle.addEventListener('click', function() {
+			mainNav.classList.toggle('open');
+			menuToggle.classList.toggle('active');
+		});
+
+		// Mobile dropdown toggle
+		var dropdownParents = document.querySelectorAll('.kc3 ul li.linef, .kc3 ul li:nth-child(3)');
+		dropdownParents.forEach(function(parent) {
+			var link = parent.querySelector('a');
+			link.addEventListener('click', function(e) {
+				if (window.innerWidth <= 900) {
+					e.preventDefault();
+					parent.classList.toggle('dropdown-open');
+				}
+			});
+		});
+
+		// Header scroll behavior - glassmorphism on scroll
+		window.addEventListener('scroll', function() {
+			var header = document.querySelector('.kc1');
+			if (window.scrollY > 50) {
+				header.classList.add('scrolled');
+			} else {
+				header.classList.remove('scrolled');
+			}
+		});
+	</script>
 </body>
 </html>
