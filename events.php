@@ -1,37 +1,16 @@
 <?php
-// events.php
-// Main events overview page for Kingdomite Church International.
-// Replace the image paths below with your actual event images.
+include("kci_db.php");
 
-$events = [
-    [
-        'title' => 'Oil & Wine Summit',
-        'slug' => 'oil-wine-summit.php',
-        'image' => 'kci_image/img37cc.jpg',
-        'time' => 'Passed',
-        'date' => 'August 15–17, 2026',
-        'location' => 'Kingdomite Church International',
-        'description' => 'A powerful gathering of worship, prayer, teaching and fellowship designed to draw hearts closer to God.'
-    ],
-    [
-        'title' => 'June Conference',
-        'slug' => 'june-conference.php',
-        'image' => 'kci_image/img36cc.jpg',
-        'time' => 'Passed',
-        'date' => 'June 2027',
-        'location' => 'Kingdomite Church International',
-        'description' => 'A season of teaching, connection and spiritual growth for individuals, families and the wider church community.'
-    ],
-    [
-        'title' => 'Embers of Glory',
-        'slug' => 'embers-of-glory.php',
-        'image' => 'kci_image/img39.jpg',
-        'time' => 'Ongoing',
-        'date' => 'Coming Soon',
-        'location' => 'Kingdomite Church International',
-        'description' => 'A special atmosphere of worship, prayer and renewed passion for the presence and purpose of God.'
-    ]
-];
+// Fetch events from the database
+$sql = "SELECT id, title, slug, image, date, location, description FROM events ORDER BY date DESC";
+$result = mysqli_query($conn, $sql);
+
+$events = [];
+if ($result) {
+    while ($row = mysqli_fetch_assoc($result)) {
+        $events[] = $row;
+    }
+}
 ?>
 <!DOCTYPE html>
 <html>
@@ -66,9 +45,9 @@ $events = [
                 <li><a href="events.php">Events<span class="arrow">&#709;</span></a>
                     <div class="linec"></div>
                     <ul class="dropdown">
-                        <li><a href="events/oil.php">Oil & Wine Summit</a></li>
-                        <li><a href="events/conf.php">June Conference</a></li>
-                        <li><a href="events/embers.php">Embers Of Glory</a></li>
+                        <li><a href="event.php?slug=oil-wine-summit">Oil & Wine Summit</a></li>
+                        <li><a href="event.php?slug=june-conference">June Conference</a></li>
+                        <li><a href="event.php?slug=embers-of-glory">Embers Of Glory</a></li>
                     </ul>
                 </li>
                 <li class="linef"><a href="min.php">Ministries<span class="arrow">&#709;</span></a>
@@ -125,12 +104,13 @@ $events = [
     <!-- Events Card -->
     <section class="kc80" id="upcoming-events">
         <div class="kc81">
-            <?php foreach ($events as $event): ?>
+            <?php if (count($events) > 0): ?>
+                <?php foreach ($events as $event): ?>
                 <article class="kc82">
                     <div class="kc83">
                         <img src="<?= htmlspecialchars($event['image']) ?>"
                              alt="<?= htmlspecialchars($event['title']) ?>">
-                        <span class="kc84"><?= htmlspecialchars($event['time']) ?></span>
+                        <span class="kc84"><?= htmlspecialchars($event['location']) ?></span>
                     </div>
 
                     <div class="kc85">
@@ -139,7 +119,7 @@ $events = [
                         <div class="kc86">
                             <div>
                                 <span class="meta-icon"><i class="fa-regular fa-calendar-days"></i></span>
-                                <span><?= htmlspecialchars($event['date']) ?></span>
+                                <span><?= htmlspecialchars(date('F j, Y', strtotime($event['date']))) ?></span>
                             </div>
                             <div>
                                 <span class="meta-icon"><i class="fa-solid fa-location-crosshairs"></i></span>
@@ -149,12 +129,18 @@ $events = [
 
                         <p><?= htmlspecialchars($event['description']) ?></p>
 
-                        <a href="events/<?= htmlspecialchars($event['slug']) ?>" class="text-btn">
+                        <a href="event.php?slug=<?= urlencode($event['slug']) ?>" class="text-btn">
                             View Event <span>→</span>
                         </a>
                     </div>
                 </article>
-            <?php endforeach; ?>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <div style="grid-column: 1 / -1; text-align: center; padding: 60px 20px;">
+                    <h3>No Events Available</h3>
+                    <p>Check back soon for upcoming events.</p>
+                </div>
+            <?php endif; ?>
         </div>
     </section>
 
@@ -190,7 +176,7 @@ $events = [
                 </div>
             </div>
 
-            <a href="events/oil-wine-summit.php" class="primary-btn">
+            <a href="event.php?slug=oil-wine-summit" class="primary-btn">
                 Learn More <span>→</span>
             </a>
         </div>
@@ -243,7 +229,7 @@ $events = [
         </div>
 
         <div class="kc102">
-            <a href="events/oil-wine-summit.php" class="kc103">
+            <a href="event.php?slug=oil-wine-summit" class="kc103">
                 <div class="kc104">
                     <strong>15</strong>
                     <span>AUG</span>
@@ -255,7 +241,7 @@ $events = [
                 <span class="kc106">→</span>
             </a>
 
-            <a href="events/june-conference.php" class="kc103">
+            <a href="event.php?slug=june-conference" class="kc103">
                 <div class="kc104">
                     <strong>2027</strong>
                     <span>JUNE</span>
@@ -267,7 +253,7 @@ $events = [
                 <span class="kc106">→</span>
             </a>
 
-            <a href="events/embers-of-glory.php" class="kc103">
+            <a href="event.php?slug=embers-of-glory" class="kc103">
                 <div class="kc104">
                     <strong>—</strong>
                     <span>TBA</span>
