@@ -193,7 +193,7 @@
 				<span class="kc68">VISIT 7</span>
 				<div class="kc69">
 					<div class="kc70">
-						<div class="kc71"><img src="kci_image/img27.JPG"><div><h4>David & Chisom</h4><p>Members for 3 years</p></div></div>
+						<div class="kc71"><img src="kci_image/img27.jpg"><div><h4>David & Chisom</h4><p>Members for 3 years</p></div></div>
 						<h5>Vision To See People Connected</h5>
 						<p>Growing together. Serving together.<br>Because Community is where faith comes alive.<br><br>This church has helped us grow and find faith in our real community,A family where faith grows and lives are shared,Connected to God, Connected to each orther.</p>
 						<span>Sunday Service 8:00 AM</span>
