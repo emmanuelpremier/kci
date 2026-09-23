@@ -10,7 +10,7 @@ if (getenv('DB_HOST')) {
     mysqli_ssl_set($conn, NULL, NULL, __DIR__ . '/ca.pem', NULL, NULL);
     mysqli_real_connect($conn, $host, $user, $pass, $db, $port, NULL, MYSQLI_CLIENT_SSL);
 } else {
-    // LOCAL - Your WAMP - exactly as in your screenshot
+    // LOCAL - Your WAMP
     $conn = mysqli_connect("localhost", "root", "", "kingdomite");
 }
 
