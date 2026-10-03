@@ -1,3 +1,17 @@
+<?php
+/* ------------------------------------------------------------------
+   KCI — Social links (Home page)
+   TODO: Replace the placeholder values below with the REAL, VERIFIED
+   URLs. They are deliberately left as placeholders so that no incorrect
+   profile / page is ever invented.
+     · Pastor David Vincent's personal Facebook profile -> $PASTOR_FACEBOOK_URL
+     · Kingdomite Church Int'l official Facebook page    -> $CHURCH_FACEBOOK_URL
+     · Pastor David Vincent's WhatsApp chat link         -> $PASTOR_WHATSAPP_URL
+   ------------------------------------------------------------------ */
+$PASTOR_FACEBOOK_URL = 'PASTOR_FACEBOOK_URL';   // TODO: insert verified URL
+$CHURCH_FACEBOOK_URL = 'CHURCH_FACEBOOK_URL';   // TODO: insert verified URL
+$PASTOR_WHATSAPP_URL = 'PASTOR_WHATSAPP_URL';   // TODO: insert verified URL
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,17 +22,17 @@
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-	<link rel="stylesheet" type="text/css" href="kci.css">
+	<link rel="stylesheet" type="text/css" href="kci.css?v=20">
 	<link rel="icon" type="image/png" href="kci_image">
 	<title>Kingdomite Church Int'l</title>
 </head>
 <body class="home-page">
 	<!--header-->
 	<section class="kc1">
-		<div class="kc2">
+		<a href="index.php" class="kc2" aria-label="KCI home">
 			<img src="kci_image/im2.jpg">
 			<span class="kc-logo-text">KCI</span>
-		</div>
+		</a>
 		<nav class="kc3" id="mainNav">
 			<ul>
 				<li><a href="index.php">Home</a>
@@ -27,22 +41,22 @@
 				<li><a href="aboutus.php">About</a>
 					<div class="linea"></div>
 				</li>
-				<li><a href="events.php">Events<span class="arrow">&#709;</span></a>
+				<li><a href="events.php">Events<i class="fa-solid fa-chevron-down arrow" aria-hidden="true"></i></a>
 					<div class="linec"></div>
 					<ul class="dropdown">
-						<li><a href="events/oil.php">Oil & Wine Summit</a></li>
-						<li><a href="events/conf.php">June Conference</a></li>
-						<li><a href="events/embers.php">Embers Of Glory</a></li>
+						<li><a href="event.php?slug=oil-wine-summit">Oil & Wine Summit</a></li>
+                        <li><a href="event.php?slug=june-conference">June Conference</a></li>
+                        <li><a href="event.php?slug=embers-of-glory">Embers Of Glory</a></li>
 					</ul>
 				</li>
-				<li class="linef"><a href="min.php">Ministries<span class="arrow">&#709;</span></a>
+				<li class="linef"><a href="min.php">Ministries<i class="fa-solid fa-chevron-down arrow" aria-hidden="true"></i></a>
 					<div class="lined"></div>
 					<ul class="dropdown">
-						<li><a href="miss.php">Missions</a></li>
-						<li><a href="wom.php">Women's Ministry</a></li>
-						<li><a href="yot.php">YC-The Youth Church</a></li>
-						<li><a href="mte.php">MTC-Mighty Teens Church</a></li>
-						<li><a href="chi.php">Children Church</a></li>
+						<li><a href="ministry.php?slug=global-missions">Missions</a></li>
+						<li><a href="ministry.php?slug=womens-ministry">Women's Ministry</a></li>
+						<li><a href="ministry.php?slug=youth-church">YC-The Youth Church</a></li>
+						<li><a href="ministry.php?slug=mighty-teens">MTC-Mighty Teens Church</a></li>
+						<li><a href="ministry.php?slug=children-church">Children Church</a></li>
 					</ul>
 				</li>
 				<li><a href="contact.php">Contact</a>
@@ -67,9 +81,11 @@
 	</div>
 	<div class="kc6 reveal active">
 		<div class="kc7">
-			<div class="kc9"><h2>WELCOME</h2><h3>________________</h3>
+			<div class="kc9">
+				<span class="kc9-icon" aria-hidden="true"><i class="fa-solid fa-hands-praying"></i></span>
+				<h2>WELCOME</h2>
+				<p class="kc7-title">TO THE FAMILY!</p>
 			</div>
-			<p>TO THE FAMILY!</p>
 		</div>
 		<div class="kc8">
 			<p>Experience Love, Experience the Life of God, Experience direction for purposeful living! Welcome to Kingdomite Church International, a church where people genuinely encounter God.</p>
@@ -97,31 +113,34 @@
 	</script>
 	<div class="kc10">
 		<div class="kc11">
+			<span class="kc11-icon" aria-hidden="true"><i class="fa-solid fa-hand-sparkles"></i></span>
 			<h2>Is it your first time worshiping with us? If it is, kindly fill out our</h2>
-			<a href="form.php">Form Now!</a>
+			<a href="form.php" class="kc11-btn">Form Now!</a>
 		</div>
 		<div class="kc12">
+			<span class="kc12-icon" aria-hidden="true"><i class="fa-solid fa-location-dot"></i></span>
 			<h2>Don't Know our Church?</h2>
-			<a href="location.php">Find Now!</a>
+			<a href="location.php" class="kc12-btn">Find Now!</a>
 		</div>
 	</div>
 	<div class="kc13">
 		<div class="kc18 real action">
-		<div class="kc19"><p>RECENT</p><h3>______________</h3></div>
-		<h2>QUOTES</h2>
+			<div class="kc19"><p>RECENT</p></div>
+			<h2>QUOTES</h2>
+			<span class="kc18-rule" aria-hidden="true"></span>
 		</div>
 		<div class="kc21 all in">
 			<div class="kc14">
-				<img src="kci_image/im4.jpg">
+				<img src="kci_image/im4.jpg" alt="Recent quote graphic">
 			</div>
 			<div class="kc15">
-				<img src="kci_image/im7.jpg">
+				<img src="kci_image/im7.jpg" alt="Recent quote graphic">
 			</div>
 			<div class="kc16">
-				<img src="kci_image/im6.jpg">
+				<img src="kci_image/im6.jpg" alt="Recent quote graphic">
 			</div>
 			<div class="kc17">
-				<img src="kci_image/im5.png">
+				<img src="kci_image/im5.png" alt="Recent quote graphic">
 			</div>
 			<div class="kc20">
 				<a href="quotes.php">View More</a>
@@ -171,19 +190,20 @@
 	<section id="main">
 		<div class="kc22 reveal active">
 			<div class="kc23">
-				<img src="kci_image/im8.jpg">
+				<span class="kc23-frame" aria-hidden="true"></span>
+				<img src="kci_image/im8.jpg" alt="Pst. David Vincent, Lead Pastor of Kingdomite Church International">
 			</div>
 			<div class="kc24">
 				<div class="kc25">
-					<div class="kc26"><h2>CONNECT WITH</h2><h3>_____________</h3></div>
+					<div class="kc26"><h2>CONNECT WITH</h2></div>
 					<h4>OUR LEAD PASTOR</h4>
 				</div>
 				<div class="kc27">
 					<p>I'm David Vincent, Lead Pastor of Kingdomite Church International. I personally invite you to our official website, I would love to hear from and pray with you. Get in touch with me via any of personal social media handles to stay connected with me, Thank you and remain blessed.</p>
 				</div>
 				<div class="kc28">
-					<a href="https://web.facebook.com/David Vincent Dan-Obu"><img class="fb" src="kci_image/img9.jpg"></a>
-					<a href="https://web.whatsapp.com/Pst David Vincent"><img class="wt" src="kci_image/img10.webp"></a>
+					<a href="<?= $PASTOR_FACEBOOK_URL ?>" class="kc28-link kc28-link--fb" aria-label="Follow Pastor David Vincent on Facebook" target="_blank" rel="noopener"><i class="fa-brands fa-facebook-f"></i></a>
+					<a href="<?= $PASTOR_WHATSAPP_URL ?>" class="kc28-link kc28-link--wa" aria-label="Message Pastor David Vincent on WhatsApp" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp"></i></a>
 				</div>
 			</div>
 		</div>
@@ -239,65 +259,54 @@
 		</div>
 	</div>
 	<div class="kc33">
-		<a href="https://web.facebook.com/The Kingdomites Church International" class="fb-link" data-tooltip="Follow us on Facebook">
+		<a href="<?= $CHURCH_FACEBOOK_URL ?>" class="fb-link" aria-label="Like and follow Kingdomite Church International on Facebook" target="_blank" rel="noopener">
 			<div class="kc34">
-				<div class="kc35">
-					<img src="kci_image/img9.jpg">
-				</div>
+				<span class="kc35" aria-hidden="true"><i class="fa-brands fa-facebook-f"></i></span>
 				<div class="kc36">
 					<h2>FACEBOOK</h2>
-					<p>Like & Follow us on Facebook</p>
+					<p>Like &amp; Follow us on Facebook</p>
+					<div class="kc-fb-icons">
+						<span class="social-icon like" id="likeIcon" aria-hidden="true"><i class="fa-solid fa-thumbs-up"></i></span>
+						<span class="social-icon share" id="shareIcon" aria-hidden="true"><i class="fa-solid fa-share-nodes"></i></span>
+						<span class="social-icon follow" id="followIcon" aria-hidden="true"><i class="fa-solid fa-plus"></i></span>
+					</div>
 				</div>
+				<span class="kc37" aria-hidden="true"><i class="fa-solid fa-arrow-right"></i></span>
 			</div>
 		</a>
-		<div class="social-icon like" id="likeIcon">
-     	   👍
-       		 <!-- Replace with: <img src="like.png" alt="Like"> -->
-    	</div>
-
-   		 <!-- Share Icon -->
-   		 <div class="social-icon share" id="shareIcon">
-    	    <img src="kci_image/img11.jpeg" alt="Share">
-   		 </div>
-
-    	<!-- Follow Icon -->
-    	<div class="social-icon follow" id="followIcon">
-      	  	➕
-       		 <!-- Replace with: <img src="follow.png" alt="Follow"> -->
-   		</div>
-   		 <script>
-    // Trigger animations in sequence
-    function startAnimation() {
-        const like = document.getElementById('likeIcon');
-        const share = document.getElementById('shareIcon');
-        const follow = document.getElementById('followIcon');
-
-        // Reset
-        [like, share, follow].forEach(el => {
-            el.classList.remove('slide-in-left', 'slide-in-right');
-            void el.offsetWidth; // Restart animation trick
-        });
-
-        // Start sequence
-        like.classList.add('slide-in-left');
-        
-        setTimeout(() => {
-            share.classList.add('slide-in-right');
-        }, 600);
-
-        setTimeout(() => {
-            follow.classList.add('slide-in-left');
-        }, 1200);
-    }
-
-    // Run on load
-    window.addEventListener('load', startAnimation);
-    
-    // Loop every 6 seconds
-    setInterval(startAnimation, 6000);
-	</script>
 	</div>
-	
+	<script>
+		/* Subtle one-shot entrance for the Facebook card (.kc33).
+		   A dedicated IntersectionObserver reveals the card when the
+		   section scrolls into view -- no polling, no 6s restart, and
+		   it fully respects prefers-reduced-motion. */
+		(function () {
+			var fbSection = document.querySelector('.kc33');
+			if (!fbSection) return;
+
+			var reduceMotion = window.matchMedia &&
+				window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+			var canObserve = 'IntersectionObserver' in window;
+
+			/* No observer support, or the user prefers reduced motion:
+			   leave the card fully visible (nothing to animate). */
+			if (reduceMotion || !canObserve) return;
+
+			fbSection.classList.add('kc33-anim');
+
+			var observer = new IntersectionObserver(function (entries, obs) {
+				entries.forEach(function (entry) {
+					if (entry.isIntersecting) {
+						entry.target.classList.add('is-visible');
+						obs.unobserve(entry.target); /* run once, never restart */
+					}
+				});
+			}, { threshold: 0.2 });
+
+			observer.observe(fbSection);
+		})();
+	</script>
+
 	<footer class="kc118">
     <div class="kc119">
         <div class="kc120">

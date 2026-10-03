@@ -44,6 +44,7 @@ body{
 	height: 100%;
 	display: flex;
 	align-items: center;
+	text-decoration: none;
 }
 .kc2 img{
 	height: 52px;
@@ -95,7 +96,8 @@ body{
 	color: #fff;
 }
 .kc3 ul li a .arrow{
-	font-size: 9px;
+	display: inline-block;
+	font-size: 10px;
 	transition: transform 0.3s ease;
 }
 .kc3 ul li:hover a .arrow{
@@ -947,93 +949,6 @@ body{
    z-index: 10;
    border: none;
 }
- .social-icon {
-   position: absolute;
-   width: 30px;
-   height: 30px;
-   border-radius: 50%;
-   display: flex;
-   align-items: center;
-   justify-content: center;
-   font-size: 2rem;
-   font-weight: bold;
-   box-shadow: 0 8px 25px rgba(0,0,0,0.3);
-   opacity: 0;
-   transform: scale(0);
-   pointer-events: none;
-}
-.like {
-	position: relative;
-   background: #1877f2;
-   left: -100px;
-   margin-top: -8%;
-}
-.share {
-	background: #25D366;
-	position: relative;
-	right: -1400px;
-}
-.share img{
-	width: 40px;
-	border-radius: 50%;
-	background: transparent;
-}
-.follow {
-	background: #E4405F;
-	position: relative;
-	bottom: -9%;
-	left: -100px;
-}
-    /* Animation classes */
-.slide-in-left {
-   animation: slideInLeft 0.8s ease-out forwards, bounce 0.5s 0.8s, slideOutLeft 0.8s 3s forwards;
-}
-.slide-in-right {
-   animation: slideInRight 0.8s ease-out forwards, bounceRight 0.5s 0.8s, slideOutRight 0.8s 3s forwards;
-}
-
-@keyframes slideInLeft {
-to {
-   opacity: 1;
-   transform: scale(1.5) translateX(150px);
-   }
-}
-
-@keyframes slideInRight {
-to {
-   opacity: 1;
-   transform: scale(1.5) translateX(-150px);
-   }
-}
-
-@keyframes bounce {
-   0%, 100% { transform: scale(1.5) translateX(150px); }
-   50% { transform: scale(1.8) translateX(150px); }
-}
-
-.share { 
-   animation: slideInRight 0.8s ease-out forwards, bounceRight 0.5s 0.8s slideOutRight 0.8s 3s forwards;
- }
-
-
-@keyframes bounceRight {
-   0%, 100% { transform: scale(1.5) translateX(-150px); }
-   50% { transform: scale(1.8) translateX(-150px); }
-}
-
-@keyframes slideOutLeft {
-   to {
-   opacity: 0;
-   transform: scale(0) translateX(-100px);
-   }
-}
-
-@keyframes slideOutRight {
-to {
-   opacity: 0;
-   transform: scale(0) translateX(-150px);
-   }
-}
 .kc34{
 	box-sizing: border-box;
 	border: red solid 1px;
@@ -1446,7 +1361,7 @@ to {
 	line-height: 1.6;
 }
 .btn-primary{
-	background: #cd5d21;
+	background: linear-gradient(135deg, #6d42c1, #3157c7);
 	color: white;
 	padding: .9rem 1.8rem;
 	font-size: 1rem;
@@ -2530,9 +2445,12 @@ to {
 	.home-page .kc3 > ul > li:nth-child(3) > a .arrow,
 	.home-page .kc3 > ul > li.linef > a .arrow,
 	.events-page .kc3 > ul > li:nth-child(3) > a .arrow,
-	.events-page .kc3 > ul > li.linef > a .arrow{
+	.events-page .kc3 > ul > li.linef > a .arrow,
+	.ministries-page .kc3 > ul > li:nth-child(3) > a .arrow,
+	.ministries-page .kc3 > ul > li.linef > a .arrow,
+	.ministry-page .kc3 > ul > li:nth-child(3) > a .arrow,
+	.ministry-page .kc3 > ul > li.linef > a .arrow{
 		font-size: 13px;
-		font-weight: 800;
 		/* Enlarge the tap target of the submenu trigger without moving it. */
 		padding: 9px 12px;
 		margin: -9px -12px -9px -8px;
@@ -3818,9 +3736,889 @@ to {
 		margin: 0;
 	}
 	.home-page .fb-link::after,
-	.home-page .fb-link::before,
-	.home-page .social-icon{
+	.home-page .fb-link::before{
 		display: none;
+	}
+}
+
+/* ============================================================
+   HOME PAGE — SECTION REDESIGN
+   ------------------------------------------------------------
+   Every rule is scoped to .home-page so Home, About, Events,
+   Event Detail, Ministries, Ministry Detail, Contact, Give and
+   Serve are unaffected. The Hero (.kc5) and the Testimony
+   (.kc29/.kc30/.testimoney) blocks are deliberately NOT touched.
+
+   The legacy KCI rules for .kc7, .kc9, .kc11, .kc12, .kc14-.kc21,
+   .kc23, .kc26, .kc28, .kc34-.kc37 and .social-icon were written
+   for the old markup (percentage widths, negative margins, a
+   black bar, skewed overlays). They are neutralised here rather
+   than deleted, so nothing else that shares them can shift.
+   ============================================================ */
+.home-page{
+	--kci-ink:#151a33;
+	--kci-body:#4a5068;
+	--kci-violet:#7b52d6;
+	--kci-violet-d:#5731b8;
+	--kci-amber:#f59e0b;
+	--kci-amber-d:#e07a00;
+	--kci-line:rgba(21, 26, 51, .09);
+	--kci-radius:20px;
+}
+
+/* ===== 1. WELCOME / TO THE FAMILY (.kc6) ==================== */
+.home-page .kc6{
+	width: 100%;
+	box-sizing: border-box;
+	margin: 0;
+	padding: 74px 7%;
+	background: linear-gradient(180deg, #f7f5ff 0%, #ffffff 100%);
+	text-align: center;
+	z-index: auto;
+}
+.home-page .kc7{
+	width: 100%;
+	margin: 0;
+	padding: 0;
+	border: none;
+}
+.home-page .kc9{
+	display: block;
+}
+.home-page .kc9 .kc9-icon{
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 66px;
+	height: 66px;
+	margin: 0 auto 22px;
+	border-radius: 20px;
+	background: linear-gradient(135deg, var(--kci-violet), var(--kci-violet-d));
+	color: #fff;
+	font-size: 26px;
+	box-shadow: 0 10px 24px rgba(87, 49, 184, .30);
+}
+.home-page .kc7 h2,
+.home-page .kc9 h2{
+	font-family: 'Poppins', sans-serif;
+	font-size: 13px;
+	font-weight: 600;
+	letter-spacing: 4px;
+	text-transform: uppercase;
+	color: var(--kci-amber);
+	margin: 0;
+}
+.home-page .kc7 .kc7-title{
+	font-family: 'Poppins', sans-serif;
+	font-size: clamp(1.9rem, 4.4vw, 2.9rem);
+	font-weight: 700;
+	line-height: 1.15;
+	letter-spacing: -.5px;
+	color: var(--kci-ink);
+	margin: 10px 0 0;
+	text-align: center;
+}
+.home-page .kc8{
+	width: 100%;
+	max-width: 780px;
+	margin: 26px auto 0;
+	padding: 0;
+	border: none;
+}
+.home-page .kc8 p{
+	font-family: 'Poppins', sans-serif;
+	font-size: 16px;
+	line-height: 1.85;
+	color: var(--kci-body);
+	margin: 0;
+	text-align: center;
+}
+
+/* ===== 2. FIRST-TIME VISITOR / DON'T KNOW OUR CHURCH (.kc10) */
+.home-page .kc10{
+	width: 100%;
+	box-sizing: border-box;
+	height: auto;
+	margin: 0;
+	padding: 72px 7%;
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 26px;
+	background: #ffffff;
+}
+.home-page .kc11,
+.home-page .kc12{
+	width: 100%;
+	box-sizing: border-box;
+	margin: 0;
+	padding: 38px 32px;
+	border: 1px solid var(--kci-line);
+	border-radius: var(--kci-radius);
+	background: linear-gradient(180deg, #ffffff 0%, #faf9ff 100%);
+	box-shadow: 0 10px 28px rgba(21, 26, 51, .07);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	transition: transform .3s ease, box-shadow .3s ease, border-color .3s ease;
+}
+.home-page .kc11:hover,
+.home-page .kc12:hover{
+	transform: translateY(-4px);
+	border-color: rgba(123, 82, 214, .30);
+	box-shadow: 0 18px 40px rgba(21, 26, 51, .12);
+}
+.home-page .kc11 .kc11-icon,
+.home-page .kc12 .kc12-icon{
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 58px;
+	height: 58px;
+	margin: 0 0 18px;
+	border-radius: 18px;
+	background: linear-gradient(135deg, var(--kci-amber), var(--kci-amber-d));
+	color: #fff;
+	font-size: 23px;
+	box-shadow: 0 8px 20px rgba(224, 122, 0, .28);
+}
+.home-page .kc12 .kc12-icon{
+	background: linear-gradient(135deg, var(--kci-violet), var(--kci-violet-d));
+	box-shadow: 0 8px 20px rgba(87, 49, 184, .30);
+}
+.home-page .kc11 h2,
+.home-page .kc12 h2{
+	font-family: 'Poppins', sans-serif;
+	font-size: 17px;
+	font-weight: 500;
+	line-height: 1.6;
+	color: var(--kci-ink);
+	text-align: center;
+	margin: 0 0 22px;
+	max-width: 34ch;
+}
+.home-page .kc11 .kc11-btn,
+.home-page .kc12 .kc12-btn{
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: auto;
+	height: auto;
+	margin: 0;
+	padding: 13px 30px;
+	font-family: 'Poppins', sans-serif;
+	font-size: .86rem;
+	font-weight: 600;
+	letter-spacing: .3px;
+	color: #fff;
+	background: linear-gradient(135deg, var(--kci-violet), var(--kci-violet-d));
+	border: none;
+	border-radius: 999px;
+	box-shadow: 0 10px 22px rgba(87, 49, 184, .32);
+	text-decoration: none;
+	cursor: pointer;
+	transition: transform .25s ease, box-shadow .25s ease, color .25s ease;
+}
+.home-page .kc12 .kc12-btn{
+	background: linear-gradient(135deg, var(--kci-amber), var(--kci-amber-d));
+	box-shadow: 0 10px 22px rgba(224, 122, 0, .32);
+}
+.home-page .kc11 .kc11-btn:hover,
+.home-page .kc12 .kc12-btn:hover{
+	color: #fff;
+	transform: translateY(-2px);
+	box-shadow: 0 14px 28px rgba(87, 49, 184, .42);
+}
+.home-page .kc12 .kc12-btn:hover{
+	box-shadow: 0 14px 28px rgba(224, 122, 0, .42);
+}
+
+/* ===== 3. RECENT QUOTES (.kc13) ============================
+   The four quote images (im4/im7/im6/im5) and the quotes.php
+   link are all kept — they are simply presented as cards now. */
+.home-page .kc13{
+	width: 100%;
+	box-sizing: border-box;
+	margin: 0;
+	padding: 74px 7%;
+	display: block;
+	background: linear-gradient(180deg, #ffffff 0%, #f7f5ff 100%);
+	text-align: center;
+}
+
+/* Heading block — the legacy rule put the words behind the page
+   (color:white + z-index:-1), so it is rebuilt properly. */
+.home-page .kc13 .kc18{
+	width: 100%;
+	height: auto;
+	margin: 0 0 40px;
+	padding: 0;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+}
+.home-page .kc13 .kc19{
+	display: block;
+	height: auto;
+	margin: 0 0 6px;
+}
+.home-page .kc13 .kc19 p{
+	margin: 0;
+	font-family: 'Poppins', sans-serif;
+	font-size: 12px;
+	font-weight: 600;
+	letter-spacing: 4px;
+	text-transform: uppercase;
+	color: var(--kci-amber);
+	z-index: auto;
+}
+.home-page .kc13 .kc18 h2{
+	margin: 0;
+	font-family: 'Poppins', sans-serif;
+	font-size: clamp(1.9rem, 4.4vw, 2.9rem);
+	font-weight: 700;
+	line-height: 1.15;
+	letter-spacing: -.5px;
+	color: var(--kci-ink);
+	z-index: auto;
+}
+.home-page .kc13 .kc18-rule{
+	display: block;
+	width: 56px;
+	height: 3px;
+	margin-top: 16px;
+	border-radius: 3px;
+	background: linear-gradient(90deg, var(--kci-violet), var(--kci-amber));
+}
+
+/* Card grid */
+.home-page .kc13 .kc21{
+	width: 100%;
+	margin: 0;
+	padding: 0;
+	display: grid;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	gap: 22px;
+	align-items: stretch;
+}
+.home-page .kc13 .kc14,
+.home-page .kc13 .kc15,
+.home-page .kc13 .kc16,
+.home-page .kc13 .kc17{
+	width: 100%;
+	height: auto;
+	margin: 0;
+	overflow: hidden;
+	border: 1px solid var(--kci-line);
+	border-radius: var(--kci-radius);
+	background: #ffffff;
+	box-shadow: 0 10px 28px rgba(21, 26, 51, .08);
+	transition: transform .35s cubic-bezier(.22, 1, .36, 1), box-shadow .35s ease;
+}
+.home-page .kc13 .kc14:hover,
+.home-page .kc13 .kc15:hover,
+.home-page .kc13 .kc16:hover,
+.home-page .kc13 .kc17:hover{
+	transform: translateY(-6px);
+	box-shadow: 0 20px 44px rgba(21, 26, 51, .15);
+}
+.home-page .kc13 .kc14 img,
+.home-page .kc13 .kc15 img,
+.home-page .kc13 .kc16 img,
+.home-page .kc13 .kc17 img{
+	display: block;
+	width: 100%;
+	height: 100%;
+	min-height: 240px;
+	object-fit: cover;
+	border: none;
+	border-radius: 0;
+	transition: transform .5s cubic-bezier(.22, 1, .36, 1);
+}
+.home-page .kc13 .kc14:hover img,
+.home-page .kc13 .kc15:hover img,
+.home-page .kc13 .kc16:hover img,
+.home-page .kc13 .kc17:hover img{
+	transform: scale(1.06);
+}
+
+/* View More */
+.home-page .kc13 .kc20{
+	width: 100%;
+	margin: 34px 0 0;
+	padding: 0;
+	display: flex;
+	justify-content: center;
+}
+.home-page .kc13 .kc20 a{
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: auto;
+	height: auto;
+	margin: 0;
+	padding: 13px 32px;
+	background: linear-gradient(135deg, var(--kci-violet), var(--kci-violet-d));
+	color: #fff;
+	font-family: 'Poppins', sans-serif;
+	font-size: .86rem;
+	font-weight: 600;
+	letter-spacing: .3px;
+	border: none;
+	border-radius: 999px;
+	box-shadow: 0 10px 22px rgba(87, 49, 184, .32);
+	text-decoration: none;
+	transition: transform .25s ease, box-shadow .25s ease, color .25s ease;
+}
+.home-page .kc13 .kc20 a:hover{
+	color: #fff;
+	transform: translateY(-2px);
+	box-shadow: 0 14px 28px rgba(87, 49, 184, .42);
+}
+
+/* ===== 4. OUR LEAD PASTOR (.kc22) =========================
+   Two columns on desktop, stacked on mobile. The image sits in
+   a soft framed panel so it no longer floats on bare white. */
+.home-page #main{
+	margin: 0;
+}
+.home-page #main .kc22{
+	width: 100%;
+	box-sizing: border-box;
+	margin: 0;
+	padding: 84px 7%;
+	display: grid;
+	grid-template-columns: minmax(0, .82fr) minmax(0, 1fr);
+	gap: 56px;
+	align-items: center;
+	background: #ffffff;
+}
+/* One intentional portrait frame: the photo is the focus, a single soft
+   lavender outline sits behind it, and one amber accent dot peeks from a
+   corner. Everything decorative stays behind the image (z-index) so it
+   can never cover the pastor. */
+.home-page #main .kc22 .kc23{
+	position: relative;
+	width: 100%;
+	max-width: 420px;
+	margin: 0;
+	padding: 0;
+	border: none;
+	background: none;
+	box-shadow: none;
+	text-align: center;
+}
+/* The single decorative frame, drawn once behind the portrait. */
+.home-page #main .kc22 .kc23 .kc23-frame{
+	display: block;
+	position: absolute;
+	top: -14px;
+	right: -14px;
+	bottom: -14px;
+	left: -14px;
+	border: 1.5px solid rgba(123, 82, 214, .34);
+	border-radius: 30px;
+	background: linear-gradient(150deg, rgba(123, 82, 214, .10) 0%, rgba(123, 82, 214, 0) 72%);
+	box-shadow: 0 22px 48px rgba(87, 49, 184, .12);
+	pointer-events: none;
+	z-index: 1;
+}
+/* Amber accent dot, tucked cleanly behind the frame's corner. */
+.home-page #main .kc22 .kc23::after{
+	content: '';
+	position: absolute;
+	right: -20px;
+	bottom: -20px;
+	width: 50px;
+	height: 50px;
+	border-radius: 50%;
+	background: radial-gradient(circle at 35% 35%, #ffd9a0 0%, #f59e0b 55%, #e07a00 100%);
+	box-shadow: 0 12px 24px rgba(224, 122, 0, .32);
+	pointer-events: none;
+	z-index: 1;
+}
+/* The old second outline is no longer used. */
+.home-page #main .kc22 .kc23::before{
+	content: none;
+}
+.home-page #main .kc22 .kc23 img{
+	position: relative;
+	z-index: 2;
+	display: block;
+	width: 100%;
+	height: auto;
+	min-height: 400px;
+	object-fit: cover;
+	object-position: center top;
+	border: none;
+	border-radius: 22px;
+	box-shadow: 0 18px 40px rgba(21, 26, 51, .16);
+}
+
+.home-page #main .kc22 .kc24{
+	width: 100%;
+	margin: 0;
+}
+.home-page #main .kc22 .kc24 .kc25{
+	margin: 0 0 18px;
+}
+.home-page #main .kc22 .kc24 .kc26{
+	display: inline-flex;
+	align-items: center;
+	gap: 10px;
+	margin: 0 0 8px;
+	padding: 7px 15px;
+	border-radius: 999px;
+	background: rgba(245, 158, 11, .12);
+}
+.home-page #main .kc22 .kc24 h2{
+	margin: 0;
+	font-family: 'Poppins', sans-serif;
+	font-size: 12px;
+	font-weight: 600;
+	letter-spacing: 3.4px;
+	text-transform: uppercase;
+	color: var(--kci-amber);
+}
+.home-page #main .kc22 .kc24 .kc25 h4{
+	margin: 0;
+	font-family: 'Poppins', sans-serif;
+	font-size: clamp(1.7rem, 3.4vw, 2.5rem);
+	font-weight: 700;
+	line-height: 1.18;
+	letter-spacing: -.4px;
+	text-transform: none;
+	color: var(--kci-ink);
+}
+.home-page #main .kc22 .kc24 .kc27{
+	width: 100%;
+	margin: 0 0 26px;
+	padding: 0;
+	border: none;
+}
+.home-page #main .kc22 .kc24 .kc27 p{
+	margin: 0;
+	font-family: 'Poppins', sans-serif;
+	font-size: 15.5px;
+	line-height: 1.85;
+	color: var(--kci-body);
+}
+
+/* Social buttons — Font Awesome icons (no image files). */
+.home-page #main .kc22 .kc24 .kc28{
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 12px;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+	border: none;
+}
+.home-page #main .kc22 .kc24 .kc28 a{
+	text-decoration: none;
+}
+.home-page #main .kc22 .kc24 .kc28 .kc28-link{
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 46px;
+	height: 46px;
+	border-radius: 14px;
+	color: #fff;
+	font-size: 19px;
+	box-shadow: 0 8px 18px rgba(21, 26, 51, .16);
+	transition: transform .25s ease, box-shadow .25s ease;
+}
+.home-page #main .kc22 .kc24 .kc28 .kc28-link--fb{
+	background: linear-gradient(135deg, #1877f2, #0d5fd6);
+}
+.home-page #main .kc22 .kc24 .kc28 .kc28-link--wa{
+	background: linear-gradient(135deg, #25d366, #12a447);
+}
+.home-page #main .kc22 .kc24 .kc28 .kc28-link:hover{
+	transform: translateY(-3px);
+	box-shadow: 0 14px 26px rgba(21, 26, 51, .22);
+}
+.home-page #main .kc22 .kc24 .kc28 .kc28-link:focus-visible{
+	outline: 3px solid rgba(123, 82, 214, .45);
+	outline-offset: 3px;
+}
+
+/* ===== 5. LIKE & FOLLOW US ON FACEBOOK (.kc33) ==============
+   The legacy .kc34 was a full black bar with an oversized
+   skewed ::before sweep; rebuilt as a clean panel. */
+.home-page .kc33{
+	box-sizing: border-box;
+	width: 100%;
+	height: auto;
+	min-height: 0;
+	margin: 0;
+	padding: 74px 7%;
+	/* Entrance rise + icon nudge distances (scoped here; no globals). */
+	--kc33-rise: 18px;
+	--kc-icon-shift: 16px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: linear-gradient(180deg, #f7f5ff 0%, #ffffff 100%);
+	/* The card must never be able to create a sideways scroll bar. */
+	overflow-x: clip;
+}
+.home-page .kc33 .fb-link{
+	display: block;
+	width: 100%;
+	max-width: 760px;
+	margin: 0 auto;
+	text-decoration: none;
+}
+/* The legacy tooltip pseudo-elements belong to the old design; disable
+   them here so they can never escape the section on hover. */
+.home-page .kc33 .fb-link::after,
+.home-page .kc33 .fb-link::before{
+	content: none;
+}
+.home-page .kc33 .kc34{
+	position: relative;
+	display: flex;
+	align-items: center;
+	gap: 22px;
+	width: 100%;
+	max-width: 100%;
+	/* Explicitly reset the legacy .kc34 margins (margin-left:35% /
+	   margin-top:2.2%) that used to shift the panel off-centre. */
+	margin: 0 auto;
+	padding: 28px 32px;
+	background: linear-gradient(135deg, #1877f2 0%, #0d5fd6 55%, #12306e 100%);
+	border: none;
+	border-radius: 22px;
+	box-shadow: 0 18px 44px rgba(13, 95, 214, .28);
+	overflow: hidden;
+	transition: transform .3s cubic-bezier(.22, 1, .36, 1), box-shadow .3s ease;
+}
+.home-page .kc33 .kc34::before{
+	content: none;
+}
+.home-page .kc33 .fb-link:hover .kc34{
+	transform: translateY(-4px);
+	box-shadow: 0 24px 56px rgba(13, 95, 214, .36);
+}
+.home-page .kc33 .kc34 .kc35{
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	flex: 0 0 auto;
+	width: 62px;
+	height: 62px;
+	border: none;
+	border-radius: 18px;
+	background: rgba(255, 255, 255, .16);
+	color: #fff;
+	font-size: 30px;
+	box-shadow: none;
+}
+.home-page .kc33 .kc34 .kc35 img{
+	display: none;
+}
+.home-page .kc33 .kc34 .kc36{
+	flex: 1 1 auto;
+	min-width: 0;
+	border: none;
+	text-align: left;
+}
+.home-page .kc33 .kc34 .kc36 h2{
+	margin: 0 0 4px;
+	font-family: 'Poppins', sans-serif;
+	font-size: clamp(1.15rem, 2.4vw, 1.5rem);
+	font-weight: 700;
+	letter-spacing: 1.2px;
+	color: #fff;
+}
+.home-page .kc33 .kc34 .kc36 p{
+	margin: 0;
+	font-family: 'Poppins', sans-serif;
+	font-size: .92rem;
+	color: rgba(255, 255, 255, .82);
+}
+.home-page .kc33 .fb-link:hover .kc34 .kc36{
+	color: inherit;
+	text-shadow: none;
+}
+.home-page .kc33 .kc34 .kc37{
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	flex: 0 0 auto;
+	width: 42px;
+	height: 42px;
+	border: none;
+	border-radius: 50%;
+	background: rgba(255, 255, 255, .14);
+	color: #fff;
+	font-size: 15px;
+	transition: transform .3s ease, background .3s ease;
+}
+.home-page .kc33 .fb-link:hover .kc34 .kc37{
+	transform: translateX(5px);
+	background: rgba(255, 255, 255, .24);
+}
+.home-page .kc33 .fb-link:focus-visible .kc34{
+	outline: 3px solid rgba(123, 82, 214, .55);
+	outline-offset: 4px;
+}
+
+/* ===== 5b. FACEBOOK CARD ENTRANCE (inside .kc33) ==============
+   The JavaScript adds .kc33-anim to the section, then a one-shot
+   IntersectionObserver adds .is-visible the first time the section
+   scrolls into view. The whole card quietly fades in and rises ~18px;
+   the Facebook mark gives a single soft pulse and the arrow gives a
+   single 4px nudge. Nothing travels across the card and nothing loops,
+   so the icons can never collide or cover the text. */
+.home-page .kc33.kc33-anim .kc34{
+	opacity: 0;
+}
+.home-page .kc33.kc33-anim.is-visible .kc34{
+	opacity: 1;
+	animation: kci-fb-rise .75s cubic-bezier(.22, 1, .36, 1);
+}
+/* Facebook mark: one restrained pulse on entrance, then perfectly still. */
+.home-page .kc33.kc33-anim.is-visible .kc34 .kc35{
+	animation: kci-fb-mark .9s cubic-bezier(.22, 1, .36, 1) .25s 1;
+}
+/* Arrow: a gentle 4px nudge to the right and back, once. */
+.home-page .kc33.kc33-anim.is-visible .kc34 .kc37{
+	animation: kci-fb-arrow .9s ease-in-out .45s 1;
+}
+@keyframes kci-fb-rise{
+	0%{ opacity: 0; transform: translateY(var(--kc33-rise, 18px)); }
+	100%{ opacity: 1; transform: translateY(0); }
+}
+@keyframes kci-fb-mark{
+	0%, 100%{ transform: scale(1); }
+	45%{ transform: scale(1.1); }
+}
+@keyframes kci-fb-arrow{
+	0%, 100%{ transform: translateX(0); }
+	50%{ transform: translateX(4px); }
+}
+/* Users who prefer reduced motion get the card with no animation at all. */
+@media (prefers-reduced-motion: reduce){
+	.home-page .kc33.kc33-anim .kc34{
+		opacity: 1;
+	}
+	.home-page .kc33.kc33-anim.is-visible .kc34,
+	.home-page .kc33.kc33-anim.is-visible .kc34 .kc35,
+	.home-page .kc33.kc33-anim.is-visible .kc34 .kc37{
+		animation: none;
+	}
+}
+
+/* ===== 5c. LIKE / SHARE / FOLLOW ICONS (inside .kc34) =========
+   Three small icons sit in their own row under the copy. Each keeps a
+   fixed resting slot and only nudges ~16px from it, so they can never
+   reach the logo, the text, the arrow or one another. The sequence is
+   pure CSS (delays); JavaScript only toggles .is-visible. */
+.home-page .kc33 .kc34 .kc36 .kc-fb-icons{
+	position: relative;
+	display: flex;
+	align-items: center;
+	gap: 42px;
+	margin: 14px 0 0 6px;
+}
+.home-page .kc33 .kc34 .kc36 .kc-fb-icons .social-icon{
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	flex: 0 0 auto;
+	width: 34px;
+	height: 34px;
+	border-radius: 50%;
+	background: rgba(255, 255, 255, .16);
+	border: 1px solid rgba(255, 255, 255, .22);
+	color: #fff;
+	font-size: 14px;
+	line-height: 1;
+}
+.home-page .kc33 .kc34 .kc36 .kc-fb-icons .social-icon i{
+	line-height: 1;
+}
+/* Sequential nudge: Like 0s, Share .5s, Follow 1s, then a short pause
+   before the 3s loop repeats. Like/Follow travel left, Share travels
+   right. The ~0.6s nudge is preserved inside the shorter 3s cycle. */
+.home-page .kc33.is-visible #likeIcon{
+	animation: kci-fb-nudge-left 3s ease-in-out 0s infinite;
+}
+.home-page .kc33.is-visible #shareIcon{
+	animation: kci-fb-nudge-right 3s ease-in-out .5s infinite;
+}
+.home-page .kc33.is-visible #followIcon{
+	animation: kci-fb-nudge-left 3s ease-in-out 1s infinite;
+}
+@keyframes kci-fb-nudge-left{
+	0%{ transform: translateX(0); }
+	10%{ transform: translateX(calc(-1 * var(--kc-icon-shift, 16px))); }
+	20%{ transform: translateX(0); }
+	100%{ transform: translateX(0); }
+}
+@keyframes kci-fb-nudge-right{
+	0%{ transform: translateX(0); }
+	10%{ transform: translateX(var(--kc-icon-shift, 16px)); }
+	20%{ transform: translateX(0); }
+	100%{ transform: translateX(0); }
+}
+/* Reduced motion: keep the icons still in their normal positions. */
+@media (prefers-reduced-motion: reduce){
+	.home-page .kc33.is-visible #likeIcon,
+	.home-page .kc33.is-visible #shareIcon,
+	.home-page .kc33.is-visible #followIcon{
+		animation: none;
+	}
+}
+
+/* ===== 6. RESPONSIVE ====================================== */
+@media (max-width: 1024px){
+	.home-page #main .kc22{
+		gap: 38px;
+	}
+}
+@media (max-width: 900px){
+	/* Quote grid steps down 4 -> 2 -> 1 (an intentional layout,
+	   not the desktop grid squeezed). */
+	.home-page .kc13 .kc21{
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+	/* Pastor section stacks: image first, then the text. */
+	.home-page #main .kc22{
+		grid-template-columns: minmax(0, 1fr);
+		gap: 34px;
+		padding: 64px 6%;
+		text-align: center;
+	}
+	.home-page #main .kc22 .kc23{
+		max-width: 340px;
+		margin: 0 auto;
+	}
+	.home-page #main .kc22 .kc24 .kc25{
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+	.home-page #main .kc22 .kc24 .kc28{
+		justify-content: center;
+	}
+}
+@media (max-width: 640px){
+	.home-page .kc6{
+		padding: 56px 5%;
+	}
+	.home-page .kc9 .kc9-icon{
+		width: 56px;
+		height: 56px;
+		font-size: 23px;
+		margin-bottom: 18px;
+	}
+	.home-page .kc8{
+		margin-top: 20px;
+	}
+	.home-page .kc8 p{
+		font-size: 15px;
+		line-height: 1.8;
+	}
+
+	.home-page .kc10{
+		grid-template-columns: minmax(0, 1fr);
+		gap: 18px;
+		padding: 54px 5%;
+	}
+	.home-page .kc11,
+	.home-page .kc12{
+		padding: 30px 22px;
+	}
+	.home-page .kc11 .kc11-btn,
+	.home-page .kc12 .kc12-btn{
+		width: 100%;
+	}
+
+	.home-page .kc13{
+		padding: 56px 5%;
+	}
+	.home-page .kc13 .kc18{
+		margin-bottom: 30px;
+	}
+	.home-page .kc13 .kc21{
+		grid-template-columns: minmax(0, 1fr);
+		gap: 16px;
+	}
+	.home-page .kc13 .kc14 img,
+	.home-page .kc13 .kc15 img,
+	.home-page .kc13 .kc16 img,
+	.home-page .kc13 .kc17 img{
+		min-height: 0;
+		height: auto;
+		aspect-ratio: 4 / 3;
+	}
+
+	.home-page #main .kc22{
+		padding: 54px 5%;
+	}
+	.home-page #main .kc22 .kc23{
+		padding: 0;
+		max-width: 320px;
+	}
+	.home-page #main .kc22 .kc23 .kc23-frame{
+		top: -10px;
+		right: -10px;
+		bottom: -10px;
+		left: -10px;
+		border-radius: 26px;
+	}
+	.home-page #main .kc22 .kc23::after{
+		right: -12px;
+		bottom: -12px;
+		width: 40px;
+		height: 40px;
+	}
+	.home-page #main .kc22 .kc23 img{
+		min-height: 0;
+		aspect-ratio: 3 / 4;
+	}
+	.home-page #main .kc22 .kc24 .kc27 p{
+		font-size: 15px;
+		line-height: 1.8;
+	}
+	.home-page #main .kc22 .kc24 .kc28{
+		gap: 10px;
+	}
+
+	.home-page .kc33{
+		padding: 54px 5%;
+	}
+	.home-page .kc33 .kc34{
+		flex-direction: column;
+		text-align: center;
+		gap: 14px;
+		padding: 28px 22px;
+	}
+	.home-page .kc33 .kc34 .kc36{
+		text-align: center;
+	}
+	.home-page .kc33 .kc34 .kc37{
+		width: 36px;
+		height: 36px;
+		font-size: 13px;
+	}
+	/* Icons: centre the row and ease the movement on small screens. */
+	.home-page .kc33{
+		--kc33-rise: 12px;
+		--kc-icon-shift: 12px;
+	}
+	.home-page .kc33 .kc34 .kc36 .kc-fb-icons{
+		justify-content: center;
+		gap: 34px;
+		margin: 16px 0 0;
 	}
 }
 
@@ -3844,6 +4642,75 @@ to {
 	.about-page .kc43 .btn-primary{
 		margin-top: 10px;
 		margin-bottom: 0;
+	}
+}
+
+/* ============================================================
+   ABOUT PAGE — ACCENT COLOURS (scoped to .about-page)
+   1. Explore button -> the header Give button's red/orange gradient
+      (linear-gradient(135deg, #e8443d, #f07b3e), same as .kc4 a).
+   2. The "ABOUT" label (.kc49) and the card headings
+      (.kc52 h3, .kc70 h5, .kc72 h3) -> the site purple #6d42c1,
+      the same purple already used for section labels elsewhere.
+   3. The split pink/orange band (.kc65) -> the dark navy/purple hero
+      background shared by the event.php and ministry.php slug heroes.
+   4. The "Let's go" button (.kc72 button) -> the same red/orange
+      gradient as the header Give button and the Explore button.
+
+   Colour-only rules, scoped to .about-page, so no other page or
+   section is touched. The mobile media queries only change
+   font-size / padding for these elements, never their colour, so
+   both desktop and mobile views get the same result.
+   ============================================================ */
+.about-page .kc43 .btn-primary{
+	background: linear-gradient(135deg, #e8443d, #f07b3e);
+}
+/* Visit / "Join us" band (.kc65): the same dark navy -> purple hero
+   background used by the event.php and ministry.php slug heroes.
+   Declared once here (outside any media query) on purpose: it outranks
+   both the base .kc65 rule and the mobile .kc65 split-background
+   rule, so desktop and mobile both show the same result. */
+.about-page .kc65{
+	background-color: #14162a;
+	background-image:
+		radial-gradient(820px 560px at 6% 12%, rgba(109, 66, 193, .45), transparent 62%),
+		radial-gradient(760px 520px at 94% 92%, rgba(49, 87, 199, .35), transparent 60%),
+		linear-gradient(135deg, #131423 0%, #1a1b2c 48%, #241748 100%);
+}
+.about-page .kc48 .kc49{
+	color: #6d42c1;
+}
+.about-page .kc52 h3{
+	color: #6d42c1;
+}
+.about-page .kc70 h5{
+	color: #6d42c1;
+}
+.about-page .kc72 h3{
+	color: #6d42c1;
+}
+
+/* "Let's go" button (.kc72): the same red/orange gradient as the header
+   Give button and the Explore button, on both desktop and mobile.
+   There is no mobile override for .kc72 button, so this single rule
+   covers every width. Hover keeps the gradient and picks up the Give
+   button's soft red glow, so it still reads as interactive. */
+.about-page .kc72 button{
+	background: linear-gradient(135deg, #e8443d, #f07b3e);
+}
+.about-page .kc72 button:hover{
+	background: linear-gradient(135deg, #e8443d, #f07b3e);
+	box-shadow: 0 6px 22px rgba(232, 68, 61, .5);
+}
+
+/* Mobile only: the base .kc43 carries height:68vh for the tall desktop
+   hero, and none of the mobile media queries reset it. On a phone that
+   fixed height leaves a big empty gap under the Explore button, so let
+   the copy block hug its content instead. Scoped to .about-page and
+   inside a mobile breakpoint, so desktop is untouched. */
+@media (max-width: 900px){
+	.about-page .kc43{
+		height: auto;
 	}
 }
 
@@ -3874,3 +4741,3724 @@ to {
 		z-index: 0;
 	}
 }
+
+
+/* ============================================================
+   MINISTRIES PAGE (min.php)
+   Every rule below is scoped to .ministries-page so the Home,
+   About, Events and Event Detail pages (and the shared header
+   and footer) are never affected.
+   ============================================================ */
+
+/* --- Shared bits ------------------------------------------- */
+.ministries-page .ministries-eyebrow{
+	display: inline-block;
+	padding: 7px 15px;
+	border-radius: 30px;
+	background: #f4effc;
+	color: #6d42c1;
+	font-size: .70rem;
+	font-weight: 800;
+	letter-spacing: 2.2px;
+	text-transform: uppercase;
+}
+
+.ministries-page .ministries-btn{
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 12px;
+	padding: 14px 26px;
+	border-radius: 30px;
+	font-family: 'Poppins', sans-serif;
+	font-size: .82rem;
+	font-weight: 800;
+	letter-spacing: .3px;
+	text-decoration: none;
+	white-space: nowrap;
+	transition: transform .25s ease, box-shadow .25s ease,
+	            background .25s ease, border-color .25s ease;
+}
+.ministries-page .ministries-btn span{
+	transition: transform .2s ease;
+}
+.ministries-page .ministries-btn:hover span{
+	transform: translateX(6px);
+}
+.ministries-page .ministries-btn--solid{
+	color: #ffffff;
+	background: linear-gradient(135deg, #6d42c1, #3157c7);
+	box-shadow: 0 14px 32px rgba(49, 87, 199, .26);
+}
+.ministries-page .ministries-btn--solid:hover{
+	transform: translateY(-3px);
+	box-shadow: 0 18px 38px rgba(49, 87, 199, .38);
+}
+.ministries-page .ministries-btn--ghost{
+	color: #171923;
+	background: #ffffff;
+	border: 1px solid #e2e1ee;
+}
+.ministries-page .ministries-btn--ghost:hover{
+	transform: translateY(-3px);
+	border-color: #cfc8e8;
+	box-shadow: 0 14px 30px rgba(27, 29, 45, .10);
+}
+
+/* Ministry images are added manually: a missing file simply
+   reveals the soft placeholder sitting behind it. */
+.ministries-page .ministries-img-fallback{
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	color: rgba(109, 66, 193, .40);
+	font-size: 1.65rem;
+	line-height: 1;
+	pointer-events: none;
+}
+.ministries-page img[data-ministry-img]{
+	position: relative;
+	z-index: 1;
+	width: 100%;
+	height: 100%;
+	display: block;
+	object-fit: cover;
+	object-position: center;
+}
+.ministries-page img[data-ministry-img].is-missing{
+	display: none;
+}
+
+/* --- 1. Hero ---------------------------------------------- */
+.ministries-page .ministries-hero{
+	box-sizing: border-box;
+	padding: 132px 7% 70px;
+	background:
+		radial-gradient(circle at 10% 12%, rgba(109, 66, 193, .12), transparent 46%),
+		radial-gradient(circle at 92% 8%, rgba(243, 154, 66, .14), transparent 42%),
+		linear-gradient(180deg, #f6f4fd 0%, #fbfbfd 100%);
+}
+.ministries-page .ministries-hero__inner{
+	/* border-box keeps width: min(1250px, 100%) inside the section padding,
+	   so margin: 0 auto really centers the card instead of collapsing to 0. */
+	box-sizing: border-box;
+	width: min(1250px, 100%);
+	margin: 0 auto;
+	display: grid;
+	grid-template-columns: 1.05fr 1fr;
+	gap: 60px;
+	align-items: center;
+	background: #ffffff;
+	border: 1px solid #ecebf5;
+	border-radius: 26px;
+	box-shadow: 0 22px 60px rgba(27, 29, 45, .10);
+	padding: 60px;
+}
+.ministries-page .ministries-hero__content{
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	min-width: 0;
+}
+.ministries-page .ministries-hero__title{
+	font-size: clamp(2.05rem, 4.2vw, 3.45rem);
+	line-height: 1.08;
+	letter-spacing: -.6px;
+	color: #171923;
+	margin: 22px 0 18px;
+}
+.ministries-page .ministries-hero__text{
+	color: #737687;
+	font-size: 1.05rem;
+	line-height: 1.75;
+	max-width: 530px;
+	margin: 0 0 32px;
+}
+.ministries-page .ministries-hero__actions{
+	display: flex;
+	flex-wrap: wrap;
+	gap: 14px;
+}
+.ministries-page .ministries-hero__image{
+	position: relative;
+	overflow: hidden;
+	border-radius: 22px;
+	aspect-ratio: 4 / 3;
+	background: linear-gradient(135deg, #efeafb, #e6ebfc);
+	box-shadow: 0 18px 50px rgba(27, 29, 45, .16);
+}
+.ministries-page .ministries-hero__image .ministries-img-fallback{
+	font-size: 3rem;
+}
+
+/* --- 2 + 3. All ministries, filters and cards --------------- */
+.ministries-page .ministries-all{
+	padding: 90px 7% 100px;
+	background: #ffffff;
+	color: #303342;
+	scroll-margin-top: 90px;
+}
+.ministries-page .ministries-all__head{
+	width: min(1250px, 100%);
+	margin: 0 auto 46px;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-end;
+	justify-content: space-between;
+	gap: 26px;
+}
+.ministries-page .ministries-all__intro{
+	max-width: 660px;
+}
+.ministries-page .ministries-all__title{
+	font-size: clamp(2rem, 4vw, 3.15rem);
+	line-height: 1.15;
+	color: #171923;
+	margin: 16px 0 12px;
+}
+.ministries-page .ministries-all__text{
+	color: #737687;
+	font-size: 1.03rem;
+	margin: 0;
+}
+.ministries-page .ministries-filters{
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
+}
+.ministries-page .ministries-filter{
+	font-family: 'Poppins', sans-serif;
+	font-size: .78rem;
+	font-weight: 700;
+	letter-spacing: .3px;
+	color: #55586b;
+	background: #f7f7fb;
+	border: 1px solid #e8e8ef;
+	border-radius: 30px;
+	padding: 9px 19px;
+	cursor: pointer;
+	transition: color .25s ease, background .25s ease,
+	            border-color .25s ease, box-shadow .25s ease,
+	            transform .25s ease;
+}
+.ministries-page .ministries-filter:hover{
+	color: #6d42c1;
+	border-color: #d9d0ef;
+	transform: translateY(-2px);
+}
+.ministries-page .ministries-filter.is-active{
+	color: #ffffff;
+	border-color: transparent;
+	background: linear-gradient(135deg, #6d42c1, #3157c7);
+	box-shadow: 0 10px 24px rgba(49, 87, 199, .26);
+}
+.ministries-page .ministries-filter:focus-visible{
+	outline: 2px solid #6d42c1;
+	outline-offset: 2px;
+}
+
+.ministries-page .ministries-grid{
+	width: min(1250px, 100%);
+	margin: 0 auto;
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 28px;
+}
+.ministries-page .ministry-card{
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	/* Clips the oversized background icon and keeps it behind the content. */
+	overflow: hidden;
+	isolation: isolate;
+	background: #ffffff;
+	border: 1px solid #ecebf5;
+	border-radius: 18px;
+	padding: 30px;
+	box-shadow: 0 18px 50px rgba(27, 29, 45, .07);
+	scroll-margin-top: 110px;
+	transition: transform .3s ease, box-shadow .3s ease, border-color .3s ease;
+}
+.ministries-page .ministry-card:hover{
+	transform: translateY(-8px);
+	border-color: #dcd7ee;
+	box-shadow: 0 25px 55px rgba(27, 29, 45, .14);
+}
+.ministries-page .ministry-card.is-hidden{
+	display: none;
+}
+/* The ministry icon is the background of the card: a soft, oversized
+   watermark centered in the card container behind the text content. */
+.ministries-page .ministry-card__icon{
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	z-index: -1;
+	color: rgba(109, 66, 193, .08);
+	font-size: 8rem;
+	line-height: 1;
+	pointer-events: none;
+	-webkit-user-select: none;
+	user-select: none;
+	transition: color .3s ease;
+}
+.ministries-page .ministry-card:hover .ministry-card__icon{
+	color: rgba(109, 66, 193, .13);
+}
+/* A real ministry photo, when one is added, fills the whole card as a
+   darkened background (shown fully, never cropped) so the light text
+   on top stays readable. */
+.ministries-page .ministry-card__tile{
+	position: relative;
+	width: 62px;
+	height: 62px;
+	flex-shrink: 0;
+	display: none;
+	place-items: center;
+	overflow: hidden;
+	border-radius: 18px;
+	background: #f4effc;
+	margin-bottom: 20px;
+}
+.ministries-page .ministry-card.has-photo{
+	border-color: rgba(255, 255, 255, .14);
+}
+.ministries-page .ministry-card.has-photo:hover{
+	border-color: rgba(255, 255, 255, .28);
+}
+.ministries-page .ministry-card.has-photo .ministry-card__tile{
+	position: absolute;
+	inset: 0;
+	z-index: -1;
+	display: block;
+	width: auto;
+	height: auto;
+	margin: 0;
+	border-radius: 0;
+	background: #101222;
+}
+.ministries-page .ministry-card.has-photo img[data-ministry-img]{
+	object-fit: contain;
+	object-position: center;
+	background: #101222;
+	filter: brightness(.88);
+}
+/* Dark gradient over the photo so the card text reads clearly; the
+   empty space around a fully shown image stays on the dark backdrop. */
+.ministries-page .ministry-card.has-photo .ministry-card__tile::after{
+	content: "";
+	position: absolute;
+	inset: 0;
+	z-index: 1;
+	background: linear-gradient(180deg, rgba(12, 13, 24, .35) 0%, rgba(12, 13, 24, .50) 55%, rgba(12, 13, 24, .65) 100%);
+	pointer-events: none;
+}
+.ministries-page .ministry-card.has-photo .ministry-card__icon{
+	display: none;
+}
+/* The text sits in normal flow above the backdrop; these rules switch
+   the card to light tones when a background photo is present. */
+.ministries-page .ministry-card.has-photo .ministry-card__title{
+	color: #ffffff;
+}
+.ministries-page .ministry-card.has-photo .ministry-card__description{
+	color: rgba(255, 255, 255, .82);
+}
+.ministries-page .ministry-card.has-photo .ministry-card__foot{
+	border-top-color: rgba(255, 255, 255, .20);
+}
+.ministries-page .ministry-card.has-photo .ministry-card__meta{
+	color: rgba(255, 255, 255, .78);
+}
+.ministries-page .ministry-card.has-photo .ministry-card__meta i{
+	color: #cdbcf3;
+}
+.ministries-page .ministry-card.has-photo .ministry-card__link{
+	color: #e3d8ff;
+}
+.ministries-page .ministry-card__category{
+	display: block;
+	color: #f39a42;
+	font-size: .68rem;
+	font-weight: 800;
+	letter-spacing: 1.8px;
+	text-transform: uppercase;
+}
+.ministries-page .ministry-card__title{
+	color: #171923;
+	font-size: 1.28rem;
+	line-height: 1.3;
+	margin: 9px 0 12px;
+}
+.ministries-page .ministry-card__description{
+	color: #737687;
+	font-size: .88rem;
+	line-height: 1.7;
+	margin: 0 0 22px;
+}
+.ministries-page .ministry-card__foot{
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+	margin-top: auto;
+	padding-top: 18px;
+	border-top: 1px solid #f0eff7;
+}
+.ministries-page .ministry-card__meta{
+	display: flex;
+	align-items: center;
+	gap: 9px;
+	color: #737687;
+	font-size: .78rem;
+	font-weight: 600;
+}
+.ministries-page .ministry-card__meta i{
+	color: #6d42c1;
+}
+.ministries-page .ministry-card__link{
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	color: #6d42c1;
+	font-size: .82rem;
+	font-weight: 800;
+	text-decoration: none;
+	white-space: nowrap;
+}
+.ministries-page .ministry-card__link span{
+	transition: transform .2s ease;
+}
+.ministries-page .ministry-card__link:hover span{
+	transform: translateX(7px);
+}
+.ministries-page .ministries-all__empty{
+	width: min(1250px, 100%);
+	margin: 40px auto 0;
+	text-align: center;
+	color: #737687;
+	font-size: .95rem;
+}
+
+
+/* --- 4. Featured ministry ---------------------------------- */
+.ministries-page .featured-ministry{
+	padding: 100px 7%;
+	background:
+		radial-gradient(circle at 88% 82%, rgba(109, 66, 193, .10), transparent 48%),
+		#f7f7fb;
+	color: #303342;
+	scroll-margin-top: 90px;
+}
+.ministries-page .featured-ministry__inner{
+	/* Same as the hero: border-box so the existing padding is part of the
+	   max width and the card stays centred inside .featured-ministry. */
+	box-sizing: border-box;
+	width: min(1250px, 100%);
+	margin: 0 auto;
+	display: grid;
+	grid-template-columns: 1fr 1.05fr;
+	gap: 60px;
+	align-items: stretch;
+	background: #ffffff;
+	border: 1px solid #ecebf5;
+	border-radius: 26px;
+	box-shadow: 0 22px 60px rgba(27, 29, 45, .10);
+	padding: 34px;
+}
+.ministries-page .featured-ministry__content{
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	padding: 10px 0;
+}
+.ministries-page .featured-ministry__media{
+	position: relative;
+	overflow: hidden;
+	border-radius: 20px;
+	min-height: 460px;
+	background: linear-gradient(135deg, #e9e5f9, #e2e9fc);
+}
+.ministries-page .featured-ministry__media .ministries-img-fallback{
+	font-size: 3rem;
+}
+.ministries-page .featured-ministry__badge{
+	display: inline-block;
+	padding: 7px 15px;
+	border-radius: 30px;
+	background: #f4effc;
+	color: #6d42c1;
+	font-size: .68rem;
+	font-weight: 800;
+	letter-spacing: 2px;
+	text-transform: uppercase;
+}
+.ministries-page .featured-ministry__title{
+	font-size: clamp(2rem, 3.6vw, 3rem);
+	line-height: 1.1;
+	color: #171923;
+	margin: 18px 0 16px;
+}
+.ministries-page .featured-ministry__text{
+	color: #737687;
+	font-size: 1rem;
+	line-height: 1.8;
+	max-width: 560px;
+	margin: 0 0 30px;
+}
+.ministries-page .featured-ministry__stats{
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 14px;
+	margin-bottom: 30px;
+}
+.ministries-page .featured-ministry__stat{
+	text-align: center;
+	padding: 18px 12px;
+	border: 1px solid #ecebf5;
+	border-radius: 15px;
+	background: #fbfbfd;
+}
+.ministries-page .featured-ministry__stat strong{
+	display: block;
+	color: #171923;
+	font-size: 1.5rem;
+	line-height: 1.1;
+	margin-bottom: 5px;
+}
+.ministries-page .featured-ministry__stat span{
+	color: #737687;
+	font-size: .66rem;
+	font-weight: 800;
+	letter-spacing: 1.2px;
+	text-transform: uppercase;
+}
+.ministries-page .featured-ministry__foot{
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	gap: 20px;
+}
+.ministries-page .featured-ministry__leader{
+	display: flex;
+	align-items: center;
+	gap: 13px;
+}
+.ministries-page .featured-ministry__avatar{
+	width: 44px;
+	height: 44px;
+	flex-shrink: 0;
+	display: grid;
+	place-items: center;
+	border-radius: 50%;
+	background: linear-gradient(135deg, #6d42c1, #3157c7);
+	color: #ffffff;
+	font-size: .95rem;
+}
+
+/* --- 5. Responsive ---------------------------------------- */
+@media (max-width: 1100px){
+	.ministries-page .ministries-hero__inner{
+		gap: 42px;
+		padding: 46px;
+	}
+	.ministries-page .ministries-grid{
+		grid-template-columns: 1fr 1fr;
+	}
+	.ministries-page .featured-ministry__inner{
+		gap: 42px;
+	}
+}
+@media (max-width: 900px){
+	.ministries-page .ministries-hero{
+		padding: 118px 6% 62px;
+	}
+	.ministries-page .ministries-hero__inner{
+		grid-template-columns: 1fr;
+		gap: 34px;
+		padding: 36px;
+	}
+	.ministries-page .ministries-hero__text{
+		max-width: none;
+	}
+	.ministries-page .ministries-all{
+		padding: 78px 6% 86px;
+	}
+	.ministries-page .featured-ministry{
+		padding: 80px 6%;
+	}
+	.ministries-page .featured-ministry__inner{
+		grid-template-columns: 1fr;
+		gap: 34px;
+		padding: 26px;
+	}
+	.ministries-page .featured-ministry__media{
+		height: 340px;
+		min-height: 0;
+	}
+}
+@media (max-width: 640px){
+	.ministries-page .ministries-hero{
+		padding: 104px 5% 52px;
+	}
+	.ministries-page .ministries-hero__inner{
+		gap: 28px;
+		padding: 24px 22px;
+		border-radius: 20px;
+	}
+	.ministries-page .ministries-hero__title{
+		font-size: 1.85rem;
+		margin: 18px 0 14px;
+	}
+	.ministries-page .ministries-hero__text{
+		font-size: .95rem;
+		line-height: 1.7;
+		margin-bottom: 26px;
+	}
+	.ministries-page .ministries-hero__actions{
+		flex-direction: column;
+	}
+	.ministries-page .ministries-hero__actions .ministries-btn{
+		width: 100%;
+	}
+	.ministries-page .ministries-hero__image{
+		border-radius: 16px;
+	}
+	.ministries-page .ministries-all{
+		padding: 68px 5% 76px;
+	}
+	.ministries-page .ministries-all__head{
+		margin-bottom: 34px;
+		gap: 20px;
+	}
+	.ministries-page .ministries-filters{
+		gap: 8px;
+	}
+	.ministries-page .ministries-filter{
+		padding: 8px 15px;
+		font-size: .74rem;
+	}
+	.ministries-page .ministries-grid{
+		grid-template-columns: 1fr;
+		gap: 22px;
+	}
+	.ministries-page .ministry-card{
+		padding: 24px;
+		border-radius: 16px;
+	}
+	.ministries-page .ministry-card__icon{
+		font-size: 6.5rem;
+	}
+	.ministries-page .featured-ministry{
+		padding: 66px 5%;
+	}
+	.ministries-page .featured-ministry__inner{
+		gap: 26px;
+		padding: 20px;
+		border-radius: 20px;
+	}
+	.ministries-page .featured-ministry__media{
+		height: 250px;
+		border-radius: 16px;
+	}
+	.ministries-page .featured-ministry__stats{
+		gap: 9px;
+	}
+	.ministries-page .featured-ministry__stat{
+		padding: 13px 8px;
+	}
+	.ministries-page .featured-ministry__stat strong{
+		font-size: 1.15rem;
+	}
+	.ministries-page .featured-ministry__stat span{
+		font-size: .58rem;
+		letter-spacing: .8px;
+	}
+	.ministries-page .featured-ministry__foot{
+		flex-direction: column;
+		align-items: stretch;
+	}
+	.ministries-page .featured-ministry__foot .ministries-btn{
+		width: 100%;
+		/* border-box so the declared full width includes the button padding;
+		   with content-box the CTA grew ~52px past the card on small screens. */
+		box-sizing: border-box;
+	}
+}
+.ministries-page .featured-ministry__leader-text{
+	display: flex;
+	flex-direction: column;
+	line-height: 1.35;
+}
+.ministries-page .featured-ministry__leader-text strong{
+	color: #171923;
+	font-size: .85rem;
+}
+.ministries-page .featured-ministry__leader-text small{
+	color: #737687;
+	font-size: .75rem;
+}
+
+/* Mobile: the KCI header switches from fixed to sticky at this breakpoint,
+   so it takes up its own space above the hero. The section no longer has
+   to reserve header clearance on top of that — use a normal breathing gap
+   instead of the doubled empty band that appeared above the hero card. */
+@media (max-width: 768px){
+	.ministries-page .ministries-hero{
+		padding-top: 40px;
+	}
+}
+
+/* ===== MINISTRY DETAIL PAGE (ministry.php) ===================== */
+.ministry-page{
+	background: #f7f6fb;
+}
+.ministry-page main{
+	display: block;
+}
+/* Hero: dark KCI band with breadcrumb, category badge and title. */
+.ministry-page .ministry-hero{
+	position: relative;
+	overflow: hidden;
+	padding: 158px 7% 72px;
+	color: #ffffff;
+	background:
+		radial-gradient(circle at 85% 18%, rgba(109, 66, 193, .38), transparent 55%),
+		linear-gradient(135deg, #131423 0%, #1a1b2e 55%, #2a1a52 100%);
+}
+.ministry-page .ministry-hero__inner{
+	width: min(1180px, 100%);
+	margin: 0 auto;
+}
+.ministry-page .ministry-hero__crumbs{
+	margin: 0 0 18px;
+	color: rgba(255, 255, 255, .65);
+	font-size: .8rem;
+	font-weight: 600;
+	letter-spacing: .4px;
+}
+.ministry-page .ministry-hero__crumbs a{
+	color: #e3d8ff;
+	text-decoration: none;
+}
+.ministry-page .ministry-hero__crumbs a:hover{
+	text-decoration: underline;
+}
+.ministry-page .ministry-hero__crumbs span{
+	margin: 0 8px;
+}
+.ministry-page .ministry-hero__badge{
+	display: inline-block;
+	padding: 7px 16px;
+	border-radius: 999px;
+	background: rgba(243, 154, 66, .16);
+	border: 1px solid rgba(243, 154, 66, .55);
+	color: #f7b267;
+	font-size: .68rem;
+	font-weight: 800;
+	letter-spacing: 1.8px;
+	text-transform: uppercase;
+}
+.ministry-page .ministry-hero__title{
+	margin: 16px 0 0;
+	font-size: clamp(2rem, 4.6vw, 3.4rem);
+	line-height: 1.12;
+	font-weight: 800;
+	text-shadow: 0 14px 38px rgba(0, 0, 0, .35);
+}
+.ministry-page .ministry-hero__meta{
+	display: inline-flex;
+	align-items: center;
+	gap: 10px;
+	margin: 20px 0 0;
+	padding: 10px 18px;
+	border-radius: 999px;
+	background: rgba(255, 255, 255, .10);
+	border: 1px solid rgba(255, 255, 255, .18);
+	font-size: .85rem;
+	font-weight: 600;
+}
+.ministry-page .ministry-hero__meta i{
+	color: #f7b267;
+}
+/* Detail: image panel beside the content. */
+.ministry-page .ministry-detail{
+	padding: 64px 7% 34px;
+}
+.ministry-page .ministry-detail__grid{
+	display: grid;
+	grid-template-columns: 1fr 1.05fr;
+	gap: 46px;
+	align-items: start;
+	width: min(1180px, 100%);
+	margin: 0 auto;
+}
+.ministry-page .ministry-media{
+	position: relative;
+	min-height: 430px;
+	overflow: hidden;
+	border-radius: 22px;
+	background: #ece9f7;
+	box-shadow: 0 24px 60px rgba(27, 29, 45, .14);
+}
+.ministry-page .ministry-media__fallback{
+	position: absolute;
+	inset: 0;
+	display: grid;
+	place-items: center;
+	color: rgba(109, 66, 193, .30);
+	font-size: 7rem;
+	line-height: 1;
+	background: linear-gradient(135deg, #f1ecfd 0%, #e0d5f8 100%);
+}
+
+
+.ministry-page .ministry-media img{
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	display: block;
+	object-fit: cover;
+	object-position: center;
+}
+.ministry-page .ministry-media img.is-missing{
+	display: none;
+}
+.ministry-page .ministry-content__eyebrow{
+	display: block;
+	color: #f39a42;
+	font-size: .68rem;
+	font-weight: 800;
+	letter-spacing: 1.8px;
+	text-transform: uppercase;
+}
+.ministry-page .ministry-content__title{
+	margin: 10px 0 16px;
+	color: #171923;
+	font-size: clamp(1.5rem, 2.6vw, 2.1rem);
+	line-height: 1.25;
+}
+.ministry-page .ministry-content__text{
+	margin: 0 0 16px;
+	color: #55586a;
+	font-size: .95rem;
+	line-height: 1.8;
+}
+.ministry-page .ministry-meet{
+	display: flex;
+	align-items: center;
+	gap: 16px;
+	margin-top: 26px;
+	padding: 18px 20px;
+	border-radius: 16px;
+	background: #ffffff;
+	border: 1px solid #ecebf5;
+	box-shadow: 0 14px 34px rgba(27, 29, 45, .07);
+}
+.ministry-page .ministry-meet__icon{
+	display: grid;
+	place-items: center;
+	width: 48px;
+	height: 48px;
+	flex-shrink: 0;
+	border-radius: 14px;
+	background: #f1ebfd;
+	color: #6d42c1;
+	font-size: 1.65rem;
+	line-height: 1;
+}
+.ministry-page .ministry-meet__icon i{
+	line-height: 1;
+	font-size: 2.80rem;
+}
+.ministry-page .ministry-meet strong{
+	display: block;
+	color: #171923;
+	font-size: .82rem;
+	letter-spacing: .6px;
+	text-transform: uppercase;
+}
+.ministry-page .ministry-meet span{
+	display: block;
+	margin-top: 3px;
+	color: #55586a;
+	font-size: .92rem;
+	font-weight: 600;
+}
+.ministry-page .ministry-actions{
+	display: flex;
+	flex-wrap: wrap;
+	gap: 14px;
+	margin-top: 28px;
+}
+.ministry-page .ministry-btn{
+	display: inline-flex;
+	align-items: center;
+	gap: 9px;
+	padding: 14px 26px;
+	border-radius: 999px;
+	font-size: .85rem;
+	font-weight: 700;
+	text-decoration: none;
+	transition: transform .25s ease, box-shadow .25s ease, background .25s ease, color .25s ease;
+}
+.ministry-page .ministry-btn span{
+	transition: transform .2s ease;
+}
+.ministry-page .ministry-btn:hover span{
+	transform: translateX(5px);
+}
+.ministry-page .ministry-btn--solid{
+	color: #ffffff;
+	background: linear-gradient(135deg, #6d42c1, #4a2f9e);
+	box-shadow: 0 14px 30px rgba(109, 66, 193, .35);
+}
+.ministry-page .ministry-btn--solid:hover{
+	transform: translateY(-2px);
+	box-shadow: 0 18px 36px rgba(109, 66, 193, .42);
+}
+.ministry-page .ministry-btn--ghost{
+	color: #4a2f9e;
+	background: transparent;
+	border: 1.5px solid #cfc6ec;
+}
+.ministry-page .ministry-btn--ghost:hover{
+	transform: translateY(-2px);
+	border-color: #6d42c1;
+}
+.ministry-page .ministry-error{
+	padding: 178px 7% 90px;
+}
+.ministry-page .ministry-error__card{
+	width: min(620px, 100%);
+	margin: 0 auto;
+	padding: 52px 44px;
+	text-align: center;
+	border-radius: 22px;
+	background: #ffffff;
+	border: 1px solid #ecebf5;
+	box-shadow: 0 24px 60px rgba(27, 29, 45, .10);
+}
+
+.ministry-page .ministry-error__icon{
+	display: grid;
+	place-items: center;
+	width: 72px;
+	height: 72px;
+	margin: 0 auto 22px;
+	border-radius: 50%;
+	background: #f6effc;
+	color: #6d42c1;
+	font-size: 1.8rem;
+}
+.ministry-page .ministry-error__card h1{
+	margin: 0 0 12px;
+	color: #171923;
+	font-size: 1.7rem;
+}
+.ministry-page .ministry-error__card p{
+	margin: 0 0 28px;
+	color: #737687;
+	font-size: .93rem;
+	line-height: 1.7;
+}
+/* Lightweight entrance animation. */
+@keyframes ministry-rise{
+	from{
+		opacity: 0;
+		transform: translateY(26px);
+	}
+	to{
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+@keyframes ministry-rise-sm{
+	from{
+		opacity: 0;
+		transform: translateY(14px);
+	}
+	to{
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+@keyframes ministry-slide-left{
+	from{
+		opacity: 0;
+		transform: translateX(calc(var(--ministry-slide-x, 26px) * -1));
+	}
+	to{
+		opacity: 1;
+		transform: translateX(0);
+	}
+}
+@keyframes ministry-slide-right{
+	from{
+		opacity: 0;
+		transform: translateX(var(--ministry-slide-x, 26px));
+	}
+	to{
+		opacity: 1;
+		transform: translateX(0);
+	}
+}
+
+/* ------------------------------------------------------------------
+   Scroll reveal
+   ------------------------------------------------------------------
+   The existing .ministry-reveal elements gain .is-visible from
+   IntersectionObserver. The hidden "before" state exists only while JS
+   has primed the page (.ministry-anim-ready), so when scripting is
+   unavailable the content stays fully visible. Everything is scoped
+   under .ministry-page, so no other KCI page is affected.
+*/
+.ministry-page.ministry-anim-ready .ministry-reveal:not(.is-visible){
+	opacity: 0;
+}
+
+/* Hero: one coordinated entrance, staggered per element. */
+.ministry-page.ministry-anim-ready .ministry-hero__inner.ministry-reveal:not(.is-visible) > *{
+	opacity: 0;
+}
+.ministry-page.ministry-anim-ready .ministry-hero__inner.ministry-reveal.is-visible > *{
+	animation: ministry-rise .65s cubic-bezier(.22, 1, .36, 1) both;
+}
+.ministry-page.ministry-anim-ready .ministry-hero__inner.ministry-reveal.is-visible > .ministry-hero__crumbs{
+	animation-delay: .04s;
+}
+.ministry-page.ministry-anim-ready .ministry-hero__inner.ministry-reveal.is-visible > .ministry-hero__badge{
+	animation-delay: .13s;
+}
+.ministry-page.ministry-anim-ready .ministry-hero__inner.ministry-reveal.is-visible > .ministry-hero__title{
+	animation-delay: .23s;
+}
+.ministry-page.ministry-anim-ready .ministry-hero__inner.ministry-reveal.is-visible > .ministry-hero__meta{
+	animation-delay: .33s;
+}
+
+/* Detail: media glides in from the left, content from the right. */
+.ministry-page.ministry-anim-ready .ministry-media.ministry-reveal:not(.is-visible){
+	transform: translateX(calc(var(--ministry-slide-x, 26px) * -1));
+}
+.ministry-page.ministry-anim-ready .ministry-content.ministry-reveal:not(.is-visible){
+	transform: translateX(var(--ministry-slide-x, 26px));
+}
+.ministry-page.ministry-anim-ready .ministry-media.ministry-reveal.is-visible{
+	animation: ministry-slide-left .75s cubic-bezier(.22, 1, .36, 1) both;
+}
+.ministry-page.ministry-anim-ready .ministry-content.ministry-reveal.is-visible{
+	animation: ministry-slide-right .75s cubic-bezier(.22, 1, .36, 1) .08s both;
+}
+
+/* Detail: meeting info and actions follow the content with a stagger. */
+.ministry-page.ministry-anim-ready .ministry-content.ministry-reveal.is-visible .ministry-meet,
+.ministry-page.ministry-anim-ready .ministry-content.ministry-reveal.is-visible .ministry-actions{
+	animation: ministry-rise .55s cubic-bezier(.22, 1, .36, 1) both;
+}
+.ministry-page.ministry-anim-ready .ministry-content.ministry-reveal.is-visible .ministry-meet{
+	animation-delay: .30s;
+}
+.ministry-page.ministry-anim-ready .ministry-content.ministry-reveal.is-visible .ministry-actions{
+	animation-delay: .40s;
+}
+
+/* Error card: a single gentle rise. */
+.ministry-page.ministry-anim-ready .ministry-error__card.ministry-reveal:not(.is-visible){
+	transform: translateY(22px);
+}
+.ministry-page.ministry-anim-ready .ministry-error__card.ministry-reveal.is-visible{
+	animation: ministry-rise .7s cubic-bezier(.22, 1, .36, 1) both;
+}
+
+/* Footer: same beat as the other KCI pages. */
+.ministry-page.ministry-anim-ready .kc118 .kc119:not(.is-visible){
+	opacity: 0;
+	transform: translateY(14px);
+}
+.ministry-page.ministry-anim-ready .kc118 .kc119.is-visible{
+	animation: ministry-rise-sm .7s cubic-bezier(.22, 1, .36, 1) both;
+}
+
+/* Keep the horizontal glide small on narrow screens (no overflow). */
+@media (max-width: 960px){
+	.ministry-page{
+		--ministry-slide-x: 14px;
+	}
+}
+@media (max-width: 960px){
+	.ministry-page .ministry-hero{
+		padding: 140px 6% 60px;
+	}
+	.ministry-page .ministry-detail{
+		padding: 50px 6% 28px;
+	}
+	.ministry-page .ministry-detail__grid{
+		grid-template-columns: 1fr;
+		gap: 34px;
+	}
+	.ministry-page .ministry-media{
+		min-height: 320px;
+	}
+}
+@media (max-width: 640px){
+	.ministry-page .ministry-hero{
+		padding: 128px 5% 52px;
+	}
+	.ministry-page .ministry-detail{
+		padding: 40px 5% 24px;
+	}
+	.ministry-page .ministry-media{
+		min-height: 250px;
+		border-radius: 18px;
+	}
+	.ministry-page .ministry-media__fallback{
+		font-size: 4.5rem;
+	}
+	.ministry-page .ministry-error{
+		padding: 150px 5% 70px;
+	}
+	.ministry-page .ministry-error__card{
+		padding: 40px 26px;
+	}
+	.ministry-page .ministry-btn{
+		width: 100%;
+		justify-content: center;
+	}
+}
+@media (prefers-reduced-motion: reduce){
+	.ministry-page .ministry-reveal{
+		animation: none;
+	}
+	.ministry-page.ministry-anim-ready .ministry-reveal,
+	.ministry-page.ministry-anim-ready .ministry-hero__inner.ministry-reveal > *,
+	.ministry-page.ministry-anim-ready .ministry-media.ministry-reveal,
+	.ministry-page.ministry-anim-ready .ministry-content.ministry-reveal,
+	.ministry-page.ministry-anim-ready .ministry-content.ministry-reveal .ministry-meet,
+	.ministry-page.ministry-anim-ready .ministry-content.ministry-reveal .ministry-actions,
+	.ministry-page.ministry-anim-ready .ministry-error__card.ministry-reveal,
+	.ministry-page.ministry-anim-ready .kc118 .kc119{
+		opacity: 1 !important;
+		transform: none !important;
+		animation: none !important;
+	}
+}
+/* ===== SERVE PAGE (serve.php) ================================ */
+.serve-page{
+	background: #f7f6fb;
+}
+.serve-page main{
+	display: block;
+}
+.serve-page .serve-hero{
+	position: relative;
+	overflow: hidden;
+	padding: 158px 7% 72px;
+	color: #ffffff;
+	background:
+		radial-gradient(circle at 85% 18%, rgba(109, 66, 193, .38), transparent 55%),
+		linear-gradient(135deg, #131423 0%, #1a1b2e 55%, #2a1a52 100%);
+}
+.serve-page .serve-hero__inner{
+	width: min(1180px, 100%);
+	margin: 0 auto;
+}
+.serve-page .serve-hero__badge{
+	display: inline-block;
+	padding: 7px 16px;
+	border-radius: 999px;
+	background: rgba(243, 154, 66, .16);
+	border: 1px solid rgba(243, 154, 66, .55);
+	color: #f7b267;
+	font-size: .68rem;
+	font-weight: 800;
+	letter-spacing: 1.8px;
+	text-transform: uppercase;
+}
+.serve-page .serve-hero__title{
+	margin: 16px 0 14px;
+	font-size: clamp(2rem, 4.6vw, 3.4rem);
+	line-height: 1.12;
+	font-weight: 800;
+	text-shadow: 0 14px 38px rgba(0, 0, 0, .35);
+}
+.serve-page .serve-hero__text{
+	max-width: 640px;
+	margin: 0;
+	color: rgba(255, 255, 255, .82);
+	font-size: .98rem;
+	line-height: 1.75;
+}
+.serve-page .serve-wrap{
+	display: grid;
+	grid-template-columns: 1.6fr 1fr;
+	gap: 26px;
+	align-items: start;
+	width: min(1180px, 100%);
+	margin: 0 auto;
+	padding: 60px 7% 70px;
+}
+.serve-page .serve-card{
+	padding: 42px 40px;
+	border-radius: 22px;
+	background: #ffffff;
+	border: 1px solid #ecebf5;
+	box-shadow: 0 24px 60px rgba(27, 29, 45, .10);
+}
+
+
+.serve-page .serve-intro__eyebrow{
+	display: block;
+	color: #f39a42;
+	font-size: .68rem;
+	font-weight: 800;
+	letter-spacing: 1.8px;
+	text-transform: uppercase;
+}
+.serve-page .serve-intro__title{
+	margin: 10px 0 12px;
+	color: #171923;
+	font-size: clamp(1.35rem, 2.4vw, 1.8rem);
+	line-height: 1.3;
+}
+.serve-page .serve-intro__ministry{
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 8px;
+	margin: 0 0 6px;
+	padding: 12px 16px;
+	border-radius: 12px;
+	background: #f4effc;
+	color: #4a2f9e;
+	font-size: .88rem;
+	font-weight: 600;
+}
+.serve-page .serve-intro__ministry strong{
+	font-weight: 800;
+}
+.serve-page .serve-intro__text{
+	margin: 0 0 6px;
+	color: #737687;
+	font-size: .9rem;
+	line-height: 1.7;
+}
+.serve-page .serve-intro__text a{
+	color: #6d42c1;
+	font-weight: 700;
+}
+.serve-page .serve-alert{
+	margin: 20px 0 0;
+	padding: 16px 18px;
+	border-radius: 14px;
+	background: #fdf0f0;
+	border: 1px solid #f3c8c8;
+	color: #8f2b2b;
+	font-size: .86rem;
+}
+.serve-page .serve-alert ul{
+	margin: 8px 0 0;
+	padding-left: 20px;
+}
+.serve-page .serve-alert li{
+	margin: 4px 0;
+}
+.serve-page .serve-note{
+	margin: 16px 0 0;
+	padding: 14px 18px;
+	border-radius: 14px;
+	background: #fff8ee;
+	border: 1px solid #f2ddb8;
+	color: #8a5b12;
+	font-size: .86rem;
+}
+.serve-page .serve-form{
+	margin-top: 24px;
+}
+.serve-page .serve-row{
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 18px;
+}
+.serve-page .serve-field{
+	margin-bottom: 18px;
+}
+.serve-page .serve-field label{
+	display: block;
+	margin-bottom: 8px;
+	color: #171923;
+	font-size: .82rem;
+	font-weight: 700;
+}
+.serve-page .serve-optional{
+	color: #979ab0;
+	font-weight: 600;
+}
+.serve-page .serve-input{
+	box-sizing: border-box;
+	width: 100%;
+	padding: 14px 16px;
+	border-radius: 12px;
+	border: 1.5px solid #e3e0f0;
+	background: #fbfbfe;
+	color: #171923;
+	font-family: inherit;
+	font-size: .9rem;
+	transition: border-color .2s ease, box-shadow .2s ease;
+}
+.serve-page .serve-input::placeholder{
+	color: #a8abbf;
+}
+.serve-page .serve-input:focus{
+	outline: none;
+	border-color: #6d42c1;
+	box-shadow: 0 0 0 3px rgba(109, 66, 193, .14);
+}
+.serve-page .serve-textarea{
+	resize: vertical;
+	min-height: 130px;
+}
+
+.serve-page .serve-actions{
+	margin-top: 24px;
+}
+.serve-page .serve-btn{
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 9px;
+	padding: 15px 30px;
+	border: none;
+	border-radius: 999px;
+	font-family: inherit;
+	font-size: .88rem;
+	font-weight: 700;
+	text-decoration: none;
+	cursor: pointer;
+	transition: transform .25s ease, box-shadow .25s ease, background .25s ease, color .25s ease, border-color .25s ease;
+}
+.serve-page .serve-btn span{
+	transition: transform .2s ease;
+}
+.serve-page .serve-btn:hover span{
+	transform: translateX(5px);
+}
+.serve-page .serve-btn--solid{
+	color: #ffffff;
+	background: linear-gradient(135deg, #6d42c1, #4a2f9e);
+	box-shadow: 0 14px 30px rgba(109, 66, 193, .35);
+}
+.serve-page .serve-btn--solid:hover{
+	transform: translateY(-2px);
+	box-shadow: 0 18px 36px rgba(109, 66, 193, .42);
+}
+.serve-page .serve-btn--ghost{
+	color: #4a2f9e;
+	background: transparent;
+	border: 1.5px solid #cfc6ec;
+}
+.serve-page .serve-side .serve-btn--ghost{
+	color: #ffffff;
+	border-color: rgba(255, 255, 255, .55);
+}
+.serve-page .serve-side .serve-btn--ghost:hover{
+	transform: translateY(-2px);
+	border-color: #ffffff;
+}
+.serve-page .serve-success{
+	text-align: center;
+	padding: 20px 6px;
+}
+.serve-page .serve-success__icon{
+	display: grid;
+	place-items: center;
+	width: 76px;
+	height: 76px;
+	margin: 0 auto 20px;
+	border-radius: 50%;
+	background: #eef9ef;
+	color: #2f9e5f;
+	font-size: 2rem;
+}
+.serve-page .serve-success h2{
+	margin: 0 0 12px;
+	color: #171923;
+	font-size: 1.55rem;
+	line-height: 1.35;
+}
+.serve-page .serve-success p{
+	margin: 0 0 26px;
+	color: #55586a;
+	font-size: .93rem;
+	line-height: 1.75;
+}
+.serve-page .serve-side{
+	position: relative;
+	isolation: isolate;
+	overflow: hidden;
+	padding: 38px 34px;
+	border-radius: 22px;
+	color: #ffffff;
+	background-color: #191a2e;
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+	box-shadow: 0 24px 60px rgba(27, 29, 45, .16);
+}
+/* Dark/purple overlay over the ministry background image so the
+   white text stays readable. Sits above the photo, below the text. */
+.serve-page .serve-side::before{
+	content: "";
+	position: absolute;
+	inset: 0;
+	z-index: 0;
+	background:
+		radial-gradient(circle at 88% 12%, rgba(109, 66, 193, .38), transparent 55%),
+		linear-gradient(150deg, rgba(25, 26, 46, .62) 0%, rgba(42, 26, 82, .70) 100%);
+	pointer-events: none;
+}
+.serve-page .serve-side__content{
+	position: relative;
+	z-index: 1;
+}
+.serve-page .serve-side__icon{
+	display: grid;
+	place-items: center;
+	width: 60px;
+	height: 60px;
+	margin-bottom: 18px;
+	border-radius: 16px;
+	background: rgba(255, 255, 255, .12);
+	border: 1px solid rgba(255, 255, 255, .20);
+	color: #f7b267;
+	font-size: 1.5rem;
+}
+.serve-page .serve-side h2{
+	margin: 0 0 12px;
+	font-size: 1.3rem;
+	line-height: 1.35;
+}
+.serve-page .serve-side p{
+	margin: 0 0 22px;
+	color: rgba(255, 255, 255, .78);
+	font-size: .9rem;
+	line-height: 1.7;
+}
+@keyframes serve-rise{
+	from{
+		opacity: 0;
+		transform: translateY(26px);
+	}
+	to{
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+/* ------------------------------------------------------------
+   SERVE PAGE — ENTRANCE & SCROLL REVEAL ANIMATIONS
+   ------------------------------------------------------------
+   Replaces the single blanket .serve-reveal fade (which made
+   every block appear at once on load) with a coordinated system:
+
+     .serve-reveal      -> hero, application card, side panel
+     .serve-anim-ready  -> added at runtime by serve.php only
+     .is-visible        -> written only as a scoped compound
+
+   Only the INDEPENDENT `translate` / `scale` properties are
+   animated, never `transform`. That is deliberate: the existing
+   :hover lift on .serve-btn and the arrow nudge on .serve-btn
+   span both rely on `transform`, so animating `transform` here
+   would have broken those hover effects. Keeping them separate
+   preserves that hover behaviour exactly.
+
+   The hidden "before" state exists only while JS has primed the
+   page, so with JavaScript disabled, unsupported or failed, the
+   hero, form, success/error messages and footer all stay visible.
+   ------------------------------------------------------------ */
+.serve-page{
+	--serve-rise-y: 26px;
+	--serve-rise-y-sm: 10px;
+	--serve-rise-y-xs: 6px;
+}
+@keyframes serve-fade-up{
+	from{
+		opacity: 0;
+		translate: 0 var(--serve-rise-y);
+	}
+	to{
+		opacity: 1;
+		translate: 0 0;
+	}
+}
+@keyframes serve-fade-up-sm{
+	from{
+		opacity: 0;
+		translate: 0 var(--serve-rise-y-sm);
+	}
+	to{
+		opacity: 1;
+		translate: 0 0;
+	}
+}
+@keyframes serve-fade-up-xs{
+	from{
+		opacity: 0;
+		translate: 0 var(--serve-rise-y-xs);
+	}
+	to{
+		opacity: 1;
+		translate: 0 0;
+	}
+}
+@keyframes serve-soft-pop{
+	from{
+		opacity: 0;
+		scale: .92;
+	}
+	to{
+		opacity: 1;
+		scale: 1;
+	}
+}
+
+/* --- Hidden "before" state (only while primed) --------------- */
+.serve-page.serve-anim-ready .serve-reveal:not(.is-visible){
+	opacity: 0;
+	translate: 0 var(--serve-rise-y);
+}
+/* The hero container only fades; its children carry the motion. */
+.serve-page.serve-anim-ready .serve-hero__inner.serve-reveal:not(.is-visible){
+	translate: none;
+}
+.serve-page.serve-anim-ready .serve-hero__inner.serve-reveal:not(.is-visible) > *,
+.serve-page.serve-anim-ready .serve-card.serve-reveal:not(.is-visible) > *,
+.serve-page.serve-anim-ready .serve-side.serve-reveal:not(.is-visible) > .serve-side__content > *{
+	opacity: 0;
+}
+
+/* --- 1. Hero: badge, then title, then description ------------ */
+.serve-page.serve-anim-ready .serve-hero__inner.serve-reveal.is-visible > *{
+	animation: serve-fade-up .65s cubic-bezier(.22, 1, .36, 1) backwards;
+}
+.serve-page.serve-anim-ready .serve-hero__inner.serve-reveal.is-visible > .serve-hero__badge{
+	animation-delay: .04s;
+}
+.serve-page.serve-anim-ready .serve-hero__inner.serve-reveal.is-visible > .serve-hero__title{
+	animation-delay: .12s;
+}
+.serve-page.serve-anim-ready .serve-hero__inner.serve-reveal.is-visible > .serve-hero__text{
+	animation-delay: .20s;
+}
+
+/* --- 2. Application card + its contents ---------------------- */
+.serve-page.serve-anim-ready .serve-card.serve-reveal.is-visible{
+	animation: serve-fade-up .7s cubic-bezier(.22, 1, .36, 1) backwards;
+}
+.serve-page.serve-anim-ready .serve-card.serve-reveal.is-visible > *,
+.serve-page.serve-anim-ready .serve-card.serve-reveal.is-visible > .serve-form > *{
+	animation: serve-fade-up-sm .45s cubic-bezier(.22, 1, .36, 1) backwards;
+	animation-delay: var(--serve-delay, 0s);
+}
+
+/* Intro first, then any alert/notice, then the fields in reading
+   order, and the submit button last. Every .serve-form child is a
+   div, so nth-of-type maps 1,2 -> rows, 3,4 -> fields, 5 -> actions. */
+.serve-page.serve-anim-ready .serve-card.serve-reveal.is-visible > .serve-intro{
+	--serve-delay: 0s;
+}
+.serve-page.serve-anim-ready .serve-card.serve-reveal.is-visible > .serve-alert{
+	--serve-delay: .06s;
+}
+.serve-page.serve-anim-ready .serve-card.serve-reveal.is-visible > .serve-note{
+	--serve-delay: .10s;
+}
+.serve-page.serve-anim-ready .serve-card.serve-reveal.is-visible > .serve-form > .serve-row:nth-of-type(1){
+	--serve-delay: .14s;
+}
+.serve-page.serve-anim-ready .serve-card.serve-reveal.is-visible > .serve-form > .serve-row:nth-of-type(2){
+	--serve-delay: .20s;
+}
+.serve-page.serve-anim-ready .serve-card.serve-reveal.is-visible > .serve-form > .serve-field:nth-of-type(3){
+	--serve-delay: .26s;
+}
+.serve-page.serve-anim-ready .serve-card.serve-reveal.is-visible > .serve-form > .serve-field:nth-of-type(4){
+	--serve-delay: .32s;
+}
+.serve-page.serve-anim-ready .serve-card.serve-reveal.is-visible > .serve-form > .serve-actions:nth-of-type(5){
+	--serve-delay: .38s;
+}
+
+/* --- 3. Success message -------------------------------------- */
+/* Its own gentle beat inside the card. Nothing here delays or
+   hides the message itself — the card simply reveals as usual. */
+.serve-page.serve-anim-ready .serve-card.serve-reveal.is-visible > .serve-success > .serve-success__icon{
+	animation: serve-soft-pop .55s cubic-bezier(.22, 1, .36, 1) backwards;
+	animation-delay: .08s;
+}
+.serve-page.serve-anim-ready .serve-card.serve-reveal.is-visible > .serve-success > h2{
+	animation: serve-fade-up-sm .45s cubic-bezier(.22, 1, .36, 1) backwards;
+	animation-delay: .18s;
+}
+.serve-page.serve-anim-ready .serve-card.serve-reveal.is-visible > .serve-success > p{
+	animation: serve-fade-up-sm .45s cubic-bezier(.22, 1, .36, 1) backwards;
+	animation-delay: .26s;
+}
+.serve-page.serve-anim-ready .serve-card.serve-reveal.is-visible > .serve-success > .serve-actions{
+	animation: serve-fade-up-sm .45s cubic-bezier(.22, 1, .36, 1) backwards;
+	animation-delay: .34s;
+}
+
+/* --- 4. Right-side ministry panel ---------------------------- */
+/* Only the panel fades and lifts; the ministry background image
+   travels with it, so it stays visually stable with no zoom. */
+.serve-page.serve-anim-ready .serve-side.serve-reveal.is-visible{
+	animation: serve-fade-up .7s cubic-bezier(.22, 1, .36, 1) .06s backwards;
+}
+.serve-page.serve-anim-ready .serve-side.serve-reveal.is-visible > .serve-side__content > *{
+	animation: serve-fade-up-xs .45s cubic-bezier(.22, 1, .36, 1) backwards;
+	animation-delay: var(--serve-delay, 0s);
+}
+.serve-page.serve-anim-ready .serve-side.serve-reveal.is-visible > .serve-side__content > .serve-side__icon{
+	--serve-delay: 0s;
+}
+.serve-page.serve-anim-ready .serve-side.serve-reveal.is-visible > .serve-side__content > h2{
+	--serve-delay: .07s;
+}
+.serve-page.serve-anim-ready .serve-side.serve-reveal.is-visible > .serve-side__content > p{
+	--serve-delay: .13s;
+}
+.serve-page.serve-anim-ready .serve-side.serve-reveal.is-visible > .serve-side__content > .serve-btn{
+	--serve-delay: .19s;
+}
+
+/* --- 5. Footer: same beat as the other KCI pages ------------- */
+.serve-page.serve-anim-ready .kc118 .kc119:not(.is-visible){
+	opacity: 0;
+	translate: 0 14px;
+}
+.serve-page.serve-anim-ready .kc118 .kc119.is-visible{
+	animation: serve-fade-up-sm .7s cubic-bezier(.22, 1, .36, 1) backwards;
+}
+
+/* --- 6. Small screens: shorter travel, snappier beats -------- */
+@media (max-width: 960px){
+	.serve-page{
+		--serve-rise-y: 18px;
+		--serve-rise-y-sm: 8px;
+	}
+}
+@media (max-width: 640px){
+	.serve-page{
+		--serve-rise-y: 14px;
+		--serve-rise-y-sm: 6px;
+		--serve-rise-y-xs: 4px;
+	}
+	.serve-page.serve-anim-ready .serve-card.serve-reveal.is-visible,
+	.serve-page.serve-anim-ready .serve-side.serve-reveal.is-visible,
+	.serve-page.serve-anim-ready .kc118 .kc119.is-visible{
+		animation-duration: .55s;
+	}
+	.serve-page.serve-anim-ready .serve-hero__inner.serve-reveal.is-visible > *{
+		animation-duration: .5s;
+	}
+	/* Tighten the form stagger so the fields settle quickly. */
+	.serve-page.serve-anim-ready .serve-card.serve-reveal.is-visible > *,
+	.serve-page.serve-anim-ready .serve-card.serve-reveal.is-visible > .serve-form > *{
+		animation-duration: .38s;
+	}
+}
+
+/* --- 7. Reduced motion: show everything, animate nothing ----- */
+@media (prefers-reduced-motion: reduce){
+	.serve-page.serve-anim-ready .serve-reveal,
+	.serve-page.serve-anim-ready .serve-reveal > *,
+	.serve-page.serve-anim-ready .serve-hero__inner.serve-reveal > *,
+	.serve-page.serve-anim-ready .serve-card.serve-reveal > *,
+	.serve-page.serve-anim-ready .serve-card.serve-reveal > .serve-form > *,
+	.serve-page.serve-anim-ready .serve-card.serve-reveal > .serve-success > *,
+	.serve-page.serve-anim-ready .serve-side.serve-reveal > .serve-side__content > *,
+	.serve-page.serve-anim-ready .kc118 .kc119{
+		opacity: 1 !important;
+		translate: none !important;
+		scale: none !important;
+		animation: none !important;
+	}
+}
+@media (max-width: 960px){
+	.serve-page .serve-hero{
+		padding: 140px 6% 60px;
+	}
+	.serve-page .serve-wrap{
+		grid-template-columns: 1fr;
+		padding: 46px 6% 60px;
+	}
+}
+@media (max-width: 640px){
+	.serve-page .serve-hero{
+		padding: 128px 5% 52px;
+	}
+	.serve-page .serve-wrap{
+		padding: 36px 5% 52px;
+	}
+	.serve-page .serve-card{
+		padding: 32px 22px;
+	}
+	.serve-page .serve-row{
+		grid-template-columns: 1fr;
+		gap: 0;
+	}
+	.serve-page .serve-btn{
+		width: 100%;
+	}
+	.serve-page .serve-side{
+		padding: 32px 24px;
+	}
+}
+@media (prefers-reduced-motion: reduce){
+	.serve-page .serve-reveal{
+		animation: none;
+	}
+}
+
+/* ============================================================
+   CONTACT PAGE (contact.php)
+   Every rule below is scoped to .contact-page so the shared
+   header, the shared footer and every other page stay untouched.
+   ============================================================ */
+.contact-page{
+	background: #f8f6ff;
+}
+.contact-page main{
+	display: block;
+}
+
+/* --- Shared bits ------------------------------------------- */
+.contact-page .contact-eyebrow{
+	display: inline-block;
+	color: #f59e0b;
+	font-size: .70rem;
+	font-weight: 800;
+	letter-spacing: 2.6px;
+	text-transform: uppercase;
+}
+.contact-page .contact-eyebrow--light{
+	color: #ff9d3d;
+}
+.contact-page .contact-btn{
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 10px;
+	box-sizing: border-box;
+	padding: 15px 30px;
+	border: none;
+	border-radius: 999px;
+	font-family: 'Poppins', sans-serif;
+	font-size: .84rem;
+	font-weight: 700;
+	text-decoration: none;
+	cursor: pointer;
+	transition: transform .25s ease, box-shadow .25s ease,
+	            background .25s ease, color .25s ease,
+	            border-color .25s ease;
+}
+.contact-page .contact-btn:hover{
+	transform: translateY(-2px);
+}
+.contact-page .contact-btn--solid{
+	color: #ffffff;
+	background: linear-gradient(135deg, #7b52d6, #5731b8);
+	box-shadow: 0 14px 30px rgba(87, 49, 184, .34);
+}
+.contact-page .contact-btn--solid:hover{
+	box-shadow: 0 18px 36px rgba(87, 49, 184, .44);
+}
+.contact-page .contact-btn--ghost{
+	color: #ffffff;
+	background: rgba(255, 255, 255, .07);
+	border: 1.5px solid rgba(255, 255, 255, .38);
+}
+.contact-page .contact-btn--ghost:hover{
+	background: rgba(255, 255, 255, .14);
+	border-color: #ffffff;
+}
+.contact-page .contact-btn--orange{
+	color: #ffffff;
+	background: linear-gradient(135deg, #ff9d3d, #f5770f);
+	box-shadow: 0 14px 30px rgba(245, 119, 15, .34);
+}
+.contact-page .contact-btn--orange:hover{
+	box-shadow: 0 18px 38px rgba(245, 119, 15, .46);
+}
+/* Anchor targets clear the fixed/sticky header when jumped to. */
+.contact-page #contact-form,
+.contact-page #service-times{
+	scroll-margin-top: 104px;
+}
+
+/* --- 1. Hero ----------------------------------------------- */
+.contact-page .contact-hero{
+	position: relative;
+	isolation: isolate;
+	overflow: hidden;
+	box-sizing: border-box;
+	padding: 150px 7% 120px;
+	color: #ffffff;
+	text-align: center;
+	background: #1a102e;
+}
+/* Hero artwork layer — the real "Contact Us" flat-lay used on this page.
+   background-color is the dark-purple fallback shown until/unless the
+   photo paints, so the hero is never left as a blank light panel. */
+.contact-page .hero-bg{
+	position: absolute;
+	inset: 0;
+	z-index: 0;
+	background-color: #1a102e;
+	background-image: url('kci_image/img50.webp');
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+}
+/* Scrim tuned for the light "Contact Us" flat-lay: a soft centre vignette
+   darkens the band the copy sits in, while the corners stay translucent so
+   the photo still reads as artwork rather than a flat dark panel. */
+.contact-page .contact-hero::after{
+	content: '';
+	position: absolute;
+	inset: 0;
+	z-index: 0;
+	background:
+		radial-gradient(ellipse 78% 70% at 50% 46%, rgba(14, 7, 34, .78) 0%, rgba(14, 7, 34, .58) 55%, rgba(16, 9, 36, .16) 100%),
+		linear-gradient(180deg, rgba(14, 7, 34, .20), rgba(20, 11, 42, .30));
+	pointer-events: none;
+}
+.contact-page .contact-hero__inner{
+	position: relative;
+	z-index: 1;
+	width: min(820px, 100%);
+	margin: 0 auto;
+}
+.contact-page .contact-hero__eyebrow{
+	display: block;
+	color: #c9b8f4;
+	font-size: .72rem;
+	font-weight: 700;
+	letter-spacing: 3.6px;
+	text-transform: uppercase;
+	text-shadow: 0 1px 16px rgba(9, 4, 24, .55);
+}
+.contact-page .contact-hero__title{
+	margin: 16px 0 18px;
+	color: #ffffff;
+	font-size: clamp(2.4rem, 5.6vw, 4.1rem);
+	font-weight: 800;
+	line-height: 1.05;
+	text-shadow: 0 2px 26px rgba(9, 4, 24, .55);
+}
+.contact-page .contact-hero__text{
+	margin: 0 auto;
+	max-width: 680px;
+	color: rgba(255, 255, 255, .84);
+	font-size: 1rem;
+	line-height: 1.8;
+	text-shadow: 0 1px 16px rgba(9, 4, 24, .5);
+}
+.contact-page .contact-hero__actions{
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 14px;
+	margin-top: 34px;
+}
+
+/* --- 2. Floating info cards -------------------------------- */
+.contact-page .contact-info{
+	padding: 0 5%;
+	background: #f8f6ff;
+}
+.contact-page .contact-info__card{
+	position: relative;
+	z-index: 3;
+	box-sizing: border-box;
+	width: min(1180px, 100%);
+	margin: -60px auto 0;
+	padding: 18px;
+	display: grid;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	gap: 16px;
+	background: #ffffff;
+	border-radius: 24px;
+	box-shadow: 0 26px 60px rgba(28, 17, 58, .13);
+}
+.contact-page .contact-info__item{
+	box-sizing: border-box;
+	padding: 24px 14px;
+	border: 1px solid #ece8f7;
+	border-radius: 18px;
+	background: #ffffff;
+}
+.contact-page .contact-info__icon{
+	display: grid;
+	place-items: center;
+	width: 42px;
+	height: 42px;
+	margin-bottom: 20px;
+	border-radius: 50%;
+	border: 1px solid #e7def9;
+	background: #f4f0fd;
+	color: #6b46c1;
+	font-size: .95rem;
+}
+.contact-page .contact-info__item h3{
+	margin: 0 0 8px;
+	color: #171923;
+	font-size: 1.02rem;
+	font-weight: 800;
+}
+.contact-page .contact-info__item p{
+	margin: 0 0 4px;
+	color: #6b6f80;
+	font-size: .8rem;
+	line-height: 1.65;
+	word-break: break-word;
+}
+.contact-page .contact-info__item p:last-child{
+	margin-bottom: 0;
+}
+
+/* --- 3. Message form + side cards -------------------------- */
+.contact-page .contact-body{
+	padding: 88px 5% 104px;
+	background: #f8f6ff;
+}
+.contact-page .contact-body__grid{
+	width: min(1180px, 100%);
+	margin: 0 auto;
+	display: grid;
+	grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr);
+	gap: 28px;
+	align-items: start;
+}
+
+/* Left: form card */
+.contact-page .contact-form-card{
+	box-sizing: border-box;
+	padding: 44px 42px 46px;
+	border: 1px solid #f0ecfa;
+	border-radius: 22px;
+	background: #ffffff;
+	box-shadow: 0 22px 50px rgba(40, 25, 85, .07);
+}
+.contact-page .contact-form-card__title{
+	margin: 12px 0;
+	color: #171923;
+	font-size: clamp(1.6rem, 2.7vw, 2.1rem);
+	font-weight: 800;
+	line-height: 1.2;
+}
+.contact-page .contact-form-card__text{
+	margin: 0 0 30px;
+	color: #6b6f80;
+	font-size: .92rem;
+	line-height: 1.75;
+}
+.contact-page .contact-form__row{
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 18px;
+}
+.contact-page .contact-field{
+	margin-bottom: 18px;
+}
+.contact-page .contact-field label{
+	display: block;
+	margin-bottom: 8px;
+	color: #171923;
+	font-size: .73rem;
+	font-weight: 700;
+	letter-spacing: 1.1px;
+	text-transform: uppercase;
+}
+.contact-page .contact-optional{
+	color: #979ab0;
+	font-weight: 600;
+}
+.contact-page .contact-input{
+	box-sizing: border-box;
+	width: 100%;
+	padding: 14px 16px;
+	border: 1.5px solid #e6e2f2;
+	border-radius: 12px;
+	background: #f9f8ff;
+	color: #171923;
+	font-family: 'Poppins', sans-serif;
+	font-size: .9rem;
+	line-height: 1.5;
+	transition: border-color .2s ease, box-shadow .2s ease, background .2s ease;
+}
+.contact-page .contact-input::placeholder{
+	color: #a8abbf;
+}
+.contact-page .contact-input:focus{
+	outline: none;
+	border-color: #6b46c1;
+	background: #ffffff;
+	box-shadow: 0 0 0 3px rgba(107, 70, 193, .14);
+}
+.contact-page .contact-textarea{
+	resize: vertical;
+	min-height: 150px;
+}
+.contact-page .contact-select{
+	position: relative;
+}
+.contact-page .contact-select select{
+	appearance: none;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	padding-right: 44px;
+	cursor: pointer;
+}
+.contact-page .contact-select i{
+	position: absolute;
+	top: 50%;
+	right: 17px;
+	transform: translateY(-50%);
+	color: #8b8fa3;
+	font-size: .72rem;
+	pointer-events: none;
+}
+.contact-page .contact-form__actions{
+	margin-top: 6px;
+}
+
+/* Form feedback: validation alert + success panel. Mirrors the
+   serve-page .serve-alert / .serve-success styling used elsewhere. */
+.contact-page .contact-alert{
+	margin: 0 0 26px;
+	padding: 16px 18px;
+	border-radius: 14px;
+	background: #fdf0f0;
+	border: 1px solid #f3c8c8;
+	color: #8f2b2b;
+	font-size: .86rem;
+}
+.contact-page .contact-alert ul{
+	margin: 8px 0 0;
+	padding-left: 20px;
+}
+.contact-page .contact-alert li{
+	margin: 4px 0;
+}
+.contact-page .contact-success{
+	text-align: center;
+	padding: 10px 6px 14px;
+}
+.contact-page .contact-success__icon{
+	display: grid;
+	place-items: center;
+	width: 76px;
+	height: 76px;
+	margin: 0 auto 20px;
+	border-radius: 50%;
+	background: #eef9ef;
+	color: #2f9e5f;
+	font-size: 2rem;
+}
+.contact-page .contact-success h2{
+	margin: 0 0 12px;
+	color: #171923;
+	font-size: 1.55rem;
+	font-weight: 800;
+	line-height: 1.35;
+}
+.contact-page .contact-success p{
+	margin: 0;
+	color: #55586a;
+	font-size: .93rem;
+	line-height: 1.75;
+}
+
+/* Right: service times + what to expect */
+.contact-page .contact-side{
+	display: flex;
+	flex-direction: column;
+	gap: 32px;
+}
+.contact-page .contact-times{
+	position: relative;
+	isolation: isolate;
+	overflow: hidden;
+	box-sizing: border-box;
+	padding: 38px 34px 34px;
+	border-radius: 22px;
+	background: #1a112e;
+	box-shadow: 0 24px 54px rgba(26, 17, 46, .26);
+}
+.contact-page .contact-times::before{
+	content: '';
+	position: absolute;
+	inset: 0;
+	z-index: 0;
+	background: radial-gradient(circle at 88% 6%, rgba(107, 70, 193, .40), transparent 58%);
+	pointer-events: none;
+}
+.contact-page .contact-times > *{
+	position: relative;
+	z-index: 1;
+}
+.contact-page .contact-times__title{
+	margin: 10px 0 20px;
+	color: #ffffff;
+	font-size: clamp(1.4rem, 2.2vw, 1.75rem);
+	font-weight: 800;
+	line-height: 1.2;
+}
+.contact-page .contact-times__list{
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+.contact-page .contact-times__row{
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 14px;
+	margin-bottom: 10px;
+	padding: 14px 16px;
+	border: 1px solid rgba(255, 255, 255, .08);
+	border-radius: 12px;
+	background: rgba(255, 255, 255, .05);
+}
+.contact-page .contact-times__row span{
+	color: rgba(255, 255, 255, .9);
+	font-size: .84rem;
+	font-weight: 600;
+}
+.contact-page .contact-times__row strong{
+	color: #ff9d3d;
+	font-size: .84rem;
+	font-weight: 800;
+	text-align: right;
+}
+.contact-page .contact-times__location{
+	margin-top: 18px;
+	padding: 16px 18px;
+	border: 1px solid rgba(255, 255, 255, .09);
+	border-radius: 14px;
+	background: rgba(255, 255, 255, .04);
+}
+.contact-page .contact-times__location-label{
+	display: block;
+	margin-bottom: 6px;
+	color: rgba(255, 255, 255, .55);
+	font-size: .66rem;
+	font-weight: 800;
+	letter-spacing: 1.8px;
+	text-transform: uppercase;
+}
+.contact-page .contact-times__location p{
+	margin: 0;
+	color: #ffffff;
+	font-size: .86rem;
+	line-height: 1.6;
+}
+.contact-page .contact-expect{
+	box-sizing: border-box;
+	padding: 34px 32px;
+	border: 1px solid #f0ecfa;
+	border-radius: 22px;
+	background: #ffffff;
+	box-shadow: 0 22px 50px rgba(40, 25, 85, .07);
+}
+.contact-page .contact-expect__list{
+	margin: 18px 0 0;
+	padding: 0;
+	list-style: none;
+}
+.contact-page .contact-expect__list li{
+	display: flex;
+	align-items: flex-start;
+	gap: 12px;
+	padding: 12px 0;
+	border-bottom: 1px solid #f1eef9;
+	color: #4b4f61;
+	font-size: .88rem;
+	line-height: 1.6;
+}
+.contact-page .contact-expect__list li:last-child{
+	padding-bottom: 0;
+	border-bottom: none;
+}
+.contact-page .contact-expect__list i{
+	margin-top: 5px;
+	color: #6b46c1;
+	font-size: .74rem;
+}
+
+/* --- 4. Call to action ------------------------------------- */
+.contact-page .contact-cta{
+	padding: 80px 7% 86px;
+	color: #ffffff;
+	text-align: center;
+	background: linear-gradient(135deg, #7a52ff 0%, #5f31e6 100%);
+}
+.contact-page .contact-cta__title{
+	margin: 0 0 14px;
+	color: #ffffff;
+	font-size: clamp(1.7rem, 3.4vw, 2.5rem);
+	font-weight: 800;
+	line-height: 1.2;
+}
+.contact-page .contact-cta__text{
+	margin: 0 auto 30px;
+	max-width: 640px;
+	color: rgba(255, 255, 255, .86);
+	font-size: .95rem;
+	line-height: 1.75;
+}
+
+/* --- 5. Responsive ----------------------------------------- */
+
+/* The four info cards only stay on one row while there is room for the
+   longest value (info@kingdomitechurch@gmail.com, ~236px at .8rem) to sit
+   on a single line; below that they fall back to two columns instead of
+   breaking the address apart. Each card therefore needs roughly 1240px of
+   viewport before the address still has a comfortable margin, and 1240px
+   is where the two column fallback starts. */
+@media (min-width: 1201px){
+	/* The card itself only reaches its 1180px cap at around a 1311px
+	   viewport, so just below that it is the 5% gutter that squeezes the
+	   items past the width the address needs. Relaxing the gutter here
+	   keeps the item width the same as it is at 1440px (a no-op once the
+	   card has reached its cap). */
+	.contact-page .contact-info{
+		padding: 0 2.5%;
+	}
+}
+@media (max-width: 1240px){
+	.contact-page .contact-info__card{
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}
+@media (max-width: 1000px){
+	.contact-page .contact-body{
+		padding: 68px 5% 84px;
+	}
+	.contact-page .contact-body__grid{
+		grid-template-columns: minmax(0, 1fr);
+		gap: 34px;
+	}
+}
+@media (max-width: 768px){
+	/* The KCI header is sticky and in flow at this breakpoint, so the hero
+	   only needs a normal breathing gap instead of header clearance. */
+	.contact-page .contact-hero{
+		padding: 60px 6% 96px;
+	}
+	.contact-page .contact-info__card{
+		margin-top: -52px;
+	}
+	.contact-page #contact-form,
+	.contact-page #service-times{
+		scroll-margin-top: 88px;
+	}
+}
+@media (max-width: 640px){
+	.contact-page .contact-hero{
+		padding: 52px 5% 90px;
+	}
+	.contact-page .contact-info__card{
+		grid-template-columns: minmax(0, 1fr);
+		padding: 16px;
+	}
+	.contact-page .contact-info__item{
+		padding: 20px 18px;
+	}
+	.contact-page .contact-info__icon{
+		margin-bottom: 14px;
+	}
+	.contact-page .contact-form-card{
+		padding: 32px 22px 34px;
+	}
+	.contact-page .contact-form__row{
+		grid-template-columns: minmax(0, 1fr);
+		gap: 0;
+	}
+	.contact-page .contact-times,
+	.contact-page .contact-expect{
+		padding: 30px 22px;
+	}
+	.contact-page .contact-times__row{
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 4px;
+	}
+	.contact-page .contact-times__row strong{
+		text-align: left;
+	}
+	.contact-page .contact-cta{
+		padding: 60px 6% 66px;
+	}
+	.contact-page .contact-hero__actions .contact-btn,
+	.contact-page .contact-form__actions .contact-btn,
+	.contact-page .contact-cta .contact-btn{
+		width: 100%;
+	}
+}
+
+
+/* ============================================================
+   CONTACT PAGE — ENTRANCE & SCROLL REVEAL ANIMATIONS
+   (contact.php only)
+   ------------------------------------------------------------
+   Every selector below is scoped to the Contact page:
+     .contact-page          -> the Contact <body> class
+     .contact-anim-ready    -> added at runtime by contact.php
+   so the Home, About, Events, Event Detail, Ministries, Giving
+   and Serve pages (and the shared header and footer) are never
+   affected.
+
+   Two ideas keep this safe:
+     1. The hidden "before" state only exists while the page has
+        been primed at runtime, so every section and the footer
+        stay visible when JavaScript is disabled, unsupported or
+        fails.
+     2. Only opacity plus the independent `translate` property is
+        animated — never `transform` — so the existing button and
+        card hover transforms keep working exactly as they do today.
+
+   The footer rule mirrors the About Us and Events footer timing
+   (a 14px rise over .7s, cubic-bezier(.22, 1, .36, 1)) so the
+   shared KCI footer feels identical on every page.
+   ============================================================ */
+
+/* --- Keyframes: hero -------------------------------------- */
+/* Keyframes (not transitions) drive the hero so it always plays on
+   load and every button keeps its own hover transition: `backwards`
+   fill holds each item at its start state during its delay and
+   releases it once the animation has finished. The background photo
+   itself is never animated, so it stays visually stable. */
+@keyframes contact-hero-item{
+	from{ opacity: 0; translate: 0 16px; }
+	to{ opacity: 1; translate: none; }
+}
+@keyframes contact-hero-actions{
+	from{ opacity: 0; translate: 0 12px; }
+	to{ opacity: 1; translate: none; }
+}
+
+/* --- 1. Hero (.contact-hero): welcoming page-load stagger -- */
+/* The inner wrapper drifts up as a whole while the eyebrow, title,
+   copy and buttons arrive one after another. Travel stays small
+   (12-16px) so the hero reads as welcoming, not dramatic. */
+.contact-page .contact-hero__inner{
+	animation: contact-hero-item .95s cubic-bezier(.22, 1, .36, 1) backwards;
+}
+.contact-page .contact-hero__inner .contact-hero__eyebrow{
+	animation: contact-hero-item .8s cubic-bezier(.22, 1, .36, 1) backwards;
+	animation-delay: .06s;
+}
+.contact-page .contact-hero__inner .contact-hero__title{
+	animation: contact-hero-item .95s cubic-bezier(.22, 1, .36, 1) backwards;
+	animation-delay: .18s;
+}
+.contact-page .contact-hero__inner .contact-hero__text{
+	animation: contact-hero-item .85s cubic-bezier(.22, 1, .36, 1) backwards;
+	animation-delay: .30s;
+}
+.contact-page .contact-hero__inner .contact-hero__actions{
+	animation: contact-hero-actions .85s cubic-bezier(.22, 1, .36, 1) backwards;
+	animation-delay: .42s;
+}
+
+/* --- 2. Info cards (.contact-info__item): staggered reveal - */
+/* One shared custom property drives every staggered reveal below,
+   so a section only ever has to declare its own delay. */
+/* Each card fades in and rises a little, and the four cards cascade
+   left to right — Call, Email, Visit, Hours. On phones the cards
+   arrive one at a time as they scroll in. */
+.contact-page.contact-anim-ready .contact-info__item{
+	opacity: 0;
+	translate: 0 24px;
+	transition:
+		transform .25s ease,
+		box-shadow .25s ease,
+		opacity .8s cubic-bezier(.22, 1, .36, 1),
+		translate .8s cubic-bezier(.22, 1, .36, 1);
+	transition-delay:
+		0s,
+		0s,
+		var(--contact-delay, 0s),
+		var(--contact-delay, 0s);
+}
+.contact-page.contact-anim-ready .contact-info__card .contact-info__item:nth-child(1){
+	--contact-delay: .05s;
+}
+.contact-page.contact-anim-ready .contact-info__card .contact-info__item:nth-child(2){
+	--contact-delay: .13s;
+}
+.contact-page.contact-anim-ready .contact-info__card .contact-info__item:nth-child(3){
+	--contact-delay: .21s;
+}
+.contact-page.contact-anim-ready .contact-info__card .contact-info__item:nth-child(4){
+	--contact-delay: .29s;
+}
+.contact-page.contact-anim-ready .contact-info__item.is-visible{
+	opacity: 1;
+	translate: none;
+}
+/* A very subtle hover enhancement: a soft lift with a slightly
+   deeper shadow. Restrained on purpose — the card design itself is
+   untouched. */
+.contact-page.contact-anim-ready .contact-info__item.is-visible:hover{
+	transform: translateY(-4px);
+	box-shadow: 0 18px 40px rgba(28, 17, 58, .14);
+}
+
+/* --- 3. Form card (.contact-form-card): gentle reveal -------- */
+/* The card rises as a whole while the eyebrow, title and copy inside
+   ladder in. Only appearance is animated — the form itself is never
+   moved, so it stays completely usable while revealing. */
+.contact-page.contact-anim-ready .contact-form-card{
+	translate: 0 22px;
+	transition: translate .85s cubic-bezier(.22, 1, .36, 1);
+}
+.contact-page.contact-anim-ready .contact-form-card.is-visible{
+	translate: none;
+}
+.contact-page.contact-anim-ready .contact-form-card .contact-eyebrow,
+.contact-page.contact-anim-ready .contact-form-card__title,
+.contact-page.contact-anim-ready .contact-form-card__text{
+	opacity: 0;
+	transition:
+		opacity .75s cubic-bezier(.22, 1, .36, 1),
+		translate .75s cubic-bezier(.22, 1, .36, 1);
+	transition-delay: var(--contact-delay, 0s);
+}
+.contact-page.contact-anim-ready .contact-form-card .contact-eyebrow{
+	translate: 0 10px;
+	--contact-delay: .08s;
+}
+.contact-page.contact-anim-ready .contact-form-card__title{
+	translate: 0 16px;
+	--contact-delay: .18s;
+}
+.contact-page.contact-anim-ready .contact-form-card__text{
+	translate: 0 12px;
+	--contact-delay: .28s;
+}
+.contact-page.contact-anim-ready .contact-form-card.is-visible .contact-eyebrow,
+.contact-page.contact-anim-ready .contact-form-card.is-visible .contact-form-card__title,
+.contact-page.contact-anim-ready .contact-form-card.is-visible .contact-form-card__text{
+	opacity: 1;
+	translate: none;
+}
+
+/* --- 4. Side content (.contact-side): a quieter stagger ------ */
+/* Times first, "What to Expect" just behind it — a different, calmer
+   beat from the white form card beside it. */
+.contact-page.contact-anim-ready .contact-times,
+.contact-page.contact-anim-ready .contact-expect{
+	opacity: 0;
+	translate: 0 20px;
+	transition:
+		opacity .8s cubic-bezier(.22, 1, .36, 1),
+		translate .8s cubic-bezier(.22, 1, .36, 1);
+	transition-delay: var(--contact-delay, 0s);
+}
+.contact-page.contact-anim-ready .contact-times{
+	--contact-delay: .12s;
+}
+.contact-page.contact-anim-ready .contact-expect{
+	--contact-delay: .24s;
+}
+.contact-page.contact-anim-ready .contact-times.is-visible,
+.contact-page.contact-anim-ready .contact-expect.is-visible{
+	opacity: 1;
+	translate: none;
+}
+
+/* --- 5. Feedback (.contact-success / .contact-alert) -------- */
+/* Pure CSS entrance — never gated on JavaScript — so the messages are
+   visible with scripting disabled and simply settle softly when the
+   animation system is active. */
+.contact-page.contact-anim-ready .contact-alert{
+	animation: contact-hero-item .6s cubic-bezier(.22, 1, .36, 1) backwards;
+}
+.contact-page.contact-anim-ready .contact-success{
+	animation: contact-hero-item .7s cubic-bezier(.22, 1, .36, 1) backwards;
+}
+
+/* --- 6. CTA (.contact-cta): title, text, button ------------- */
+/* The title leads, the copy follows, and the button closes — the same
+   small stagger language as the hero. The button repeats its own
+   hover transition list with 0s delays, so its hover lift behaves
+   exactly as it does today. */
+.contact-page.contact-anim-ready .contact-cta__title,
+.contact-page.contact-anim-ready .contact-cta__text,
+.contact-page.contact-anim-ready .contact-cta .contact-btn{
+	opacity: 0;
+	translate: 0 16px;
+	transition:
+		transform .25s ease,
+		box-shadow .25s ease,
+		background .25s ease,
+		color .25s ease,
+		border-color .25s ease,
+		opacity .75s cubic-bezier(.22, 1, .36, 1),
+		translate .75s cubic-bezier(.22, 1, .36, 1);
+	transition-delay:
+		0s, 0s, 0s, 0s, 0s,
+		var(--contact-delay, 0s),
+		var(--contact-delay, 0s);
+}
+.contact-page.contact-anim-ready .contact-cta__title{ --contact-delay: .06s; }
+.contact-page.contact-anim-ready .contact-cta__text{ --contact-delay: .16s; }
+.contact-page.contact-anim-ready .contact-cta .contact-btn{ --contact-delay: .28s; }
+.contact-page.contact-anim-ready .contact-cta__title.is-visible,
+.contact-page.contact-anim-ready .contact-cta__text.is-visible,
+.contact-page.contact-anim-ready .contact-cta .contact-btn.is-visible{
+	opacity: 1;
+	translate: none;
+}
+
+/* --- 7. Footer (.kc118): same beat as About Us and Events ---- */
+/* Identical to the footer reveal used on the About Us and Events
+   pages — a 14px rise over .7s on the same curve — so the shared
+   KCI footer feels the same everywhere on the site. */
+.contact-page.contact-anim-ready .kc118 .kc119{
+	opacity: 0;
+	translate: 0 14px;
+	transition:
+		opacity .7s cubic-bezier(.22, 1, .36, 1),
+		translate .7s cubic-bezier(.22, 1, .36, 1);
+}
+.contact-page.contact-anim-ready .kc118 .kc119.is-visible{
+	opacity: 1;
+	translate: none;
+}
+
+/* --- Small screens: shorter travel, calmer settle ------------ */
+/* Nothing here touches layout — only how far an item travels — so
+   the page never gains side-scrolling, empty bands or jumping. */
+@media (max-width: 640px){
+	.contact-page.contact-anim-ready .contact-info__item{
+		translate: 0 18px;
+	}
+	.contact-page.contact-anim-ready .contact-form-card{
+		translate: 0 16px;
+	}
+	.contact-page.contact-anim-ready .contact-times,
+	.contact-page.contact-anim-ready .contact-expect{
+		translate: 0 16px;
+	}
+}
+
+/* --- Reduced motion: show everything, animate nothing -------- */
+/* contact.php already skips priming for these visitors, so the rules
+   above can never apply; these rules also cover a switch to reduced
+   motion after the page has primed itself. They sit last in this
+   section on purpose, so they always win. */
+@media (prefers-reduced-motion: reduce){
+	.contact-page .contact-hero__inner,
+	.contact-page .contact-hero__inner .contact-hero__eyebrow,
+	.contact-page .contact-hero__inner .contact-hero__title,
+	.contact-page .contact-hero__inner .contact-hero__text,
+	.contact-page .contact-hero__inner .contact-hero__actions{
+		animation: none;
+	}
+	.contact-page.contact-anim-ready .contact-info__item,
+	.contact-page.contact-anim-ready .contact-form-card,
+	.contact-page.contact-anim-ready .contact-form-card .contact-eyebrow,
+	.contact-page.contact-anim-ready .contact-form-card__title,
+	.contact-page.contact-anim-ready .contact-form-card__text,
+	.contact-page.contact-anim-ready .contact-times,
+	.contact-page.contact-anim-ready .contact-expect,
+	.contact-page.contact-anim-ready .contact-cta__title,
+	.contact-page.contact-anim-ready .contact-cta__text,
+	.contact-page.contact-anim-ready .contact-cta .contact-btn,
+	.contact-page.contact-anim-ready .kc118 .kc119{
+		opacity: 1;
+		translate: none;
+		transition: none;
+	}
+	/* The cards and buttons keep the hover transitions they have
+	   always had; only the reveal is dropped. */
+	.contact-page.contact-anim-ready .contact-info__item{
+		transition: transform .25s ease, box-shadow .25s ease;
+		transition-delay: 0s, 0s;
+	}
+	.contact-page.contact-anim-ready .contact-cta .contact-btn{
+		transition: transform .25s ease, box-shadow .25s ease,
+		            background .25s ease, color .25s ease,
+		            border-color .25s ease;
+		transition-delay: 0s, 0s, 0s, 0s, 0s;
+	}
+	.contact-page.contact-anim-ready .contact-alert,
+	.contact-page.contact-anim-ready .contact-success{
+		animation: none;
+	}
+}
+
+/* ============================================================
+   ABOUT US PAGE — ENTRANCE & SCROLL REVEAL ANIMATIONS
+   Every selector below is scoped to the About Us page:
+     .about-page        -> the About Us <body> class
+     .about-anim-ready  -> added at runtime by aboutus.php
+   so the Home, Events, Event Detail, Ministries and Contact
+   pages (and the shared header/footer) are never affected.
+   The hidden "before reveal" state only exists while JS has
+   primed the page, which keeps all content visible if
+   JavaScript is disabled or fails.
+   ============================================================ */
+
+/* --- 1. Hero (.kc42): gentle page-load stagger --------------- */
+/* A keyframe (not a transition) is used here so the hero always
+   animates on load and the Explore button keeps its own .2s hover
+   transition. `backwards` fill hides each element during its delay
+   but releases the transform once the animation has finished. */
+@keyframes about-hero-rise{
+	from{
+		opacity: 0;
+		transform: translateY(24px);
+	}
+	to{
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+.about-page .kc42 .kc43 > *{
+	animation: about-hero-rise .7s cubic-bezier(.22, 1, .36, 1) backwards;
+}
+.about-page .kc42 .kc43 > *:nth-child(1){ animation-delay: .10s; }
+.about-page .kc42 .kc43 > *:nth-child(2){ animation-delay: .20s; }
+.about-page .kc42 .kc43 > *:nth-child(3){ animation-delay: .30s; }
+.about-page .kc42 .kc43 > *:nth-child(4){ animation-delay: .40s; }
+
+/* --- Shared "before reveal" state (scroll sections) ---------- */
+.about-page.about-anim-ready .kc45 .kc48,
+.about-page.about-anim-ready .kc45 .kc50 > img,
+.about-page.about-anim-ready .kc51 .kc52,
+.about-page.about-anim-ready .kc57 .kc58,
+.about-page.about-anim-ready .kc59 .kc60,
+.about-page.about-anim-ready .kc65 .kc70,
+.about-page.about-anim-ready .kc65 .kc72,
+.about-page.about-anim-ready .kc118 .kc119{
+	opacity: 0;
+	transform: translateY(24px);
+	transition:
+		opacity .7s cubic-bezier(.22, 1, .36, 1),
+		transform .7s cubic-bezier(.22, 1, .36, 1);
+	transition-delay: var(--about-reveal-delay, 0s);
+}
+
+/* --- Revealed state (JS adds .is-visible when scrolled in) --- */
+.about-page.about-anim-ready .kc45 .kc48.is-visible,
+.about-page.about-anim-ready .kc45 .kc50 > img.is-visible,
+.about-page.about-anim-ready .kc51 .kc52.is-visible,
+.about-page.about-anim-ready .kc57 .kc58.is-visible,
+.about-page.about-anim-ready .kc59 .kc60.is-visible,
+.about-page.about-anim-ready .kc65 .kc70.is-visible,
+.about-page.about-anim-ready .kc65 .kc72.is-visible,
+.about-page.about-anim-ready .kc118 .kc119.is-visible{
+	opacity: 1;
+	transform: translateY(0);
+}
+
+/* --- 2. Contrast section: the two images stagger ------------ */
+.about-page.about-anim-ready .kc45 .kc50 > img:nth-child(1){ --about-reveal-delay: .06s; }
+.about-page.about-anim-ready .kc45 .kc50 > img:nth-child(2){ --about-reveal-delay: .18s; }
+
+/* --- 3. Info cards: first -> second -> third ---------------- */
+.about-page.about-anim-ready .kc51 .kc52:nth-child(1){ --about-reveal-delay: .06s; }
+.about-page.about-anim-ready .kc51 .kc52:nth-child(2){ --about-reveal-delay: .16s; }
+.about-page.about-anim-ready .kc51 .kc52:nth-child(3){ --about-reveal-delay: .26s; }
+
+/* --- 4. Team cards: first -> second -> third ---------------- */
+.about-page.about-anim-ready .kc59 .kc60:nth-child(1){ --about-reveal-delay: .06s; }
+.about-page.about-anim-ready .kc59 .kc60:nth-child(2){ --about-reveal-delay: .16s; }
+.about-page.about-anim-ready .kc59 .kc60:nth-child(3){ --about-reveal-delay: .26s; }
+
+/* --- 5. Testimonial cards: first -> second ------------------ */
+.about-page.about-anim-ready .kc65 .kc69 .kc70:nth-child(1){ --about-reveal-delay: .06s; }
+.about-page.about-anim-ready .kc65 .kc69 .kc70:nth-child(2){ --about-reveal-delay: .16s; }
+
+/* --- 6. Footer: a very subtle reveal ------------------------ */
+.about-page.about-anim-ready .kc118 .kc119{
+	transform: translateY(14px);
+}
+
+/* --- Reduced-motion fallback: show everything, animate none - */
+@media (prefers-reduced-motion: reduce){
+	.about-page .kc42 .kc43 > *{
+		animation: none;
+	}
+	.about-page.about-anim-ready .kc45 .kc48,
+	.about-page.about-anim-ready .kc45 .kc50 > img,
+	.about-page.about-anim-ready .kc51 .kc52,
+	.about-page.about-anim-ready .kc57 .kc58,
+	.about-page.about-anim-ready .kc59 .kc60,
+	.about-page.about-anim-ready .kc65 .kc70,
+	.about-page.about-anim-ready .kc65 .kc72,
+	.about-page.about-anim-ready .kc118 .kc119{
+		opacity: 1;
+		transform: none;
+		transition: none;
+	}
+}
+
+/* ============================================================
+   EVENT DETAIL PAGE — ENTRANCE & SCROLL REVEAL ANIMATIONS
+   (event.php — the single-event view only)
+   ------------------------------------------------------------
+   Everything below is scoped to the event-detail sections plus
+   the runtime class `event-detail-anim-ready`, which event.php
+   adds to <body> only when a valid $event is rendered. The
+   shared `events-page` body class (also used by events.php) is
+   never targeted on its own, so the Events listing page is
+   never affected.
+
+   The hidden "before" state only exists while JS has primed the
+   page, which keeps every section visible when JavaScript is
+   disabled, unsupported or fails. The footer rule mirrors the
+   About Us page timing so the shared footer stays consistent.
+   ============================================================ */
+
+/* --- Keyframes ---------------------------------------------- */
+@keyframes event-detail-rise{
+	from{ opacity: 0; transform: translateY(24px); }
+	to{ opacity: 1; transform: none; }
+}
+@keyframes event-detail-rise-sm{
+	from{ opacity: 0; transform: translateY(14px); }
+	to{ opacity: 1; transform: none; }
+}
+@keyframes event-detail-image-in{
+	from{ opacity: 0; transform: translateY(16px) scale(.96); }
+	to{ opacity: 1; transform: none; }
+}
+
+/* --- 1. Hero (.event-detail-hero): page-load stagger --------- */
+/* Keyframes are used here so the hero always animates on load;
+   `backwards` fill holds each item at its start state during the
+   delay and releases it afterwards, so the Register button keeps
+   its own hover transition. */
+.event-detail-hero .event-detail-hero-text::before{
+	animation: event-detail-rise .7s cubic-bezier(.22, 1, .36, 1) backwards;
+	animation-delay: .05s;
+}
+.event-detail-hero .event-detail-hero-tag{
+	animation: event-detail-rise .7s cubic-bezier(.22, 1, .36, 1) backwards;
+	animation-delay: .12s;
+}
+.event-detail-hero .event-detail-hero-text h1{
+	animation: event-detail-rise .7s cubic-bezier(.22, 1, .36, 1) backwards;
+	animation-delay: .22s;
+}
+.event-detail-hero .event-detail-hero-meta{
+	animation: event-detail-rise .7s cubic-bezier(.22, 1, .36, 1) backwards;
+	animation-delay: .32s;
+}
+.event-detail-hero .event-detail-register-btn{
+	animation: event-detail-rise .7s cubic-bezier(.22, 1, .36, 1) backwards;
+	animation-delay: .42s;
+}
+.event-detail-hero .event-detail-hero-image{
+	animation: event-detail-image-in .8s cubic-bezier(.22, 1, .36, 1) backwards;
+	animation-delay: .30s;
+}
+
+/* --- 2 + 3. Content (.event-detail-content): text + card ----- */
+/* Hidden "before" state — only while the reveal is primed. */
+.event-detail-anim-ready .event-detail-content .event-detail-main .event-detail-label:not(.is-visible),
+.event-detail-anim-ready .event-detail-content .event-detail-main h2:not(.is-visible),
+.event-detail-anim-ready .event-detail-content .event-detail-main > p:not(.is-visible),
+.event-detail-anim-ready .event-detail-content .event-detail-main h3:not(.is-visible),
+.event-detail-anim-ready .event-detail-content .event-detail-main h3 + p:not(.is-visible),
+.event-detail-anim-ready .event-detail-content .event-detail-sidebar .event-detail-card:not(.is-visible){
+	opacity: 0;
+	transform: translateY(24px);
+}
+/* Card rows stay hidden until the card itself reveals. */
+.event-detail-anim-ready .event-detail-content .event-detail-sidebar .event-detail-card:not(.is-visible) .event-detail-item{
+	opacity: 0;
+	transform: translateY(14px);
+}
+
+/* Revealed state — JS adds .is-visible when the element scrolls in. */
+.event-detail-anim-ready .event-detail-content .event-detail-main .event-detail-label.is-visible,
+.event-detail-anim-ready .event-detail-content .event-detail-main h2.is-visible,
+.event-detail-anim-ready .event-detail-content .event-detail-main > p.is-visible,
+.event-detail-anim-ready .event-detail-content .event-detail-main h3.is-visible,
+.event-detail-anim-ready .event-detail-content .event-detail-main h3 + p.is-visible,
+.event-detail-anim-ready .event-detail-content .event-detail-sidebar .event-detail-card.is-visible{
+	animation: event-detail-rise .7s cubic-bezier(.22, 1, .36, 1) backwards;
+	animation-delay: var(--event-detail-delay, 0s);
+}
+.event-detail-anim-ready .event-detail-content .event-detail-sidebar .event-detail-card.is-visible .event-detail-item{
+	animation: event-detail-rise-sm .6s cubic-bezier(.22, 1, .36, 1) backwards;
+}
+
+/* Stagger: label -> title -> copy -> details; card starts alongside. */
+.event-detail-anim-ready .event-detail-content .event-detail-main .event-detail-label{ --event-detail-delay: 0s; }
+.event-detail-anim-ready .event-detail-content .event-detail-main h2{ --event-detail-delay: .06s; }
+.event-detail-anim-ready .event-detail-content .event-detail-main > p{ --event-detail-delay: .15s; }
+.event-detail-anim-ready .event-detail-content .event-detail-main h3{ --event-detail-delay: .24s; }
+.event-detail-anim-ready .event-detail-content .event-detail-main h3 + p{ --event-detail-delay: .33s; }
+.event-detail-anim-ready .event-detail-content .event-detail-sidebar .event-detail-card{ --event-detail-delay: .12s; }
+.event-detail-anim-ready .event-detail-content .event-detail-sidebar .event-detail-card.is-visible .event-detail-item:nth-of-type(1){ animation-delay: .18s; }
+.event-detail-anim-ready .event-detail-content .event-detail-sidebar .event-detail-card.is-visible .event-detail-item:nth-of-type(2){ animation-delay: .28s; }
+
+/* --- 4. Final CTA (.event-detail-cta) ------------------------ */
+.event-detail-anim-ready .event-detail-cta .event-detail-cta-content h2:not(.is-visible),
+.event-detail-anim-ready .event-detail-cta .event-detail-cta-content p:not(.is-visible),
+.event-detail-anim-ready .event-detail-cta .event-detail-cta-button:not(.is-visible){
+	opacity: 0;
+	transform: translateY(22px);
+}
+.event-detail-anim-ready .event-detail-cta .event-detail-cta-content h2.is-visible,
+.event-detail-anim-ready .event-detail-cta .event-detail-cta-content p.is-visible,
+.event-detail-anim-ready .event-detail-cta .event-detail-cta-button.is-visible{
+	animation: event-detail-rise .7s cubic-bezier(.22, 1, .36, 1) backwards;
+	animation-delay: var(--event-detail-delay, 0s);
+}
+.event-detail-anim-ready .event-detail-cta .event-detail-cta-content h2{ --event-detail-delay: 0s; }
+.event-detail-anim-ready .event-detail-cta .event-detail-cta-content p{ --event-detail-delay: .10s; }
+.event-detail-anim-ready .event-detail-cta .event-detail-cta-button{ --event-detail-delay: .20s; }
+
+/* --- 5. Footer (.kc118): matches the About Us footer reveal -- */
+.event-detail-anim-ready .kc118 .kc119:not(.is-visible){
+	opacity: 0;
+	transform: translateY(14px);
+}
+.event-detail-anim-ready .kc118 .kc119.is-visible{
+	animation: event-detail-rise-sm .7s cubic-bezier(.22, 1, .36, 1) backwards;
+}
+
+/* --- 6. Reduced-motion fallback ----------------------------- */
+/* The pre-paint script already skips priming for these users;
+   this guarantees every section is visible and still. */
+@media (prefers-reduced-motion: reduce){
+	.event-detail-hero .event-detail-hero-text::before,
+	.event-detail-hero .event-detail-hero-tag,
+	.event-detail-hero .event-detail-hero-text h1,
+	.event-detail-hero .event-detail-hero-meta,
+	.event-detail-hero .event-detail-register-btn,
+	.event-detail-hero .event-detail-hero-image{
+		animation: none;
+	}
+	.event-detail-anim-ready .event-detail-content .event-detail-main .event-detail-label,
+	.event-detail-anim-ready .event-detail-content .event-detail-main h2,
+	.event-detail-anim-ready .event-detail-content .event-detail-main > p,
+	.event-detail-anim-ready .event-detail-content .event-detail-main h3,
+	.event-detail-anim-ready .event-detail-content .event-detail-main h3 + p,
+	.event-detail-anim-ready .event-detail-content .event-detail-sidebar .event-detail-card,
+	.event-detail-anim-ready .event-detail-content .event-detail-sidebar .event-detail-card .event-detail-item,
+	.event-detail-anim-ready .event-detail-cta .event-detail-cta-content h2,
+	.event-detail-anim-ready .event-detail-cta .event-detail-cta-content p,
+	.event-detail-anim-ready .event-detail-cta .event-detail-cta-button,
+	.event-detail-anim-ready .kc118 .kc119{
+		opacity: 1 !important;
+		transform: none !important;
+		animation: none !important;
+	}
+}
+
+
+/* ============================================================
+   EVENTS PAGE — ENTRANCE & SCROLL REVEAL ANIMATIONS
+   (events.php only)
+   ------------------------------------------------------------
+   Every selector below is scoped to the Events page:
+     .events-page        -> the Events <body> class
+     .events-anim-ready  -> added at runtime by events.php only
+   event.php shares the .events-page body class, but it never
+   adds the runtime marker, so this system stays exclusive to
+   the Events listing page. The hidden "before reveal" state
+   only exists while the page has primed itself, which keeps
+   every piece of content visible when JavaScript, the runtime
+   marker or IntersectionObserver is unavailable.
+   Only the independent `translate` / `scale` properties are
+   animated, so the existing :hover `transform` effects on the
+   cards, category tiles, date rows and buttons keep working
+   exactly as they did before.
+   ============================================================ */
+
+/* --- Shared entrance keyframes ------------------------------ */
+@keyframes events-hero-rise{
+	from{
+		opacity: 0;
+		translate: 0 30px;
+		scale: .985;
+	}
+	to{
+		opacity: 1;
+		translate: 0 0;
+		scale: 1;
+	}
+}
+@keyframes events-hero-label{
+	from{
+		opacity: 0;
+		translate: -16px 12px;
+	}
+	to{
+		opacity: 1;
+		translate: 0 0;
+	}
+}
+@keyframes events-hero-button{
+	from{
+		opacity: 0;
+		translate: 0 18px;
+		scale: .94;
+	}
+	to{
+		opacity: 1;
+		translate: 0 0;
+		scale: 1;
+	}
+}
+@keyframes events-rise{
+	from{
+		opacity: 0;
+		translate: 0 26px;
+	}
+	to{
+		opacity: 1;
+		translate: 0 0;
+	}
+}
+@keyframes events-rise-soft{
+	from{
+		opacity: 0;
+		translate: 0 18px;
+	}
+	to{
+		opacity: 1;
+		translate: 0 0;
+	}
+}
+@keyframes events-from-left{
+	from{
+		opacity: 0;
+		translate: -18px 0;
+	}
+	to{
+		opacity: 1;
+		translate: 0 0;
+	}
+}
+@keyframes events-from-right{
+	from{
+		opacity: 0;
+		translate: 26px 0;
+	}
+	to{
+		opacity: 1;
+		translate: 0 0;
+	}
+}
+@keyframes events-feature-image{
+	from{
+		opacity: 0;
+		translate: -30px 0;
+		scale: 1.03;
+	}
+	to{
+		opacity: 1;
+		translate: 0 0;
+		scale: 1;
+	}
+}
+@keyframes events-card-in{
+	from{
+		opacity: 0;
+		translate: 0 32px;
+	}
+	to{
+		opacity: 1;
+		translate: 0 0;
+	}
+}
+@keyframes events-card-image{
+	from{
+		scale: 1.07;
+	}
+	to{
+		scale: 1;
+	}
+}
+@keyframes events-tile-in{
+	from{
+		opacity: 0;
+		translate: 0 18px;
+		scale: .965;
+	}
+	to{
+		opacity: 1;
+		translate: 0 0;
+		scale: 1;
+	}
+}
+@keyframes events-card-alt{
+	from{
+		opacity: 0;
+		translate: 0 24px;
+		scale: .98;
+	}
+	to{
+		opacity: 1;
+		translate: 0 0;
+		scale: 1;
+	}
+}
+@keyframes events-row-in{
+	from{
+		opacity: 0;
+		translate: -14px 0;
+	}
+	to{
+		opacity: 1;
+		translate: 0 0;
+	}
+}
+
+/* --- Shared "before reveal" state (scroll-revealed sections) - */
+/* This is the only place content is hidden, and it is fully
+   gated behind .events-anim-ready. */
+.events-page.events-anim-ready .kc77 .kc78 > *:not(.is-visible),
+.events-page.events-anim-ready .kc80 .kc82:not(.is-visible),
+.events-page.events-anim-ready .kc80 .kc85:not(.is-visible),
+.events-page.events-anim-ready .kc87 .kc88:not(.is-visible),
+.events-page.events-anim-ready .kc87 .kc89:not(.is-visible),
+.events-page.events-anim-ready .kc87 .kc89 > *:not(.is-visible),
+.events-page.events-anim-ready .kc93 .kc94 > *:not(.is-visible),
+.events-page.events-anim-ready .kc93 .kc97:not(.is-visible),
+.events-page.events-anim-ready .kc99 .kc100 > *:not(.is-visible),
+.events-page.events-anim-ready .kc99 .kc103:not(.is-visible),
+.events-page.events-anim-ready .kc107 .kc108 > *:not(.is-visible),
+.events-page.events-anim-ready .kc107 .kc111:not(.is-visible),
+.events-page.events-anim-ready .kc113 .kc115 > *:not(.is-visible){
+	opacity: 0;
+}
+
+/* --- 1. Hero (.kc73): page-load entrance --------------------- */
+/* Keyframes are used instead of transitions so the hero always
+   animates on load, and the `backwards` fill releases every
+   property once the animation ends — which keeps the hero
+   button's own .25s hover transition untouched. */
+.events-page .kc73 .kc75 > *{
+	animation: events-hero-rise .95s cubic-bezier(.19, 1, .22, 1) backwards;
+}
+.events-page .kc73 .kc75 > *:nth-child(1){
+	animation-name: events-hero-label;
+	animation-duration: .8s;
+	animation-delay: .05s;
+}
+.events-page .kc73 .kc75 > *:nth-child(2){
+	animation-delay: .16s;
+}
+.events-page .kc73 .kc75 > *:nth-child(3){
+	animation-delay: .30s;
+}
+.events-page .kc73 .kc75 > *:nth-child(4){
+	animation-name: events-hero-button;
+	animation-duration: .9s;
+	animation-delay: .44s;
+}
+
+/* --- 2. Intro (.kc77): label drifts in, copy rises ----------- */
+.events-page.events-anim-ready .kc77 .kc78 > *.is-visible{
+	animation: events-rise .78s cubic-bezier(.22, 1, .36, 1) both;
+}
+.events-page.events-anim-ready .kc77 .kc78 > *:nth-child(1).is-visible{
+	animation-name: events-from-left;
+	animation-duration: .85s;
+}
+.events-page.events-anim-ready .kc77 .kc78 > *:nth-child(2).is-visible{
+	animation-delay: .12s;
+}
+.events-page.events-anim-ready .kc77 .kc78 > *:nth-child(3).is-visible{
+	animation-delay: .24s;
+}
+
+/* --- 3. Event cards (.kc80 / .kc82) -------------------------- */
+/* Three beats per card: the card lifts and fades, then its image
+   settles down from a slight zoom, then the copy follows. Cards
+   sharing a row are offset by .12s (3 columns on desktop,
+   2 on tablet, 1 on mobile). */
+.events-page.events-anim-ready .kc80 .kc82.is-visible{
+	animation: events-card-in .82s cubic-bezier(.22, 1, .36, 1) var(--ev-delay, 0s) both;
+}
+.events-page.events-anim-ready .kc80 .kc82:nth-child(3n + 1){
+	--ev-delay: 0s;
+}
+.events-page.events-anim-ready .kc80 .kc82:nth-child(3n + 2){
+	--ev-delay: .12s;
+}
+.events-page.events-anim-ready .kc80 .kc82:nth-child(3n + 3){
+	--ev-delay: .24s;
+}
+.events-page.events-anim-ready .kc80 .kc83 img.is-visible{
+	animation: events-card-image 1.15s cubic-bezier(.22, 1, .36, 1) calc(var(--ev-delay, 0s) + .06s) both;
+}
+.events-page.events-anim-ready .kc80 .kc85.is-visible{
+	animation: events-rise-soft .72s cubic-bezier(.22, 1, .36, 1) calc(var(--ev-delay, 0s) + .12s) both;
+}
+
+/* --- 4. Featured event (.kc87) ------------------------------- */
+/* Its own treatment: the image arrives from the left with a slight
+   scale, the copy column arrives from the right, and then the label,
+   heading, paragraph, details and button ladder in one by one. */
+.events-page.events-anim-ready .kc87 .kc88.is-visible{
+	animation: events-feature-image 1.05s cubic-bezier(.22, 1, .36, 1) both;
+}
+.events-page.events-anim-ready .kc87 .kc89.is-visible{
+	animation: events-from-right 1s cubic-bezier(.22, 1, .36, 1) both;
+}
+.events-page.events-anim-ready .kc87 .kc89 > *.is-visible{
+	animation: events-rise-soft .75s cubic-bezier(.22, 1, .36, 1) both;
+}
+.events-page.events-anim-ready .kc87 .kc89 > *:nth-child(1).is-visible{
+	animation-delay: .16s;
+}
+.events-page.events-anim-ready .kc87 .kc89 > *:nth-child(2).is-visible{
+	animation-delay: .28s;
+}
+.events-page.events-anim-ready .kc87 .kc89 > *:nth-child(3).is-visible{
+	animation-delay: .40s;
+}
+.events-page.events-anim-ready .kc87 .kc89 > *:nth-child(4).is-visible{
+	animation-delay: .52s;
+}
+.events-page.events-anim-ready .kc87 .kc89 > *:nth-child(5).is-visible{
+	animation-delay: .64s;
+}
+
+/* --- 5. Event categories (.kc93 / .kc97) --------------------- */
+/* Copy first, then the four tiles ease up with a soft scale. */
+.events-page.events-anim-ready .kc93 .kc94 > *.is-visible{
+	animation: events-rise .78s cubic-bezier(.22, 1, .36, 1) both;
+}
+.events-page.events-anim-ready .kc93 .kc94 > *:nth-child(1).is-visible{
+	animation-name: events-from-left;
+	animation-duration: .85s;
+}
+.events-page.events-anim-ready .kc93 .kc94 > *:nth-child(2).is-visible{
+	animation-delay: .12s;
+}
+.events-page.events-anim-ready .kc93 .kc94 > *:nth-child(3).is-visible{
+	animation-delay: .24s;
+}
+.events-page.events-anim-ready .kc93 .kc97.is-visible{
+	animation: events-tile-in .8s cubic-bezier(.22, 1, .36, 1) var(--ev-delay, 0s) both;
+}
+.events-page.events-anim-ready .kc93 .kc97:nth-child(1){
+	--ev-delay: .04s;
+}
+.events-page.events-anim-ready .kc93 .kc97:nth-child(2){
+	--ev-delay: .15s;
+}
+.events-page.events-anim-ready .kc93 .kc97:nth-child(3){
+	--ev-delay: .26s;
+}
+.events-page.events-anim-ready .kc93 .kc97:nth-child(4){
+	--ev-delay: .37s;
+}
+
+/* --- 6. Upcoming dates (.kc99 / .kc103) ---------------------- */
+/* Heading block first, then the date rows glide in from the left
+   on a tight ladder so they read as one connected list. */
+.events-page.events-anim-ready .kc99 .kc100 > *.is-visible{
+	animation: events-rise .78s cubic-bezier(.22, 1, .36, 1) both;
+}
+.events-page.events-anim-ready .kc99 .kc100 > *:nth-child(1).is-visible{
+	animation-name: events-from-left;
+	animation-duration: .85s;
+}
+.events-page.events-anim-ready .kc99 .kc100 > *:nth-child(2).is-visible{
+	animation-delay: .12s;
+}
+.events-page.events-anim-ready .kc99 .kc100 > *:nth-child(3).is-visible{
+	animation-delay: .24s;
+}
+.events-page.events-anim-ready .kc99 .kc103.is-visible{
+	animation: events-row-in .72s cubic-bezier(.22, 1, .36, 1) var(--ev-delay, 0s) both;
+}
+.events-page.events-anim-ready .kc99 .kc103:nth-child(1){
+	--ev-delay: .02s;
+}
+.events-page.events-anim-ready .kc99 .kc103:nth-child(2){
+	--ev-delay: .12s;
+}
+.events-page.events-anim-ready .kc99 .kc103:nth-child(3){
+	--ev-delay: .22s;
+}
+
+/* --- 7. Why join us (.kc107 / .kc111) ------------------------ */
+/* Intro copy first, then the three cards ease up one after another. */
+.events-page.events-anim-ready .kc107 .kc108 > *.is-visible{
+	animation: events-rise .78s cubic-bezier(.22, 1, .36, 1) both;
+}
+.events-page.events-anim-ready .kc107 .kc108 > *:nth-child(1).is-visible{
+	animation-name: events-from-left;
+	animation-duration: .85s;
+}
+.events-page.events-anim-ready .kc107 .kc108 > *:nth-child(2).is-visible{
+	animation-delay: .12s;
+}
+.events-page.events-anim-ready .kc107 .kc108 > *:nth-child(3).is-visible{
+	animation-delay: .24s;
+}
+.events-page.events-anim-ready .kc107 .kc111.is-visible{
+	animation: events-card-alt .85s cubic-bezier(.22, 1, .36, 1) var(--ev-delay, 0s) both;
+}
+.events-page.events-anim-ready .kc107 .kc111:nth-child(1){
+	--ev-delay: .05s;
+}
+.events-page.events-anim-ready .kc107 .kc111:nth-child(2){
+	--ev-delay: .18s;
+}
+.events-page.events-anim-ready .kc107 .kc111:nth-child(3){
+	--ev-delay: .31s;
+}
+
+/* --- 8. Call to action (.kc113) ------------------------------ */
+/* Background, overlay and gradient stay exactly as they are —
+   only the label, heading, paragraph and button arrive. */
+.events-page.events-anim-ready .kc113 .kc115 > *.is-visible{
+	animation: events-rise-soft .8s cubic-bezier(.22, 1, .36, 1) both;
+}
+.events-page.events-anim-ready .kc113 .kc115 > *:nth-child(2).is-visible{
+	animation-delay: .12s;
+}
+.events-page.events-anim-ready .kc113 .kc115 > *:nth-child(3).is-visible{
+	animation-delay: .26s;
+}
+.events-page.events-anim-ready .kc113 .kc115 > *:nth-child(4).is-visible{
+	animation-name: events-hero-button;
+	animation-duration: .85s;
+	animation-delay: .40s;
+}
+
+/* --- 9. Footer (.kc118) -------------------------------------- */
+/* Same beat as the About Us page (opacity + 14px rise over .7s
+   with cubic-bezier(.22, 1, .36, 1)) so the shared KCI footer
+   feels identical on both pages. */
+.events-page.events-anim-ready .kc118 .kc119{
+	opacity: 0;
+	transform: translateY(14px);
+	transition:
+		opacity .7s cubic-bezier(.22, 1, .36, 1),
+		transform .7s cubic-bezier(.22, 1, .36, 1);
+}
+.events-page.events-anim-ready .kc118 .kc119.is-visible{
+	opacity: 1;
+	transform: translateY(0);
+}
+
+/* --- Reduced motion: show everything, animate nothing -------- */
+@media (prefers-reduced-motion: reduce){
+	.events-page .kc73 .kc75 > *,
+	.events-page .kc73 .kc75 > *:nth-child(1),
+	.events-page .kc73 .kc75 > *:nth-child(4){
+		animation: none;
+	}
+	.events-page.events-anim-ready .kc77 .kc78 > *:not(.is-visible),
+	.events-page.events-anim-ready .kc80 .kc82:not(.is-visible),
+	.events-page.events-anim-ready .kc80 .kc85:not(.is-visible),
+	.events-page.events-anim-ready .kc87 .kc88:not(.is-visible),
+	.events-page.events-anim-ready .kc87 .kc89:not(.is-visible),
+	.events-page.events-anim-ready .kc87 .kc89 > *:not(.is-visible),
+	.events-page.events-anim-ready .kc93 .kc94 > *:not(.is-visible),
+	.events-page.events-anim-ready .kc93 .kc97:not(.is-visible),
+	.events-page.events-anim-ready .kc99 .kc100 > *:not(.is-visible),
+	.events-page.events-anim-ready .kc99 .kc103:not(.is-visible),
+	.events-page.events-anim-ready .kc107 .kc108 > *:not(.is-visible),
+	.events-page.events-anim-ready .kc107 .kc111:not(.is-visible),
+	.events-page.events-anim-ready .kc113 .kc115 > *:not(.is-visible){
+		opacity: 1;
+	}
+	/* If reduced motion is switched on after the page has primed itself,
+	   the reveals are switched off too so nothing flashes in from 0. */
+	body.events-page.events-anim-ready .kc77 .kc78 > *.is-visible,
+	body.events-page.events-anim-ready .kc80 .kc82.is-visible,
+	body.events-page.events-anim-ready .kc80 .kc83 img.is-visible,
+	body.events-page.events-anim-ready .kc80 .kc85.is-visible,
+	body.events-page.events-anim-ready .kc87 .kc88.is-visible,
+	body.events-page.events-anim-ready .kc87 .kc89.is-visible,
+	body.events-page.events-anim-ready .kc87 .kc89 > *.is-visible,
+	body.events-page.events-anim-ready .kc93 .kc94 > *.is-visible,
+	body.events-page.events-anim-ready .kc93 .kc97.is-visible,
+	body.events-page.events-anim-ready .kc99 .kc100 > *.is-visible,
+	body.events-page.events-anim-ready .kc99 .kc103.is-visible,
+	body.events-page.events-anim-ready .kc107 .kc108 > *.is-visible,
+	body.events-page.events-anim-ready .kc107 .kc111.is-visible,
+	body.events-page.events-anim-ready .kc113 .kc115 > *.is-visible{
+		animation: none;
+	}
+	.events-page.events-anim-ready .kc118 .kc119{
+		opacity: 1;
+		transform: none;
+		transition: none;
+	}
+}
+
+/* --- Small screens: marginally shorter, snappier beats ------- */
+@media (max-width: 680px){
+	.events-page .kc73 .kc75 > *{
+		animation-duration: .8s;
+	}
+	.events-page.events-anim-ready .kc80 .kc82.is-visible{
+		animation-duration: .72s;
+	}
+	.events-page.events-anim-ready .kc80 .kc83 img.is-visible{
+		animation-duration: .9s;
+	}
+	.events-page.events-anim-ready .kc87 .kc88.is-visible,
+	.events-page.events-anim-ready .kc87 .kc89.is-visible{
+		animation-duration: .85s;
+	}
+	.events-page.events-anim-ready .kc99 .kc103.is-visible{
+		animation-duration: .62s;
+	}
+}
+
+
+
+
+/* ============================================================
+   MINISTRIES PAGE — ENTRANCE & SCROLL REVEAL ANIMATIONS
+   (min.php only)
+   ------------------------------------------------------------
+   Every selector below is scoped to the Ministries page:
+     .ministries-page          -> the Ministries <body> class
+     .ministries-anim-ready    -> added at runtime by min.php
+   so the Home, About, Events, Event Detail, Contact and Serve
+   pages (and the shared header and footer) are never affected.
+   The ministry detail page (ministry.php) uses .ministry-page, so
+   it never picks anything up from here either.
+
+   Two ideas keep this safe:
+     1. The hidden "before" state only exists while the page has
+        been primed at runtime, so every section, card and the
+        footer stay visible when JavaScript is disabled,
+        unsupported or fails.
+     2. Only opacity plus the independent `translate` / `scale`
+        properties are animated — never `transform` — so the
+        existing card, chip and button hover transforms keep
+        working exactly as they do today.
+
+   The footer rule mirrors the About Us and Events footer timing
+   (a 14px rise over .7s, cubic-bezier(.22, 1, .36, 1)) so the
+   shared KCI footer feels identical on every page.
+   ============================================================ */
+
+/* --- Keyframes: hero and featured artwork ------------------- */
+/* Keyframes (not transitions) drive the hero so it always plays on
+   load and every button keeps its own hover transition: `backwards`
+   fill holds each item at its start state during its delay and
+   releases it once the animation has finished. */
+@keyframes ministries-hero-column{
+	from{ translate: 0 10px; }
+	to{ translate: none; }
+}
+@keyframes ministries-hero-eyebrow{
+	from{ opacity: 0; translate: -12px 0; }
+	to{ opacity: 1; translate: none; }
+}
+@keyframes ministries-hero-title{
+	from{ opacity: 0; translate: 0 18px; scale: .99; }
+	to{ opacity: 1; translate: none; scale: 1; }
+}
+@keyframes ministries-hero-item{
+	from{ opacity: 0; translate: 0 14px; }
+	to{ opacity: 1; translate: none; }
+}
+@keyframes ministries-hero-button{
+	from{ opacity: 0; translate: 0 12px; scale: .97; }
+	to{ opacity: 1; translate: none; scale: 1; }
+}
+@keyframes ministries-hero-media{
+	from{ opacity: 0; translate: 0 16px; scale: .98; }
+	to{ opacity: 1; translate: none; scale: 1; }
+}
+
+/* --- 1. Hero (.ministries-hero): welcoming page-load stagger - */
+/* The text column drifts up as a whole while the eyebrow, title,
+   copy and buttons arrive one after another, and the artwork
+   follows last with a very soft settle. Travel stays small
+   (10-18px) so the hero reads as welcoming, not dramatic. */
+.ministries-page .ministries-hero__content{
+	animation: ministries-hero-column .95s cubic-bezier(.22, 1, .36, 1) backwards;
+}
+.ministries-page .ministries-hero__content .ministries-eyebrow{
+	animation: ministries-hero-eyebrow .8s cubic-bezier(.22, 1, .36, 1) backwards;
+	animation-delay: .06s;
+}
+.ministries-page .ministries-hero__content .ministries-hero__title{
+	animation: ministries-hero-title .95s cubic-bezier(.22, 1, .36, 1) backwards;
+	animation-delay: .18s;
+}
+.ministries-page .ministries-hero__content .ministries-hero__text{
+	animation: ministries-hero-item .85s cubic-bezier(.22, 1, .36, 1) backwards;
+	animation-delay: .30s;
+}
+.ministries-page .ministries-hero__content .ministries-hero__actions{
+	animation: ministries-hero-column .85s cubic-bezier(.22, 1, .36, 1) backwards;
+	animation-delay: .40s;
+}
+.ministries-page .ministries-hero__content .ministries-hero__actions .ministries-btn:nth-child(1){
+	animation: ministries-hero-button .85s cubic-bezier(.22, 1, .36, 1) backwards;
+	animation-delay: .46s;
+}
+.ministries-page .ministries-hero__content .ministries-hero__actions .ministries-btn:nth-child(2){
+	animation: ministries-hero-button .85s cubic-bezier(.22, 1, .36, 1) backwards;
+	animation-delay: .54s;
+}
+/* The artwork is animated as a container, so the placeholder icon
+   that stands in for a missing photo animates with it. It scales up
+   to 1 from below, which can never paint outside the hero card and
+   therefore never adds horizontal overflow on small screens. */
+.ministries-page .ministries-hero__image{
+	animation: ministries-hero-media .95s cubic-bezier(.22, 1, .36, 1) backwards;
+	animation-delay: .26s;
+}
+
+/* --- 2. All ministries: heading block, then the chips -------- */
+/* One shared custom property drives every staggered reveal below,
+   so a section only ever has to declare its own delay. */
+/* The heading block and the chip row each drift up as a whole while
+   the eyebrow, title and copy inside the heading ladder in, which
+   keeps the title ahead of the filter buttons. Only appearance is
+   animated — the buttons themselves are untouched and clickable as
+   soon as they are on screen. */
+.ministries-page.ministries-anim-ready .ministries-all__intro,
+.ministries-page.ministries-anim-ready .ministries-filters{
+	translate: 0 14px;
+	transition: translate .8s cubic-bezier(.22, 1, .36, 1);
+}
+.ministries-page.ministries-anim-ready .ministries-all__intro.is-visible,
+.ministries-page.ministries-anim-ready .ministries-filters.is-visible{
+	translate: none;
+}
+.ministries-page.ministries-anim-ready .ministries-all__intro .ministries-eyebrow,
+.ministries-page.ministries-anim-ready .ministries-all__title,
+.ministries-page.ministries-anim-ready .ministries-all__text{
+	opacity: 0;
+	transition:
+		opacity .75s cubic-bezier(.22, 1, .36, 1),
+		translate .75s cubic-bezier(.22, 1, .36, 1);
+	transition-delay: var(--ministries-delay, 0s);
+}
+.ministries-page.ministries-anim-ready .ministries-all__intro .ministries-eyebrow{
+	translate: -12px 0;
+	--ministries-delay: .06s;
+}
+.ministries-page.ministries-anim-ready .ministries-all__title{
+	translate: 0 18px;
+	--ministries-delay: .16s;
+}
+.ministries-page.ministries-anim-ready .ministries-all__text{
+	translate: 0 12px;
+	--ministries-delay: .26s;
+}
+.ministries-page.ministries-anim-ready .ministries-all__intro.is-visible .ministries-eyebrow,
+.ministries-page.ministries-anim-ready .ministries-all__title.is-visible,
+.ministries-page.ministries-anim-ready .ministries-all__text.is-visible{
+	opacity: 1;
+	translate: none;
+}
+/* Filter chips: the row rises and the chips fade in just behind it.
+   The chip's own transition list is repeated with 0s delays so the
+   existing hover lift behaves exactly as it does today. */
+.ministries-page.ministries-anim-ready .ministries-filter{
+	opacity: 0;
+	translate: 0 10px;
+	transition:
+		color .25s ease,
+		background .25s ease,
+		border-color .25s ease,
+		box-shadow .25s ease,
+		transform .25s ease,
+		opacity .6s cubic-bezier(.22, 1, .36, 1),
+		translate .6s cubic-bezier(.22, 1, .36, 1);
+	transition-delay: 0s, 0s, 0s, 0s, 0s, .08s, .08s;
+}
+.ministries-page.ministries-anim-ready .ministries-filters.is-visible .ministries-filter{
+	opacity: 1;
+	translate: none;
+}
+
+/* --- 3. Ministry cards (.ministry-card): staggered reveal ----- */
+/* Each card fades in, rises a little and settles into place, and
+   the three columns cascade left to right. On phones the cards
+   arrive one at a time as they scroll in, so the same delays simply
+   read as a single beat.
+   The card repeats its own hover transition list with 0s delays, so
+   only opacity/translate/scale are staggered and the hover lift is
+   never slowed down. A card that a category filter shows again is
+   already revealed, so it reappears instantly, exactly as before. */
+.ministries-page.ministries-anim-ready .ministry-card{
+	opacity: 0;
+	translate: 0 26px;
+	scale: .985;
+	transition:
+		transform .3s ease,
+		box-shadow .3s ease,
+		border-color .3s ease,
+		opacity .8s cubic-bezier(.22, 1, .36, 1),
+		translate .8s cubic-bezier(.22, 1, .36, 1),
+		scale .8s cubic-bezier(.22, 1, .36, 1);
+	transition-delay:
+		0s, 0s, 0s,
+		var(--ministries-delay, 0s),
+		var(--ministries-delay, 0s),
+		var(--ministries-delay, 0s);
+}
+.ministries-page.ministries-anim-ready .ministries-grid .ministry-card:nth-child(3n + 1){
+	--ministries-delay: .05s;
+}
+.ministries-page.ministries-anim-ready .ministries-grid .ministry-card:nth-child(3n + 2){
+	--ministries-delay: .16s;
+}
+.ministries-page.ministries-anim-ready .ministries-grid .ministry-card:nth-child(3n + 3){
+	--ministries-delay: .27s;
+}
+.ministries-page.ministries-anim-ready .ministry-card.is-visible{
+	opacity: 1;
+	translate: none;
+	scale: 1;
+}
+/* The watermark icon is the card's secondary entrance: it eases in a
+   beat after its card with a soft scale. The independent `scale`
+   property composes with the icon's centring `transform`, so the
+   watermark stays perfectly centred, and cards that carry a real
+   photo hide the icon, so nothing double-animates. */
+.ministries-page.ministries-anim-ready .ministry-card__icon{
+	opacity: 0;
+	scale: .86;
+	transition:
+		color .3s ease,
+		opacity .9s cubic-bezier(.22, 1, .36, 1),
+		scale .9s cubic-bezier(.22, 1, .36, 1);
+	transition-delay:
+		0s,
+		calc(var(--ministries-delay, 0s) + .16s),
+		calc(var(--ministries-delay, 0s) + .16s);
+}
+.ministries-page.ministries-anim-ready .ministry-card.is-visible .ministry-card__icon{
+	opacity: 1;
+	scale: 1;
+}
+
+/* --- 4. Featured ministry: artwork left, content right -------- */
+/* A different beat from the grid above: the artwork eases in from
+   the left with a soft settle while the whole content column drifts
+   in from the right, and everything inside that column ladders
+   down — badge, title, copy, statistics, then leader and CTA. */
+.ministries-page.ministries-anim-ready .featured-ministry__media{
+	opacity: 0;
+	translate: -20px 0;
+	scale: .99;
+	transition:
+		opacity .85s cubic-bezier(.22, 1, .36, 1),
+		translate .85s cubic-bezier(.22, 1, .36, 1),
+		scale .85s cubic-bezier(.22, 1, .36, 1);
+}
+.ministries-page.ministries-anim-ready .featured-ministry__media.is-visible{
+	opacity: 1;
+	translate: none;
+	scale: 1;
+}
+.ministries-page.ministries-anim-ready .featured-ministry__content{
+	translate: 16px 0;
+	transition: translate .85s cubic-bezier(.22, 1, .36, 1);
+	transition-delay: .12s;
+}
+.ministries-page.ministries-anim-ready .featured-ministry__content.is-visible{
+	translate: none;
+}
+.ministries-page.ministries-anim-ready .featured-ministry__badge,
+.ministries-page.ministries-anim-ready .featured-ministry__title,
+.ministries-page.ministries-anim-ready .featured-ministry__text,
+.ministries-page.ministries-anim-ready .featured-ministry__foot{
+	opacity: 0;
+	translate: 0 16px;
+	transition:
+		opacity .75s cubic-bezier(.22, 1, .36, 1),
+		translate .75s cubic-bezier(.22, 1, .36, 1);
+	transition-delay: var(--ministries-delay, 0s);
+}
+.ministries-page.ministries-anim-ready .featured-ministry__badge{ --ministries-delay: .18s; }
+.ministries-page.ministries-anim-ready .featured-ministry__title{ --ministries-delay: .28s; }
+.ministries-page.ministries-anim-ready .featured-ministry__text{ --ministries-delay: .40s; }
+.ministries-page.ministries-anim-ready .featured-ministry__foot{ --ministries-delay: .72s; }
+.ministries-page.ministries-anim-ready .featured-ministry__badge.is-visible,
+.ministries-page.ministries-anim-ready .featured-ministry__title.is-visible,
+.ministries-page.ministries-anim-ready .featured-ministry__text.is-visible,
+.ministries-page.ministries-anim-ready .featured-ministry__foot.is-visible{
+	opacity: 1;
+	translate: none;
+}
+
+/* --- 5. Featured statistics: a small stagger, no counting ----- */
+/* The values stay exactly as the page renders them — only the
+   appearance of each tile is animated, one after another. */
+.ministries-page.ministries-anim-ready .featured-ministry__stats{
+	translate: 0 12px;
+	transition: translate .75s cubic-bezier(.22, 1, .36, 1);
+	transition-delay: .52s;
+}
+.ministries-page.ministries-anim-ready .featured-ministry__stats.is-visible{
+	translate: none;
+}
+.ministries-page.ministries-anim-ready .featured-ministry__stat{
+	opacity: 0;
+	translate: 0 14px;
+	scale: .97;
+	transition:
+		opacity .7s cubic-bezier(.22, 1, .36, 1),
+		translate .7s cubic-bezier(.22, 1, .36, 1),
+		scale .7s cubic-bezier(.22, 1, .36, 1);
+	transition-delay: var(--ministries-delay, 0s);
+}
+.ministries-page.ministries-anim-ready .featured-ministry__stats .featured-ministry__stat:nth-child(1){ --ministries-delay: .54s; }
+.ministries-page.ministries-anim-ready .featured-ministry__stats .featured-ministry__stat:nth-child(2){ --ministries-delay: .62s; }
+.ministries-page.ministries-anim-ready .featured-ministry__stats .featured-ministry__stat:nth-child(3){ --ministries-delay: .70s; }
+.ministries-page.ministries-anim-ready .featured-ministry__stat.is-visible{
+	opacity: 1;
+	translate: none;
+	scale: 1;
+}
+/* The leader line and the "I'd Like to Serve" button close the
+   section: the group arrives last, the button one beat after it.
+   The button repeats its own hover transition list with 0s delays,
+   so its hover lift behaves exactly as it does today. */
+.ministries-page.ministries-anim-ready .featured-ministry__foot .ministries-btn{
+	opacity: 0;
+	translate: 0 10px;
+	transition:
+		transform .25s ease,
+		box-shadow .25s ease,
+		background .25s ease,
+		border-color .25s ease,
+		opacity .7s cubic-bezier(.22, 1, .36, 1),
+		translate .7s cubic-bezier(.22, 1, .36, 1);
+	transition-delay: 0s, 0s, 0s, 0s, .80s, .80s;
+}
+.ministries-page.ministries-anim-ready .featured-ministry__foot.is-visible .ministries-btn{
+	opacity: 1;
+	translate: none;
+}
+
+/* --- 6. Footer (.kc118): same beat as About Us and Events ----- */
+/* Identical to the footer reveal used on the About Us and Events
+   pages — a 14px rise over .7s on the same curve — so the shared
+   KCI footer feels the same everywhere on the site. */
+.ministries-page.ministries-anim-ready .kc118 .kc119{
+	opacity: 0;
+	translate: 0 14px;
+	transition:
+		opacity .7s cubic-bezier(.22, 1, .36, 1),
+		translate .7s cubic-bezier(.22, 1, .36, 1);
+}
+.ministries-page.ministries-anim-ready .kc118 .kc119.is-visible{
+	opacity: 1;
+	translate: none;
+}
+
+/* --- Small screens: shorter travel, calmer settle ------------ */
+/* Nothing here touches layout — only how far an item travels — so
+   the page never gains side-scrolling, empty bands or jumping. */
+@media (max-width: 900px){
+	.ministries-page.ministries-anim-ready .featured-ministry__media{
+		translate: -12px 0;
+	}
+	.ministries-page.ministries-anim-ready .featured-ministry__content{
+		translate: 10px 0;
+	}
+}
+@media (max-width: 640px){
+	.ministries-page.ministries-anim-ready .ministries-all__intro,
+	.ministries-page.ministries-anim-ready .ministries-filters{
+		translate: 0 10px;
+	}
+	.ministries-page.ministries-anim-ready .ministry-card{
+		translate: 0 20px;
+	}
+	.ministries-page.ministries-anim-ready .featured-ministry__stat{
+		translate: 0 12px;
+	}
+}
+
+/* --- Reduced motion: show everything, animate nothing -------- */
+/* min.php already skips priming for these visitors, so the small
+   screens block above can never apply; these rules also cover a
+   switch to reduced motion after the page has primed itself. They
+   sit last in this section on purpose, so they always win. */
+@media (prefers-reduced-motion: reduce){
+	.ministries-page .ministries-hero__content,
+	.ministries-page .ministries-hero__content .ministries-eyebrow,
+	.ministries-page .ministries-hero__content .ministries-hero__title,
+	.ministries-page .ministries-hero__content .ministries-hero__text,
+	.ministries-page .ministries-hero__content .ministries-hero__actions,
+	.ministries-page .ministries-hero__content .ministries-hero__actions .ministries-btn:nth-child(1),
+	.ministries-page .ministries-hero__content .ministries-hero__actions .ministries-btn:nth-child(2),
+	.ministries-page .ministries-hero__image{
+		animation: none;
+	}
+	.ministries-page.ministries-anim-ready .ministries-all__intro,
+	.ministries-page.ministries-anim-ready .ministries-all__intro .ministries-eyebrow,
+	.ministries-page.ministries-anim-ready .ministries-all__title,
+	.ministries-page.ministries-anim-ready .ministries-all__text,
+	.ministries-page.ministries-anim-ready .ministries-filters,
+	.ministries-page.ministries-anim-ready .ministries-filter,
+	.ministries-page.ministries-anim-ready .ministry-card,
+	.ministries-page.ministries-anim-ready .ministry-card__icon,
+	.ministries-page.ministries-anim-ready .featured-ministry__media,
+	.ministries-page.ministries-anim-ready .featured-ministry__content,
+	.ministries-page.ministries-anim-ready .featured-ministry__badge,
+	.ministries-page.ministries-anim-ready .featured-ministry__title,
+	.ministries-page.ministries-anim-ready .featured-ministry__text,
+	.ministries-page.ministries-anim-ready .featured-ministry__stats,
+	.ministries-page.ministries-anim-ready .featured-ministry__stat,
+	.ministries-page.ministries-anim-ready .featured-ministry__foot,
+	.ministries-page.ministries-anim-ready .featured-ministry__foot .ministries-btn,
+	.ministries-page.ministries-anim-ready .kc118 .kc119{
+		opacity: 1;
+		translate: none;
+		scale: 1;
+		transition: none;
+	}
+	/* The cards, the chips and the featured button keep the hover
+	   transitions they have always had; only the reveal is dropped. */
+	.ministries-page.ministries-anim-ready .ministry-card{
+		transition: transform .3s ease, box-shadow .3s ease, border-color .3s ease;
+		transition-delay: 0s, 0s, 0s;
+	}
+	.ministries-page.ministries-anim-ready .ministry-card__icon{
+		transition: color .3s ease;
+		transition-delay: 0s;
+	}
+	.ministries-page.ministries-anim-ready .ministries-filter{
+		transition: color .25s ease, background .25s ease, border-color .25s ease,
+		            box-shadow .25s ease, transform .25s ease;
+		transition-delay: 0s, 0s, 0s, 0s, 0s;
+	}
+	.ministries-page.ministries-anim-ready .featured-ministry__foot .ministries-btn{
+		transition: transform .25s ease, box-shadow .25s ease,
+		            background .25s ease, border-color .25s ease;
+		transition-delay: 0s, 0s, 0s, 0s;
+	}
+}
+
+

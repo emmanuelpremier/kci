@@ -16,12 +16,24 @@
 
 </head>
 <body class="about-page">
+	<!-- About page: prime the scroll-reveal initial state before the first
+	     paint. Skipped for reduced-motion users and when IntersectionObserver
+	     is unavailable, so the content is never left hidden. -->
+	<script type="text/javascript">
+		(function () {
+			var reduced = window.matchMedia &&
+				window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+			if (reduced || !('IntersectionObserver' in window)) return;
+			document.body.classList.add('about-anim-ready');
+		})();
+	</script>
+
 	<!--header-->
 	<section class="kc1">
-		<div class="kc2">
+		<a href="index.php" class="kc2" aria-label="KCI home">
 			<img src="kci_image/im2.jpg">
 			<span class="kc-logo-text">KCI</span>
-		</div>
+		</a>
 		<nav class="kc3" id="mainNav">
 			<ul>
 				<li><a href="index.php">Home</a>
@@ -30,22 +42,22 @@
 				<li><a href="aboutus.php">About</a>
 					<div class="linea"></div>
 				</li>
-				<li><a href="events.php">Events<span class="arrow">&#709;</span></a>
+				<li><a href="events.php">Events<i class="fa-solid fa-chevron-down arrow" aria-hidden="true"></i></a>
 					<div class="linec"></div>
 					<ul class="dropdown">
-						<li><a href="events/oil.php">Oil & Wine Summit</a></li>
-						<li><a href="events/conf.php">June Conference</a></li>
-						<li><a href="events/embers.php">Embers Of Glory</a></li>
+						<li><a href="event.php?slug=oil-wine-summit">Oil & Wine Summit</a></li>
+						<li><a href="event.php?slug=june-conference">June Conference</a></li>
+						<li><a href="event.php?slug=embers-of-glory">Embers Of Glory</a></li>
 					</ul>
 				</li>
-				<li class="linef"><a href="min.php">Ministries<span class="arrow">&#709;</span></a>
+				<li class="linef"><a href="min.php">Ministries<i class="fa-solid fa-chevron-down arrow" aria-hidden="true"></i></a>
 					<div class="lined"></div>
 					<ul class="dropdown">
-						<li><a href="miss.php">Missions</a></li>
-						<li><a href="wom.php">Women's Ministry</a></li>
-						<li><a href="yot.php">YC-The Youth Church</a></li>
-						<li><a href="mte.php">MTC-Mighty Teens Church</a></li>
-						<li><a href="chi.php">Children Church</a></li>
+						<li><a href="ministry.php?slug=global-missions">Missions</a></li>
+						<li><a href="ministry.php?slug=womens-ministry">Women's Ministry</a></li>
+						<li><a href="ministry.php?slug=youth-church">YC-The Youth Church</a></li>
+						<li><a href="ministry.php?slug=mighty-teens">MTC-Mighty Teens Church</a></li>
+						<li><a href="ministry.php?slug=children-church">Children Church</a></li>
 					</ul>
 				</li>
 				<li><a href="contact.php">Contact</a>
@@ -287,5 +299,51 @@
 			}
 		});
 	</script>
+	<script type="text/javascript">
+		// About page: lightweight IntersectionObserver scroll-reveal.
+		// Fully self-contained — it does NOT touch the mobile menu, the
+		// dropdown or the header scroll/glassmorphism code above.
+		(function () {
+			var body = document.body;
+			if (!body || !body.classList.contains('about-page')) return;
+
+			// The pre-paint script (see top of <body>) only primes the page
+			// when motion is allowed and IntersectionObserver exists. If it
+			// was skipped the content simply stays visible.
+			if (!body.classList.contains('about-anim-ready')) return;
+
+			var targets = document.querySelectorAll(
+				'.about-page .kc45 .kc48, ' +
+				'.about-page .kc45 .kc50 > img, ' +
+				'.about-page .kc51 .kc52, ' +
+				'.about-page .kc57 .kc58, ' +
+				'.about-page .kc59 .kc60, ' +
+				'.about-page .kc65 .kc70, ' +
+				'.about-page .kc65 .kc72, ' +
+				'.about-page .kc118 .kc119'
+			);
+
+			if (!targets.length) return;
+
+			try {
+				var observer = new IntersectionObserver(function (entries) {
+					entries.forEach(function (entry) {
+						if (entry.isIntersecting) {
+							entry.target.classList.add('is-visible');
+							observer.unobserve(entry.target);
+						}
+					});
+				}, { threshold: 0.15, rootMargin: '0px 0px -8% 0px' });
+
+				targets.forEach(function (target) {
+					observer.observe(target);
+				});
+			} catch (error) {
+				// Never leave content hidden if anything goes wrong.
+				body.classList.remove('about-anim-ready');
+			}
+		})();
+	</script>
+
 </body>
 </html>

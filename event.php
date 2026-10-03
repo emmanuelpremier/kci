@@ -50,12 +50,27 @@ if (!empty($slug) && !$event) {
 <title><?= $event ? htmlspecialchars($event['title']) : 'Events' ?> | Kingdomite Church International</title>
 </head>
 <body class="events-page">
+	<!-- Event detail page: prime the scroll-reveal initial state before the
+	     first paint. Only rendered when a valid $event exists; skipped for
+	     reduced-motion users and when IntersectionObserver is unavailable, so
+	     the content is never left hidden. -->
+	<?php if ($event): ?>
+	<script type="text/javascript">
+		(function () {
+			var reduced = window.matchMedia &&
+				window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+			if (reduced || !('IntersectionObserver' in window)) return;
+			document.body.classList.add('event-detail-anim-ready');
+		})();
+	</script>
+	<?php endif; ?>
+
 	<!--header-->
 	<section class="kc1">
-		<div class="kc2">
+		<a href="index.php" class="kc2" aria-label="KCI home">
 			<img src="kci_image/im2.jpg">
 			<span class="kc-logo-text">KCI</span>
-		</div>
+		</a>
 		<nav class="kc3" id="mainNav">
 			<ul>
 				<li><a href="index.php">Home</a>
@@ -64,7 +79,7 @@ if (!empty($slug) && !$event) {
 				<li><a href="aboutus.php">About</a>
 					<div class="linea"></div>
 				</li>
-				<li><a href="events.php">Events<span class="arrow">&#709;</span></a>
+				<li><a href="events.php">Events<i class="fa-solid fa-chevron-down arrow" aria-hidden="true"></i></a>
 					<div class="linec"></div>
 					<ul class="dropdown">
 						<?php foreach ($allEvents as $ev): ?>
@@ -72,14 +87,14 @@ if (!empty($slug) && !$event) {
 						<?php endforeach; ?>
 					</ul>
 				</li>
-				<li class="linef"><a href="min.php">Ministries<span class="arrow">&#709;</span></a>
+				<li class="linef"><a href="min.php">Ministries<i class="fa-solid fa-chevron-down arrow" aria-hidden="true"></i></a>
 					<div class="lined"></div>
 					<ul class="dropdown">
-						<li><a href="miss.php">Missions</a></li>
-						<li><a href="wom.php">Women's Ministry</a></li>
-						<li><a href="yot.php">YC-The Youth Church</a></li>
-						<li><a href="mte.php">MTC-Mighty Teens Church</a></li>
-						<li><a href="chi.php">Children Church</a></li>
+						<li><a href="ministry.php?slug=global-missions">Missions</a></li>
+						<li><a href="ministry.php?slug=womens-ministry">Women's Ministry</a></li>
+						<li><a href="ministry.php?slug=youth-church">YC-The Youth Church</a></li>
+						<li><a href="ministry.php?slug=mighty-teens">MTC-Mighty Teens Church</a></li>
+						<li><a href="ministry.php?slug=children-church">Children Church</a></li>
 					</ul>
 				</li>
 				<li><a href="contact.php">Contact</a>
@@ -197,6 +212,48 @@ if (!empty($slug) && !$event) {
 	</section>
 	<?php endif; ?>
 
+	<footer class="kc118">
+    <div class="kc119">
+        <div class="kc120">
+            <div class="kc121">
+                <div class="kc122"><img src="kci_image/img13.png"></div>
+                <div class="kc123">
+                    <strong>KINGDOMITE</strong>
+                    <span>CHURCH INTERNATIONAL</span>
+                </div>
+            </div>
+            <p>
+                Building a people who know God, love people
+                and live out His purpose.
+            </p>
+        </div>
+
+        <div class="kc124">
+            <h4>Quick Links</h4>
+            <a href="index.php">Home</a>
+            <a href="aboutus.php">About</a>
+            <a href="events.php">Events</a>
+            <a href="contact.php">Contact</a>
+        </div>
+
+        <div class="kc124">
+            <h4>Contact</h4>
+            <p>Phone: +234 806 497 9241</p>
+            <p>Email: info@kingdomitechurch@gmail.com</p>
+        </div>
+
+        <div class="kc124">
+            <h4>Location</h4>
+            <p>Kingdomite Church International</p>
+            <p>Nigeria</p>
+        </div>
+    </div>
+
+    <div class="kc125">
+        <p>© <?= date('Y') ?> Kingdomite Church International. All Rights Reserved.</p>
+    </div>
+</footer>
+
 	<script type="text/javascript">
 		// Mobile menu toggle
 		var menuToggle = document.getElementById('menuToggle');
@@ -228,5 +285,49 @@ if (!empty($slug) && !$event) {
 			}
 		});
 	</script>
+	<?php if ($event): ?>
+	<script type="text/javascript">
+		// Event detail page: lightweight IntersectionObserver scroll-reveal.
+		// Fully self-contained — it does NOT touch the mobile menu, the
+		// dropdowns or the header scroll/glassmorphism code above.
+		(function () {
+			var body = document.body;
+			if (!body || !body.classList.contains('event-detail-anim-ready')) return;
+
+			var targets = document.querySelectorAll(
+				'.event-detail-content .event-detail-main .event-detail-label, ' +
+				'.event-detail-content .event-detail-main h2, ' +
+				'.event-detail-content .event-detail-main > p, ' +
+				'.event-detail-content .event-detail-main h3, ' +
+				'.event-detail-content .event-detail-main h3 + p, ' +
+				'.event-detail-content .event-detail-sidebar .event-detail-card, ' +
+				'.event-detail-cta .event-detail-cta-content h2, ' +
+				'.event-detail-cta .event-detail-cta-content p, ' +
+				'.event-detail-cta .event-detail-cta-button, ' +
+				'.kc118 .kc119'
+			);
+
+			if (!targets.length) return;
+
+			try {
+				var observer = new IntersectionObserver(function (entries) {
+					entries.forEach(function (entry) {
+						if (entry.isIntersecting) {
+							entry.target.classList.add('is-visible');
+							observer.unobserve(entry.target);
+						}
+					});
+				}, { threshold: 0.15, rootMargin: '0px 0px -8% 0px' });
+
+				targets.forEach(function (target) {
+					observer.observe(target);
+				});
+			} catch (error) {
+				// Never leave content hidden if anything goes wrong.
+				body.classList.remove('event-detail-anim-ready');
+			}
+		})();
+	</script>
+	<?php endif; ?>
 </body>
 </html>

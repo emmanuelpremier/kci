@@ -21,19 +21,31 @@ if ($result) {
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="kci.css">
+    <link rel="stylesheet" type="text/css" href="kci.css?v=19">
     <link rel="icon" type="image/png" href="kci_image">
     <title>Events | Kingdomite Church International</title>
     <!-- inserting of icon link from cdjns -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body class="events-page">
+    <!-- Events page: prime the scroll-reveal initial state before the first
+         paint. Skipped for reduced-motion users and when IntersectionObserver
+         is unavailable, so the content is never left hidden. -->
+    <script type="text/javascript">
+        (function () {
+            var reduced = window.matchMedia &&
+                window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            if (reduced || !('IntersectionObserver' in window)) return;
+            document.body.classList.add('events-anim-ready');
+        })();
+    </script>
+
     <!--header-->
     <section class="kc1">
-        <div class="kc2">
+        <a href="index.php" class="kc2" aria-label="KCI home">
             <img src="kci_image/im2.jpg">
             <span class="kc-logo-text">KCI</span>
-        </div>
+        </a>
         <nav class="kc3" id="mainNav">
             <ul>
                 <li><a href="index.php">Home</a>
@@ -42,7 +54,7 @@ if ($result) {
                 <li><a href="aboutus.php">About</a>
                     <div class="linea"></div>
                 </li>
-                <li><a href="events.php">Events<span class="arrow">&#709;</span></a>
+                <li><a href="events.php">Events<i class="fa-solid fa-chevron-down arrow" aria-hidden="true"></i></a>
                     <div class="linec"></div>
                     <ul class="dropdown">
                         <li><a href="event.php?slug=oil-wine-summit">Oil & Wine Summit</a></li>
@@ -50,14 +62,14 @@ if ($result) {
                         <li><a href="event.php?slug=embers-of-glory">Embers Of Glory</a></li>
                     </ul>
                 </li>
-                <li class="linef"><a href="min.php">Ministries<span class="arrow">&#709;</span></a>
+                <li class="linef"><a href="min.php">Ministries<i class="fa-solid fa-chevron-down arrow" aria-hidden="true"></i></a>
                     <div class="lined"></div>
                     <ul class="dropdown">
-                        <li><a href="miss.php">Missions</a></li>
-                        <li><a href="wom.php">Women's Ministry</a></li>
-                        <li><a href="yot.php">YC-The Youth Church</a></li>
-                        <li><a href="mte.php">MTC-Mighty Teens Church</a></li>
-                        <li><a href="chi.php">Children Church</a></li>
+                        <li><a href="ministry.php?slug=global-missions">Missions</a></li>
+                        <li><a href="ministry.php?slug=womens-ministry">Women's Ministry</a></li>
+                        <li><a href="ministry.php?slug=youth-church">YC-The Youth Church</a></li>
+                        <li><a href="ministry.php?slug=mighty-teens">MTC-Mighty Teens Church</a></li>
+                        <li><a href="ministry.php?slug=children-church">Children Church</a></li>
                     </ul>
                 </li>
                 <li><a href="contact.php">Contact</a>
@@ -385,6 +397,59 @@ if ($result) {
                 header.classList.remove('scrolled');
             }
         });
+    </script>
+    <script type="text/javascript">
+        // Events page: lightweight IntersectionObserver scroll-reveal.
+        // Fully self-contained - it does NOT touch the mobile menu, the
+        // dropdowns or the header scroll/glassmorphism code above.
+        (function () {
+            var body = document.body;
+            if (!body || !body.classList.contains('events-page')) return;
+
+            // The pre-paint script (see top of <body>) only primes the page
+            // when motion is allowed and IntersectionObserver exists. If it
+            // was skipped the content simply stays visible.
+            if (!body.classList.contains('events-anim-ready')) return;
+
+            var targets = document.querySelectorAll(
+                '.events-page .kc77 .kc78 > *, ' +
+                '.events-page .kc80 .kc82, ' +
+                '.events-page .kc80 .kc83 img, ' +
+                '.events-page .kc80 .kc85, ' +
+                '.events-page .kc87 .kc88, ' +
+                '.events-page .kc87 .kc89, ' +
+                '.events-page .kc87 .kc89 > *, ' +
+                '.events-page .kc93 .kc94 > *, ' +
+                '.events-page .kc93 .kc97, ' +
+                '.events-page .kc99 .kc100 > *, ' +
+                '.events-page .kc99 .kc103, ' +
+                '.events-page .kc107 .kc108 > *, ' +
+                '.events-page .kc107 .kc111, ' +
+                '.events-page .kc113 .kc115 > *, ' +
+                '.events-page .kc118 .kc119'
+            );
+
+            if (!targets.length) return;
+
+            try {
+                var observer = new IntersectionObserver(function (entries) {
+                    entries.forEach(function (entry) {
+                        if (!entry.isIntersecting) return;
+                        // Each element animates once: the class is added and
+                        // the element is unobserved immediately afterwards.
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target);
+                    });
+                }, { threshold: 0.15, rootMargin: '0px 0px -6% 0px' });
+
+                targets.forEach(function (target) {
+                    observer.observe(target);
+                });
+            } catch (error) {
+                // Never leave content hidden if anything goes wrong.
+                body.classList.remove('events-anim-ready');
+            }
+        })();
     </script>
 </body>
 </html>
