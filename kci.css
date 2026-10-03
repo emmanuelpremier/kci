@@ -243,7 +243,7 @@ body{
 	width: 100%;
 	box-sizing: border-box;
 	height: 94vh;
-	background: linear-gradient(rgba(14, 15, 25, .75)), url("kci_image/img15.jpg");
+	background: linear-gradient(rgba(14, 15, 25, .75)), url("kci_image/img15.webp");
 	background-size: cover;
 	background-position: center;
 	background-repeat: no-repeat;
@@ -695,7 +695,7 @@ body{
 	box-sizing: border-box;
 	width: 100%;
 	min-height: 600px;
-	background-image: url('kci_image/im2.jpg');
+	background-image: url('kci_image/im2.webp');
 	background-size: cover;
 	background-position: center;
 	background-repeat: no-repeat;
@@ -1304,7 +1304,7 @@ body{
 	width: 100%;
 	margin-top: 10px;
 	padding-top: 40px;
-	background: url("kci_image/img14.jpg");
+	background: url("kci_image/img14.webp");
 	background-size: cover;
 	background-repeat: no-repeat;
 	background-position: center;
@@ -1798,7 +1798,7 @@ body{
 	text-align: center;
 	color: white;
 	background-color: #14162a;
-	background-image: linear-gradient(rgba(13, 14, 24, .48), rgba(13, 14, 24, .72)), url("kci_image/im3.jpg");
+	background-image: linear-gradient(rgba(13, 14, 24, .48), rgba(13, 14, 24, .72)), url("kci_image/im3.webp");
 	background-position: center;
 	background-size: cover;
 	background-repeat: no-repeat;
@@ -2290,7 +2290,7 @@ body{
 	place-items: center;
 	text-align: center;
 	color: white;
-	background: linear-gradient(rgba(63, 35, 118, .84), rgba(40, 48, 151, .86)), url('kci_image/img13.png') center no-repeat;
+	background: linear-gradient(rgba(63, 35, 118, .84), rgba(40, 48, 151, .86)), url('kci_image/img13.webp') center no-repeat;
 }
 .kc113 .kc114{
 	position: absolute;
@@ -2846,7 +2846,7 @@ body{
 	text-align: center;
 	color: white;
 	background-color: #14162a;
-	background-image: linear-gradient(rgba(13, 14, 24, .55), rgba(13, 14, 24, .78)), url("kci_image/img15.jpg");
+	background-image: linear-gradient(rgba(13, 14, 24, .55), rgba(13, 14, 24, .78)), url("kci_image/img15.webp");
 	background-position: center;
 	background-size: cover;
 	background-repeat: no-repeat;
@@ -4625,7 +4625,7 @@ body{
 /* Keep the About hero artwork visible beneath its text overlay. */
 .about-page .kc42{
 	background-color: #222;
-	background-image: linear-gradient(rgba(0, 0, 0, .42), rgba(0, 0, 0, .42)), url("./kci_image/img14.jpg");
+	background-image: linear-gradient(rgba(0, 0, 0, .42), rgba(0, 0, 0, .42)), url("./kci_image/img14.webp");
 	background-size: cover;
 	background-position: center;
 	background-repeat: no-repeat;

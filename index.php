@@ -30,7 +30,7 @@ $PASTOR_WHATSAPP_URL = 'PASTOR_WHATSAPP_URL';   // TODO: insert verified URL
 	<!--header-->
 	<section class="kc1">
 		<a href="index.php" class="kc2" aria-label="KCI home">
-			<img src="kci_image/im2.jpg">
+			<img src="kci_image/im2.webp">
 			<span class="kc-logo-text">KCI</span>
 		</a>
 		<nav class="kc3" id="mainNav">
@@ -131,16 +131,16 @@ $PASTOR_WHATSAPP_URL = 'PASTOR_WHATSAPP_URL';   // TODO: insert verified URL
 		</div>
 		<div class="kc21 all in">
 			<div class="kc14">
-				<img src="kci_image/im4.jpg" alt="Recent quote graphic">
+				<img src="kci_image/im4.webp" alt="Recent quote graphic">
 			</div>
 			<div class="kc15">
-				<img src="kci_image/im7.jpg" alt="Recent quote graphic">
+				<img src="kci_image/im7.webp" alt="Recent quote graphic">
 			</div>
 			<div class="kc16">
-				<img src="kci_image/im6.jpg" alt="Recent quote graphic">
+				<img src="kci_image/im6.webp" alt="Recent quote graphic">
 			</div>
 			<div class="kc17">
-				<img src="kci_image/im5.png" alt="Recent quote graphic">
+				<img src="kci_image/im5.webp" alt="Recent quote graphic">
 			</div>
 			<div class="kc20">
 				<a href="quotes.php">View More</a>
@@ -191,7 +191,7 @@ $PASTOR_WHATSAPP_URL = 'PASTOR_WHATSAPP_URL';   // TODO: insert verified URL
 		<div class="kc22 reveal active">
 			<div class="kc23">
 				<span class="kc23-frame" aria-hidden="true"></span>
-				<img src="kci_image/im8.jpg" alt="Pst. David Vincent, Lead Pastor of Kingdomite Church International">
+				<img src="kci_image/im8.webp" alt="Pst. David Vincent, Lead Pastor of Kingdomite Church International">
 			</div>
 			<div class="kc24">
 				<div class="kc25">
@@ -311,7 +311,7 @@ $PASTOR_WHATSAPP_URL = 'PASTOR_WHATSAPP_URL';   // TODO: insert verified URL
     <div class="kc119">
         <div class="kc120">
             <div class="kc121">
-                <div class="kc122"><img src="kci_image/img13.png"></div>
+                <div class="kc122"><img src="kci_image/img13.webp"></div>
                 <div class="kc123">
                     <strong>KINGDOMITE</strong>
                     <span>CHURCH INTERNATIONAL</span>

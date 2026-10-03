@@ -68,7 +68,7 @@ if (!empty($slug) && !$event) {
 	<!--header-->
 	<section class="kc1">
 		<a href="index.php" class="kc2" aria-label="KCI home">
-			<img src="kci_image/im2.jpg">
+			<img src="kci_image/im2.webp">
 			<span class="kc-logo-text">KCI</span>
 		</a>
 		<nav class="kc3" id="mainNav">
@@ -216,7 +216,7 @@ if (!empty($slug) && !$event) {
     <div class="kc119">
         <div class="kc120">
             <div class="kc121">
-                <div class="kc122"><img src="kci_image/img13.png"></div>
+                <div class="kc122"><img src="kci_image/img13.webp"></div>
                 <div class="kc123">
                     <strong>KINGDOMITE</strong>
                     <span>CHURCH INTERNATIONAL</span>

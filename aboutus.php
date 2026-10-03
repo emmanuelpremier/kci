@@ -31,7 +31,7 @@
 	<!--header-->
 	<section class="kc1">
 		<a href="index.php" class="kc2" aria-label="KCI home">
-			<img src="kci_image/im2.jpg">
+			<img src="kci_image/im2.webp">
 			<span class="kc-logo-text">KCI</span>
 		</a>
 		<nav class="kc3" id="mainNav">
@@ -96,8 +96,8 @@
 					<p>In the Kingdomite Church, we are a spirit filled family, your call, text, connection and care describes our church vision and mission. A hearfelt heart ultimately from the word.</p>
 				</div>
 				<div class="kc50">
-					<img src="kci_image/img20.png">
-					<img src="kci_image/img17.jpg">
+					<img src="kci_image/img20.webp">
+					<img src="kci_image/img17.webp">
 				</div>
 			</div>
 
@@ -155,7 +155,7 @@
 					<p>Community love, care and welcome. Or some story here.</p>
 				</div>
 				<div class="kc64"> <!-- white footer -->
-					<img src="kci_image/img16.jpg" alt="Worship" class="kcsam">
+					<img src="kci_image/img16.webp" alt="Worship" class="kcsam">
 					<div>
 						<h4>Worship</h4>
 						<p>Love from within, have you more amazing and wonderful.</p>
@@ -164,14 +164,14 @@
 			</div>
 
 			<div class="kc60">
-				<div class="kc61" style="background-image: url('kci_image/img23.jpg');"></div>
+				<div class="kc61" style="background-image: url('kci_image/img23.webp');"></div>
 				<div class="kc62">4</div>
 				<div class="kc63">
 					<h3>Teaching</h3>
 					<p>Love from the people, the word, the teaching.</p>
 				</div>
 				<div class="kc64">
-					<img src="kci_image/img25.jpg" alt="Teaching" class="kcsam">
+					<img src="kci_image/img25.webp" alt="Teaching" class="kcsam">
 					<div>
 						<h4>Teaching</h4>
 						<p>A heart felt teaching, with deep and clear word that sink deep into the heart of the people.</p>
@@ -187,7 +187,7 @@
 					<p>Find God, find hope. Or some story here will help you believe.</p>
 				</div>
 				<div class="kc64">
-					<img src="kci_image/img26.jpg" alt="Community" class="kcsam">
+					<img src="kci_image/img26.webp" alt="Community" class="kcsam">
 					<div>
 						<h4>Community</h4>
 						<p>Love from within, have you more amazing.</p>
@@ -205,13 +205,13 @@
 				<span class="kc68">VISIT 7</span>
 				<div class="kc69">
 					<div class="kc70">
-						<div class="kc71"><img src="kci_image/img27.JPG"><div><h4>David & Chisom</h4><p>Members for 3 years</p></div></div>
+						<div class="kc71"><img src="kci_image/img27.webp"><div><h4>David & Chisom</h4><p>Members for 3 years</p></div></div>
 						<h5>Vision To See People Connected</h5>
 						<p>Growing together. Serving together.<br>Because Community is where faith comes alive.<br><br>This church has helped us grow and find faith in our real community,A family where faith grows and lives are shared,Connected to God, Connected to each orther.</p>
 						<span>Sunday Service 8:00 AM</span>
 					</div>
 					<div class="kc70">
-						<div class="kc71"><img src="kci_image/img28.jpg"><div><h4>Bro Micheal</h4><p>First time visitor</p></div></div>
+						<div class="kc71"><img src="kci_image/img28.webp"><div><h4>Bro Micheal</h4><p>First time visitor</p></div></div>
 						<h5>Weekly Teaching Quotes</h5>
 						<p>The teaching is practical and helps me apply the Bible to my daily life.<br>Teaching that shapes your heart and direct your steps.<br><br>Fresh insight from God's word every week. Learn,grow,and apply the word each week.</p>
 						<span>Wednesday Service 5:00 PM</span>
@@ -231,7 +231,7 @@
     <div class="kc119">
         <div class="kc120">
             <div class="kc121">
-                <div class="kc122"><img src="kci_image/img13.png"></div>
+                <div class="kc122"><img src="kci_image/img13.webp"></div>
                 <div class="kc123">
                     <strong>KINGDOMITE</strong>
                     <span>CHURCH INTERNATIONAL</span>
