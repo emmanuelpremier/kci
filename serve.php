@@ -366,8 +366,8 @@ if ($displayMinistry && !empty($displayMinistry['image'])) {
 
 	        <div class="kc124">
 	            <h4>Contact</h4>
-	            <p>Phone: +234 806 497 9241</p>
-	            <p>Email: info@kingdomitechurch@gmail.com</p>
+	            <p>Phone / WhatsApp: <a href="https://wa.me/2348064979241" target="_blank" rel="noopener">+234 806 497 9241</a></p>
+	            <p>Email: <a href="mailto:dkcifamily@gmail.com">dkcifamily@gmail.com</a></p>
 	        </div>
 
 	        <div class="kc124">

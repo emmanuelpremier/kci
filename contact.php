@@ -183,13 +183,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 				<article class="contact-info__item">
 					<span class="contact-info__icon" aria-hidden="true"><i class="fa-solid fa-phone"></i></span>
 					<h3>Call Us</h3>
-					<p>+234 816 4617 1024</p>
+					<p><a href="https://wa.me/2348064979241" target="_blank" rel="noopener">+234 806 497 9241</a></p>
 				</article>
 				<article class="contact-info__item">
 					<span class="contact-info__icon" aria-hidden="true"><i class="fa-solid fa-envelope"></i></span>
 					<h3>Email Us</h3>
-					<p>info@<wbr>kingdomitechurch@gmail.com</p>
-					<p>kingdomitechurch@gmail.com</p>
+					<p><a href="mailto:dkcifamily@gmail.com">dkcifamily@gmail.com</a></p>
 				</article>
 				<article class="contact-info__item">
 					<span class="contact-info__icon" aria-hidden="true"><i class="fa-solid fa-location-dot"></i></span>
@@ -290,15 +289,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 						<ul class="contact-times__list">
 							<li class="contact-times__row">
 								<span>Sunday Service</span>
-								<strong>8:00am &amp; 10:30am</strong>
+								<strong>Sundays, 8:00am</strong>
 							</li>
 							<li class="contact-times__row">
 								<span>Midweek Service</span>
-								<strong>Wednesdays, 6:00pm</strong>
-							</li>
-							<li class="contact-times__row">
-								<span>Prayer Meeting</span>
-								<strong>Fridays, 6:30am</strong>
+								<strong>Wednesdays, 5:00pm</strong>
 							</li>
 						</ul>
 						<div class="contact-times__location">
@@ -356,8 +351,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <div class="kc124">
             <h4>Contact</h4>
-            <p>Phone: +234 806 497 9241</p>
-            <p>Email: info@kingdomitechurch@gmail.com</p>
+            <p>Phone / WhatsApp: <a href="https://wa.me/2348064979241" target="_blank" rel="noopener">+234 806 497 9241</a></p>
+            <p>Email: <a href="mailto:dkcifamily@gmail.com">dkcifamily@gmail.com</a></p>
         </div>
 
         <div class="kc124">

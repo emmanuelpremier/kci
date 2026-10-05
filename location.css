@@ -1,0 +1,530 @@
+/* ================================================================
+   LOCATION PAGE (location.php)
+   Loaded only by location.php, right after kci.css. Every rule is
+   scoped under body.location-page and every class is prefixed
+   "location-", so the shared header, the shared footer and every
+   other KCI page stay untouched.
+   Palette matches the contact page: purple (#7b52d6 / #5731b8 /
+   #6d42c1), navy (#241547 / #131a3d) and orange (#ff9d3d / #f5770f).
+   ================================================================ */
+.location-page{
+	background: #f8f6ff;
+}
+.location-page main{
+	display: block;
+}
+
+/* --- 1. Hero: dark navy banner below the fixed header --------- */
+.location-page .location-hero{
+	position: relative;
+	isolation: isolate;
+	overflow: hidden;
+	box-sizing: border-box;
+	padding: 150px 6% 92px;
+	color: #ffffff;
+	text-align: center;
+	background:
+		radial-gradient(620px 280px at 82% -20%, rgba(109, 66, 193, .5), transparent 65%),
+		radial-gradient(520px 260px at 6% 130%, rgba(245, 119, 15, .18), transparent 60%),
+		linear-gradient(160deg, #1a1030 0%, #241547 55%, #131a3d 100%);
+}
+.location-page .location-hero__inner{
+	position: relative;
+	z-index: 1;
+	width: min(780px, 100%);
+	margin: 0 auto;
+}
+.location-page .location-hero__label{
+	display: block;
+	color: #ff9d3d;
+	font-size: .72rem;
+	font-weight: 700;
+	letter-spacing: 3.4px;
+	text-transform: uppercase;
+}
+.location-page .location-hero__title{
+	margin: 16px 0 16px;
+	color: #ffffff;
+	font-size: clamp(2.4rem, 5.6vw, 4rem);
+	font-weight: 800;
+	line-height: 1.1;
+}
+.location-page .location-hero__text{
+	margin: 0 auto;
+	max-width: 600px;
+	color: rgba(255, 255, 255, .78);
+	font-size: clamp(.95rem, 1.6vw, 1.06rem);
+	line-height: 1.75;
+}
+
+/* --- 2. Map: rounded frame, max 1100px, centred --------------- */
+.location-page .location-map{
+	/* Extra bottom room for the card overhanging the map corner. */
+	padding: 60px 5% 122px;
+	background: #ffffff;
+}
+.location-page .location-map__inner{
+	position: relative;
+	width: min(1100px, 100%);
+	margin: 0 auto;
+}
+.location-page .location-map__frame{
+	height: 420px;
+	border-radius: 20px;
+	overflow: hidden;
+	/* Shown until the map tiles paint. */
+	background: #eae4f6;
+	box-shadow: 0 24px 54px rgba(36, 21, 71, .16);
+}
+.location-page .location-map__frame iframe{
+	display: block;
+	width: 100%;
+	height: 100%;
+	border: 0;
+}
+
+/* --- 3. Address card: overlaps the map's bottom-left corner ---- */
+.location-page .location-card{
+	position: absolute;
+	z-index: 2;
+	left: 24px;
+	bottom: -46px;
+	width: min(400px, calc(100% - 48px));
+	box-sizing: border-box;
+	padding: 24px;
+	border-radius: 18px;
+	background: #ffffff;
+	box-shadow: 0 24px 54px rgba(36, 21, 71, .20);
+}
+.location-page .location-card__icon{
+	display: grid;
+	place-items: center;
+	width: 48px;
+	height: 48px;
+	margin-bottom: 14px;
+	border-radius: 50%;
+	/* Purple location icon in a soft circle. */
+	color: #6d42c1;
+	background: rgba(109, 66, 193, .12);
+	font-size: 1.25rem;
+}
+.location-page .location-card__name{
+	margin: 0 0 6px;
+	color: #171923;
+	font-size: 1.08rem;
+	font-weight: 800;
+	line-height: 1.3;
+}
+.location-page .location-card__address{
+	margin: 0 0 18px;
+	color: #6b6f80;
+	font-size: .88rem;
+	line-height: 1.7;
+}
+.location-page .location-card__actions{
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
+}
+
+/* --- 4. Buttons: same shape and hover lift as .contact-btn ----- */
+.location-page .location-btn{
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 10px;
+	box-sizing: border-box;
+	padding: 15px 30px;
+	border: none;
+	border-radius: 999px;
+	font-family: 'Poppins', sans-serif;
+	font-size: .84rem;
+	font-weight: 700;
+	text-decoration: none;
+	cursor: pointer;
+	transition: transform .25s ease, box-shadow .25s ease,
+	            background .25s ease, color .25s ease,
+	            border-color .25s ease;
+}
+.location-page .location-btn:hover{
+	transform: translateY(-2px);
+}
+/* Solid purple gradient pill — the contact page's .contact-btn--solid. */
+.location-page .location-btn--solid{
+	color: #ffffff;
+	background: linear-gradient(135deg, #7b52d6, #5731b8);
+	box-shadow: 0 14px 30px rgba(87, 49, 184, .34);
+}
+.location-page .location-btn--solid:hover{
+	box-shadow: 0 18px 36px rgba(87, 49, 184, .44);
+}
+/* Outlined pill for the white address card ("Copy Address"). */
+.location-page .location-btn--ghost{
+	color: #5731b8;
+	background: #ffffff;
+	border: 1.5px solid #7b52d6;
+}
+.location-page .location-btn--ghost:hover{
+	background: rgba(123, 82, 214, .08);
+	border-color: #5731b8;
+}
+/* White ghost pill for the dark closing band — the contact page's
+   .contact-btn--ghost. */
+.location-page .location-btn--outline{
+	color: #ffffff;
+	background: rgba(255, 255, 255, .07);
+	border: 1.5px solid rgba(255, 255, 255, .38);
+}
+.location-page .location-btn--outline:hover{
+	background: rgba(255, 255, 255, .14);
+	border-color: #ffffff;
+}
+
+/* --- 5. Two-card row: Join Us + Plan Your Visit --------------- */
+.location-page .location-info{
+	padding: 92px 6% 96px;
+	background: #f8f6ff;
+}
+.location-page .location-info__grid{
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 28px;
+	width: min(1100px, 100%);
+	margin: 0 auto;
+}
+.location-page .location-block{
+	box-sizing: border-box;
+	padding: 34px 32px;
+	border: 1px solid #f0ecfa;
+	border-radius: 22px;
+	background: #ffffff;
+	box-shadow: 0 22px 50px rgba(40, 25, 85, .07);
+}
+.location-page .location-block__head{
+	display: flex;
+	align-items: center;
+	gap: 14px;
+	margin-bottom: 20px;
+}
+.location-page .location-block__icon{
+	display: grid;
+	place-items: center;
+	width: 46px;
+	height: 46px;
+	flex: 0 0 auto;
+	border-radius: 50%;
+	color: #6d42c1;
+	background: rgba(109, 66, 193, .12);
+	font-size: 1.1rem;
+}
+.location-page .location-block--accent .location-block__icon{
+	color: #f5770f;
+	background: rgba(245, 119, 15, .12);
+}
+.location-page .location-block__title{
+	margin: 0;
+	color: #171923;
+	font-size: 1.3rem;
+	font-weight: 800;
+}
+
+/* Service times — clean rows, no bullets. */
+.location-page .location-times{
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+.location-page .location-times li{
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 14px;
+	margin-bottom: 10px;
+	padding: 14px 16px;
+	border: 1px solid #f0eaf9;
+	border-radius: 12px;
+	background: #f8f5ff;
+}
+.location-page .location-times li:last-child{
+	margin-bottom: 0;
+}
+.location-page .location-times span{
+	color: #4a3f63;
+	font-size: .86rem;
+	font-weight: 600;
+}
+.location-page .location-times strong{
+	color: #f5770f;
+	font-size: .86rem;
+	font-weight: 800;
+	text-align: right;
+}
+
+/* Visit tips — same rhythm as the contact page's expect list,
+   using the check icons already in the markup. No bullets. */
+.location-page .location-tips{
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+.location-page .location-tips li{
+	display: flex;
+	align-items: flex-start;
+	gap: 12px;
+	padding: 12px 0;
+	border-bottom: 1px solid #f1eef9;
+	color: #4b4f61;
+	font-size: .88rem;
+	line-height: 1.6;
+}
+.location-page .location-tips li:last-child{
+	padding-bottom: 0;
+	border-bottom: none;
+}
+.location-page .location-tips i{
+	margin-top: 5px;
+	color: #6b46c1;
+	font-size: .74rem;
+}
+.location-page .location-tips a{
+	color: #f5770f;
+	font-weight: 700;
+	text-decoration: underline;
+	text-underline-offset: 2px;
+}
+.location-page .location-tips a:hover{
+	color: #6d42c1;
+}
+
+/* --- 6. "Need help finding us?" strip ------------------------- */
+.location-page .location-help{
+	padding: 84px 6% 88px;
+	background:
+		radial-gradient(560px 260px at 88% 0%, rgba(255, 157, 61, .16), transparent 60%),
+		linear-gradient(120deg, #f1eafd 0%, #f9f2fb 55%, #fdeede 100%);
+}
+.location-page .location-help__inner{
+	width: min(1000px, 100%);
+	margin: 0 auto;
+	text-align: center;
+}
+.location-page .location-help__title{
+	margin: 0 0 32px;
+	color: #241547;
+	font-size: clamp(1.5rem, 3vw, 2.15rem);
+	font-weight: 800;
+	line-height: 1.2;
+}
+.location-page .location-help__actions{
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 16px;
+}
+.location-page .location-pill{
+	display: inline-flex;
+	align-items: center;
+	gap: 11px;
+	padding: 12px 24px 12px 12px;
+	border: 1px solid #e7def9;
+	border-radius: 999px;
+	background: #ffffff;
+	color: #241547;
+	font-size: .86rem;
+	font-weight: 700;
+	text-decoration: none;
+	box-shadow: 0 12px 26px rgba(36, 21, 71, .08);
+	transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+}
+.location-page .location-pill:hover{
+	transform: translateY(-3px);
+	border-color: #6d42c1;
+	box-shadow: 0 16px 32px rgba(36, 21, 71, .14);
+}
+.location-page .location-pill__icon{
+	display: grid;
+	place-items: center;
+	width: 34px;
+	height: 34px;
+	flex: 0 0 auto;
+	border-radius: 50%;
+	color: #ffffff;
+	font-size: .95rem;
+}
+/* WhatsApp green, email purple, Facebook blue. */
+.location-page .location-pill__icon--wa{ background: #25d366; }
+.location-page .location-pill__icon--mail{ background: #6d42c1; }
+.location-page .location-pill__icon--fb{ background: #1877f2; }
+
+/* --- 7. Closing band — same gradient as form.php -------------- */
+.location-page .location-band{
+	padding: 92px 6% 96px;
+	text-align: center;
+	color: #ffffff;
+	background:
+		radial-gradient(700px 340px at 85% 0%, rgba(49, 87, 199, .5), transparent 62%),
+		linear-gradient(120deg, #241547 0%, #3a1f7a 50%, #131a3d 100%);
+}
+.location-page .location-band__inner{
+	width: min(820px, 100%);
+	margin: 0 auto;
+}
+.location-page .location-band__title{
+	margin: 0 0 30px;
+	font-size: clamp(1.9rem, 4vw, 3rem);
+	font-weight: 800;
+	line-height: 1.14;
+}
+.location-page .location-band__actions{
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 14px;
+}
+/* The band's primary button is the site's orange solid. */
+.location-page .location-band .location-btn--solid{
+	color: #ffffff;
+	background: linear-gradient(135deg, #ff9d3d, #f5770f);
+	box-shadow: 0 14px 30px rgba(245, 119, 15, .34);
+}
+.location-page .location-band .location-btn--solid:hover{
+	box-shadow: 0 18px 38px rgba(245, 119, 15, .46);
+}
+
+/* --- 8. Footer links inherit the footer's colour -------------- */
+/* Never default blue, never underlined; hover keeps the site-wide
+   white pop that .kc118 already provides. */
+.location-page .kc118 .kc124 a{
+	color: rgba(255, 255, 255, .55);
+	text-decoration: none;
+}
+.location-page .kc118 .kc124 a:hover{
+	color: #ffffff;
+}
+
+/* ================================================================
+   SCROLL REVEAL (location.php)
+   Same pattern as contact.php / form.php / aboutus.php: the pre-paint
+   script at the top of <body> adds .location-anim-ready, the observer
+   at the bottom of location.php adds .is-visible as each block
+   arrives. Both classes are required for anything to be hidden, so a
+   reduced-motion visitor (or a browser without IntersectionObserver)
+   simply never gets the hidden starting state.
+   ================================================================ */
+.location-page.location-anim-ready .location-reveal{
+	opacity: 0;
+	translate: 0 24px;
+	transition:
+		opacity .75s cubic-bezier(.22, 1, .36, 1),
+		translate .75s cubic-bezier(.22, 1, .36, 1);
+	transition-delay: var(--location-delay, 0s);
+}
+.location-page.location-anim-ready .location-reveal.is-visible{
+	opacity: 1;
+	translate: none;
+}
+/* The floating card follows its map; the second card follows the first. */
+.location-page.location-anim-ready .location-card{ --location-delay: .14s; }
+.location-page.location-anim-ready .location-block + .location-block{ --location-delay: .12s; }
+/* Footer: same beat as every other page on the site. */
+.location-page.location-anim-ready .kc118 .kc119{
+	opacity: 0;
+	translate: 0 14px;
+	transition:
+		opacity .7s cubic-bezier(.22, 1, .36, 1),
+		translate .7s cubic-bezier(.22, 1, .36, 1);
+}
+.location-page.location-anim-ready .kc118 .kc119.is-visible{
+	opacity: 1;
+	translate: none;
+}
+
+/* ================================================================
+   RESPONSIVE — 900px and 600px
+   ================================================================ */
+@media (max-width: 900px){
+	.location-page .location-hero{
+		padding: 122px 6% 74px;
+	}
+	.location-page .location-map{
+		/* Card drops into normal flow — no overhang room needed. */
+		padding: 48px 6% 60px;
+	}
+	.location-page .location-card{
+		position: static;
+		width: 100%;
+		margin-top: 18px;
+	}
+	.location-page .location-info{
+		padding: 72px 6% 78px;
+	}
+	/* Cards stack into one column. */
+	.location-page .location-info__grid{
+		grid-template-columns: 1fr;
+	}
+	.location-page .location-help{
+		padding: 68px 6% 72px;
+	}
+	.location-page .location-band{
+		padding: 76px 6% 80px;
+	}
+}
+@media (max-width: 600px){
+	/* The header is sticky and in flow here, so the hero only needs a
+	   normal breathing gap instead of full header clearance. */
+	.location-page .location-hero{
+		padding: 56px 5% 56px;
+	}
+	.location-page .location-map{
+		padding: 36px 5% 50px;
+	}
+	.location-page .location-map__frame{
+		height: 300px;
+		border-radius: 16px;
+	}
+	.location-page .location-card{
+		padding: 20px;
+	}
+	/* Buttons fill the row so long labels never clip. */
+	.location-page .location-card__actions .location-btn{
+		flex: 1 1 auto;
+	}
+	.location-page .location-info{
+		padding: 58px 5% 64px;
+	}
+	.location-page .location-block{
+		padding: 26px 20px;
+	}
+	.location-page .location-help{
+		padding: 56px 5% 60px;
+	}
+	.location-page .location-help__actions{
+		gap: 12px;
+	}
+	.location-page .location-pill{
+		flex: 1 1 100%;
+		justify-content: center;
+	}
+	.location-page .location-band{
+		padding: 66px 5% 70px;
+	}
+	.location-page .location-band__actions{
+		flex-direction: column;
+		align-items: stretch;
+	}
+	.location-page .location-band__actions .location-btn{
+		width: 100%;
+	}
+}
+
+/* --- Reduced motion: show everything, animate nothing ---------- */
+@media (prefers-reduced-motion: reduce){
+	.location-page.location-anim-ready .location-reveal,
+	.location-page.location-anim-ready .kc118 .kc119{
+		opacity: 1;
+		translate: none;
+		transition: none;
+	}
+}
+
+

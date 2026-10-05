@@ -6631,6 +6631,18 @@ body{
 .contact-page .contact-info__item p:last-child{
 	margin-bottom: 0;
 }
+/* The phone and email values in these cards are real links (WhatsApp /
+   mailto) but must look exactly like the plain text they replaced, so they
+   inherit the paragraph's colour, size and spacing with no underline. */
+.contact-page .contact-info__item p a{
+	color: inherit;
+	font: inherit;
+	text-decoration: none;
+	transition: color .25s ease;
+}
+.contact-page .contact-info__item p a:hover{
+	color: #6b46c1;
+}
 
 /* --- 3. Message form + side cards -------------------------- */
 .contact-page .contact-body{
@@ -6927,7 +6939,7 @@ body{
 /* --- 5. Responsive ----------------------------------------- */
 
 /* The four info cards only stay on one row while there is room for the
-   longest value (info@kingdomitechurch@gmail.com, ~236px at .8rem) to sit
+   longest value (dkcifamily@gmail.com) to sit
    on a single line; below that they fall back to two columns instead of
    breaking the address apart. Each card therefore needs roughly 1240px of
    viewport before the address still has a comfortable margin, and 1240px
@@ -8462,3 +8474,856 @@ body{
 }
 
 
+/* ============================================================
+   FIRST-TIMER FORM PAGE (form.php)
+   Every rule below is scoped to .firsttimer-page so the shared
+   header, the shared footer, contact.php, serve.php and every
+   other page stay untouched.
+   ============================================================ */
+.firsttimer-page{
+	background: #fbfaff;
+}
+.firsttimer-page main{
+	display: block;
+}
+
+/* --- Shared bits ------------------------------------------- */
+.firsttimer-page .firsttimer-eyebrow{
+	display: inline-block;
+	color: #f5b041;
+	font-size: .70rem;
+	font-weight: 800;
+	letter-spacing: 2.6px;
+	text-transform: uppercase;
+}
+.firsttimer-page .firsttimer-eyebrow--dark{
+	color: #6d42c1;
+}
+.firsttimer-page .firsttimer-btn{
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 10px;
+	box-sizing: border-box;
+	padding: 15px 30px;
+	border: none;
+	border-radius: 999px;
+	font-family: 'Poppins', sans-serif;
+	font-size: .84rem;
+	font-weight: 700;
+	text-decoration: none;
+	cursor: pointer;
+	transition: transform .25s ease, box-shadow .25s ease,
+	            background .25s ease, color .25s ease,
+	            border-color .25s ease;
+}
+.firsttimer-page .firsttimer-btn span{
+	transition: transform .2s ease;
+}
+.firsttimer-page .firsttimer-btn:hover{
+	transform: translateY(-2px);
+}
+.firsttimer-page .firsttimer-btn:hover span{
+	transform: translateX(5px);
+}
+.firsttimer-page .firsttimer-btn--solid{
+	color: #ffffff;
+	background: linear-gradient(135deg, #7b52d6, #5731b8);
+	box-shadow: 0 14px 30px rgba(87, 49, 184, .34);
+}
+.firsttimer-page .firsttimer-btn--solid:hover{
+	box-shadow: 0 18px 36px rgba(87, 49, 184, .44);
+}
+.firsttimer-page .firsttimer-btn--ghost{
+	color: #ffffff;
+	background: rgba(255, 255, 255, .07);
+	border: 1.5px solid rgba(255, 255, 255, .38);
+}
+.firsttimer-page .firsttimer-btn--ghost:hover{
+	background: rgba(255, 255, 255, .14);
+	border-color: #ffffff;
+}
+.firsttimer-page .firsttimer-btn--orange{
+	color: #ffffff;
+	background: linear-gradient(135deg, #ff9d3d, #f5770f);
+	box-shadow: 0 14px 30px rgba(245, 119, 15, .34);
+}
+.firsttimer-page .firsttimer-btn--orange:hover{
+	box-shadow: 0 18px 38px rgba(245, 119, 15, .46);
+}
+.firsttimer-page .firsttimer-btn--plain{
+	color: #5731b8;
+	background: #f4f0fd;
+	border: 1px solid #e7def9;
+	box-shadow: none;
+}
+.firsttimer-page .firsttimer-btn--plain:hover{
+	background: #ece4fc;
+}
+/* Anchor target clears the fixed header when jumped to. */
+.firsttimer-page #firsttimer-form{
+	scroll-margin-top: 104px;
+}
+/* --- 1. Split hero ------------------------------------------ */
+/* Left: eyebrow, title, one line of copy, scroll button.
+   Right: a tall rounded photo with a soft purple wash and a
+   floating "We saved you a seat" badge. */
+.firsttimer-page .firsttimer-hero{
+	position: relative;
+	isolation: isolate;
+	overflow: hidden;
+	box-sizing: border-box;
+	padding: 140px 6% 110px;
+	color: #ffffff;
+	background:
+		radial-gradient(900px 500px at 15% 10%, rgba(109, 66, 193, .55), transparent 60%),
+		linear-gradient(140deg, #241547 0%, #131a3d 55%, #101227 100%);
+}
+.firsttimer-page .firsttimer-hero__inner{
+	position: relative;
+	z-index: 1;
+	width: min(1250px, 100%);
+	margin: 0 auto;
+	display: grid;
+	grid-template-columns: 1.05fr .95fr;
+	align-items: center;
+	gap: 56px;
+}
+.firsttimer-page .firsttimer-hero__title{
+	margin: 16px 0 20px;
+	font-size: clamp(2.4rem, 5.2vw, 4.3rem);
+	font-weight: 800;
+	line-height: 1.04;
+	letter-spacing: -.5px;
+	text-shadow: 0 2px 26px rgba(9, 4, 24, .5);
+}
+.firsttimer-page .firsttimer-hero__text{
+	max-width: 560px;
+	margin: 0;
+	color: rgba(255, 255, 255, .82);
+	font-size: 1.02rem;
+	line-height: 1.85;
+}
+.firsttimer-page .firsttimer-hero__actions{
+	display: flex;
+	flex-wrap: wrap;
+	gap: 14px;
+	margin-top: 34px;
+}
+.firsttimer-page .firsttimer-hero__facts{
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px 26px;
+	margin: 30px 0 0;
+	padding: 22px 0 0;
+	list-style: none;
+	border-top: 1px solid rgba(255, 255, 255, .14);
+}
+.firsttimer-page .firsttimer-hero__facts li{
+	display: flex;
+	align-items: center;
+	gap: 9px;
+	color: rgba(255, 255, 255, .74);
+	font-size: .82rem;
+}
+.firsttimer-page .firsttimer-hero__facts i{
+	color: #f5b041;
+}
+.firsttimer-page .firsttimer-hero__media{
+	position: relative;
+	height: 100%;
+	min-height: 520px;
+	border-radius: 190px 190px 26px 26px;
+	overflow: visible;
+	box-shadow: 0 30px 70px rgba(6, 3, 18, .5);
+}
+.firsttimer-page .firsttimer-hero__media img{
+	display: block;
+	width: 100%;
+	height: 100%;
+	min-height: 520px;
+	object-fit: cover;
+	border-radius: inherit;
+}
+/* Soft purple gradient wash over the photo. */
+.firsttimer-page .firsttimer-hero__media::after{
+	content: '';
+	position: absolute;
+	inset: 0;
+	border-radius: inherit;
+	pointer-events: none;
+	background:
+		linear-gradient(180deg, rgba(109, 66, 193, .10) 0%, rgba(36, 21, 71, .62) 100%),
+		radial-gradient(120% 70% at 80% 0%, rgba(49, 87, 199, .42), transparent 60%);
+}
+.firsttimer-page .firsttimer-hero__badge{
+	position: absolute;
+	z-index: 2;
+	left: -22px;
+	bottom: 42px;
+	display: inline-flex;
+	align-items: center;
+	gap: 10px;
+	padding: 14px 24px;
+	border-radius: 999px;
+	background: linear-gradient(135deg, #ff9d3d, #f5770f);
+	color: #ffffff;
+	font-family: 'Poppins', sans-serif;
+	font-size: .80rem;
+	font-weight: 800;
+	letter-spacing: .3px;
+	white-space: nowrap;
+	box-shadow: 0 16px 36px rgba(245, 119, 15, .45);
+}
+/* --- 2. "Your First Sunday" 3-step strip -------------------- */
+/* Three numbered steps joined by a thin horizontal line on
+   desktop; stacked vertically on mobile. */
+.firsttimer-page .firsttimer-steps{
+	padding: 84px 6% 90px;
+	background: #ffffff;
+}
+.firsttimer-page .firsttimer-steps__inner{
+	width: min(1250px, 100%);
+	margin: 0 auto;
+}
+.firsttimer-page .firsttimer-steps__head{
+	max-width: 720px;
+	margin: 0 auto 58px;
+	text-align: center;
+}
+.firsttimer-page .firsttimer-steps__title{
+	margin: 16px 0 0;
+	color: #171923;
+	font-size: clamp(1.9rem, 3.6vw, 2.9rem);
+	font-weight: 800;
+	line-height: 1.16;
+}
+.firsttimer-page .firsttimer-steps__list{
+	position: relative;
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 34px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+/* The thin connecting line, running behind the step circles. */
+.firsttimer-page .firsttimer-steps__list::before{
+	content: '';
+	position: absolute;
+	top: 33px;
+	left: 17%;
+	right: 17%;
+	height: 1px;
+	background: linear-gradient(90deg, #d9d0ef, #6d42c1, #d9d0ef);
+}
+.firsttimer-page .firsttimer-step{
+	position: relative;
+	text-align: center;
+	padding: 0 12px;
+}
+.firsttimer-page .firsttimer-step__num{
+	position: relative;
+	z-index: 1;
+	display: grid;
+	place-items: center;
+	width: 66px;
+	height: 66px;
+	margin: 0 auto 20px;
+	border-radius: 50%;
+	background: #ffffff;
+	border: 2px solid #e7def9;
+	color: #6d42c1;
+	font-size: 1.35rem;
+	font-weight: 800;
+	box-shadow: 0 10px 26px rgba(109, 66, 193, .16);
+}
+.firsttimer-page .firsttimer-step__icon{
+	position: absolute;
+	z-index: 2;
+	top: 0;
+	left: 50%;
+	margin-left: 22px;
+	display: grid;
+	place-items: center;
+	width: 30px;
+	height: 30px;
+	border-radius: 50%;
+	background: linear-gradient(135deg, #ff9d3d, #f5770f);
+	color: #ffffff;
+	font-size: .72rem;
+	box-shadow: 0 8px 18px rgba(245, 119, 15, .38);
+}
+.firsttimer-page .firsttimer-step h3{
+	margin: 0 0 10px;
+	color: #171923;
+	font-size: 1.08rem;
+	font-weight: 800;
+}
+.firsttimer-page .firsttimer-step p{
+	margin: 0;
+	color: #6b6f80;
+	font-size: .88rem;
+	line-height: 1.75;
+}
+
+/* --- 3. The wide, centred form card ------------------------- */
+/* One single wide card — deliberately NOT side-by-side with a
+   side panel the way contact.php and serve.php are laid out. */
+.firsttimer-page .firsttimer-wrap{
+	padding: 92px 6% 100px;
+	background: #fbfaff;
+}
+.firsttimer-page .firsttimer-card{
+	box-sizing: border-box;
+	width: min(980px, 100%);
+	margin: 0 auto;
+	padding: 46px clamp(22px, 5%, 56px) 50px;
+	background: #ffffff;
+	border: 1px solid #ece8f7;
+	border-radius: 26px;
+	box-shadow: 0 26px 60px rgba(28, 17, 58, .10);
+}
+.firsttimer-page .firsttimer-card__head{
+	max-width: 620px;
+	margin: 0 auto 38px;
+	text-align: center;
+}
+.firsttimer-page .firsttimer-card__title{
+	margin: 14px 0 12px;
+	color: #171923;
+	font-size: clamp(1.8rem, 3.4vw, 2.6rem);
+	font-weight: 800;
+	line-height: 1.16;
+}
+.firsttimer-page .firsttimer-card__text{
+	margin: 0;
+	color: #6b6f80;
+	font-size: .98rem;
+	line-height: 1.8;
+}
+
+/* --- Sections (About you / Your visit / How can we pray) --- */
+.firsttimer-page .firsttimer-section{
+	box-sizing: border-box;
+	margin: 0 0 8px;
+	padding: 0 0 30px;
+	border: none;
+	border-bottom: 1px dashed #e8e4f4;
+}
+.firsttimer-page .firsttimer-section + .firsttimer-section{
+	padding-top: 30px;
+}
+.firsttimer-page .firsttimer-section:last-of-type{
+	border-bottom: none;
+	padding-bottom: 6px;
+}
+.firsttimer-page .firsttimer-section__title{
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	box-sizing: border-box;
+	width: 100%;
+	padding: 0;
+	margin: 0 0 22px;
+	color: #171923;
+	font-family: 'Poppins', sans-serif;
+	font-size: 1.06rem;
+	font-weight: 800;
+	letter-spacing: .2px;
+}
+.firsttimer-page .firsttimer-section__icon{
+	display: grid;
+	place-items: center;
+	width: 36px;
+	height: 36px;
+	border-radius: 50%;
+	background: linear-gradient(135deg, #6d42c1, #3157c7);
+	color: #ffffff;
+	font-size: .82rem;
+	flex: 0 0 auto;
+}
+
+/* Two-column field grid on desktop, one column on mobile. */
+.firsttimer-page .firsttimer-grid{
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 20px 22px;
+}
+.firsttimer-page .firsttimer-field--wide{
+	grid-column: 1 / -1;
+}
+.firsttimer-page .firsttimer-field label,
+.firsttimer-page .firsttimer-legendish{
+	display: block;
+	margin: 0 0 8px;
+	color: #3a3d4d;
+	font-family: 'Poppins', sans-serif;
+	font-size: .80rem;
+	font-weight: 700;
+	letter-spacing: .2px;
+}
+.firsttimer-page .firsttimer-optional{
+	color: #9a9db0;
+	font-weight: 500;
+}
+.firsttimer-page .firsttimer-input{
+	box-sizing: border-box;
+	width: 100%;
+	padding: 14px 16px;
+	border: 1.5px solid #e4e0f2;
+	border-radius: 12px;
+	background: #fdfcff;
+	color: #171923;
+	font-family: 'Poppins', sans-serif;
+	font-size: .90rem;
+	line-height: 1.6;
+	transition: border-color .25s ease, box-shadow .25s ease, background .25s ease;
+}
+.firsttimer-page .firsttimer-input::placeholder{
+	color: #a8abbd;
+}
+.firsttimer-page .firsttimer-input:focus{
+	outline: none;
+	background: #ffffff;
+	border-color: #6d42c1;
+	box-shadow: 0 0 0 4px rgba(109, 66, 193, .12);
+}
+.firsttimer-page .firsttimer-textarea{
+	resize: vertical;
+	min-height: 140px;
+}
+/* --- 4. "How did you hear" pill radios ----------------------- */
+/* Clickable pill chips built on real <input type="radio">, styled
+   like the ministry filter pills on min.php. */
+.firsttimer-page .firsttimer-chips{
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
+}
+.firsttimer-page .firsttimer-chip{
+	position: relative;
+	display: inline-flex;
+}
+.firsttimer-page .firsttimer-chip input{
+	position: absolute;
+	opacity: 0;
+	width: 1px;
+	height: 1px;
+	pointer-events: none;
+}
+.firsttimer-page .firsttimer-chip span{
+	display: inline-flex;
+	align-items: center;
+	font-family: 'Poppins', sans-serif;
+	font-size: .78rem;
+	font-weight: 700;
+	letter-spacing: .3px;
+	color: #55586b;
+	background: #f7f7fb;
+	border: 1px solid #e8e8ef;
+	border-radius: 30px;
+	padding: 9px 19px;
+	cursor: pointer;
+	transition: color .25s ease, background .25s ease,
+	            border-color .25s ease, box-shadow .25s ease,
+	            transform .25s ease;
+}
+.firsttimer-page .firsttimer-chip:hover span{
+	color: #6d42c1;
+	border-color: #d9d0ef;
+	transform: translateY(-2px);
+}
+.firsttimer-page .firsttimer-chip.is-active span,
+.firsttimer-page .firsttimer-chip input:checked + span{
+	color: #ffffff;
+	border-color: transparent;
+	background: linear-gradient(135deg, #6d42c1, #3157c7);
+	box-shadow: 0 10px 24px rgba(49, 87, 199, .26);
+}
+.firsttimer-page .firsttimer-chip input:focus-visible + span{
+	outline: 2px solid #6d42c1;
+	outline-offset: 2px;
+}
+
+/* --- 5. Honeypot (hidden from people, filled in by bots) ---- */
+.firsttimer-page .firsttimer-hp{
+	position: absolute;
+	left: -9999px;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+}
+
+/* --- 6. Submit row, alert and success state ----------------- */
+.firsttimer-page .firsttimer-actions{
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 16px 22px;
+	margin-top: 30px;
+	padding-top: 26px;
+	border-top: 1px solid #eeeaf9;
+}
+.firsttimer-page .firsttimer-actions__note{
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	margin: 0;
+	color: #8b8fa2;
+	font-size: .76rem;
+	line-height: 1.6;
+}
+.firsttimer-page .firsttimer-actions__note i{
+	color: #6d42c1;
+}
+.firsttimer-page .firsttimer-alert{
+	margin: 0 0 26px;
+	padding: 18px 22px;
+	border-radius: 14px;
+	border: 1px solid #f4c9c9;
+	background: #fff4f4;
+	color: #a3261f;
+	font-size: .85rem;
+	line-height: 1.7;
+}
+.firsttimer-page .firsttimer-alert strong{
+	display: block;
+	margin-bottom: 6px;
+	font-weight: 800;
+}
+.firsttimer-page .firsttimer-alert ul{
+	margin: 0;
+	padding-left: 20px;
+}
+.firsttimer-page .firsttimer-success{
+	text-align: center;
+	padding: 24px 10px 10px;
+}
+.firsttimer-page .firsttimer-success__icon{
+	display: grid;
+	place-items: center;
+	width: 76px;
+	height: 76px;
+	margin: 0 auto 22px;
+	border-radius: 50%;
+	background: #eaf7f0;
+	color: #17915c;
+	font-size: 2rem;
+}
+.firsttimer-page .firsttimer-success h3{
+	margin: 0 0 12px;
+	color: #171923;
+	font-size: clamp(1.5rem, 3vw, 2.1rem);
+	font-weight: 800;
+	line-height: 1.2;
+}
+.firsttimer-page .firsttimer-success p{
+	max-width: 620px;
+	margin: 0 auto;
+	color: #6b6f80;
+	font-size: .98rem;
+	line-height: 1.85;
+}
+.firsttimer-page .firsttimer-success__actions{
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 14px;
+	margin-top: 30px;
+}
+
+/* --- 7. Closing band ---------------------------------------- */
+.firsttimer-page .firsttimer-band{
+	padding: 92px 6% 96px;
+	text-align: center;
+	color: #ffffff;
+	background:
+		radial-gradient(700px 340px at 85% 0%, rgba(49, 87, 199, .5), transparent 62%),
+		linear-gradient(120deg, #241547 0%, #3a1f7a 50%, #131a3d 100%);
+}
+.firsttimer-page .firsttimer-band__inner{
+	width: min(820px, 100%);
+	margin: 0 auto;
+}
+.firsttimer-page .firsttimer-band__title{
+	margin: 0 0 16px;
+	font-size: clamp(1.9rem, 4vw, 3rem);
+	font-weight: 800;
+	line-height: 1.14;
+}
+.firsttimer-page .firsttimer-band__text{
+	margin: 0 auto 34px;
+	max-width: 620px;
+	color: rgba(255, 255, 255, .8);
+	font-size: 1.02rem;
+	line-height: 1.85;
+}
+.firsttimer-page .firsttimer-band__actions{
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 14px;
+}
+/* ============================================================
+   SCROLL REVEAL (form.php)
+   Same pattern as contact.php: the pre-paint script on the page
+   adds .firsttimer-anim-ready to <body>, and the observer at the
+   bottom of form.php adds .is-visible as each block arrives.
+   Because every rule needs BOTH classes, a visitor with reduced
+   motion (or a browser without IntersectionObserver) simply
+   never gets the hidden starting state.
+   ============================================================ */
+
+/* --- Hero: copy rises, photo lifts and settles --------------- */
+.firsttimer-page.firsttimer-anim-ready .firsttimer-hero__copy{
+	opacity: 0;
+	translate: 0 26px;
+	transition:
+		opacity .8s cubic-bezier(.22, 1, .36, 1),
+		translate .8s cubic-bezier(.22, 1, .36, 1);
+}
+.firsttimer-page.firsttimer-anim-ready .firsttimer-hero__copy.is-visible{
+	opacity: 1;
+	translate: none;
+}
+.firsttimer-page.firsttimer-anim-ready .firsttimer-hero__media{
+	opacity: 0;
+	translate: 0 34px;
+	transition:
+		opacity .9s cubic-bezier(.22, 1, .36, 1),
+		translate .9s cubic-bezier(.22, 1, .36, 1);
+	transition-delay: .12s;
+}
+.firsttimer-page.firsttimer-anim-ready .firsttimer-hero__media.is-visible{
+	opacity: 1;
+	translate: none;
+}
+
+/* --- Steps: heading, then each step in turn ------------------ */
+.firsttimer-page.firsttimer-anim-ready .firsttimer-steps__head{
+	opacity: 0;
+	translate: 0 18px;
+	transition:
+		opacity .7s cubic-bezier(.22, 1, .36, 1),
+		translate .7s cubic-bezier(.22, 1, .36, 1);
+}
+.firsttimer-page.firsttimer-anim-ready .firsttimer-steps__head.is-visible{
+	opacity: 1;
+	translate: none;
+}
+.firsttimer-page.firsttimer-anim-ready .firsttimer-step{
+	opacity: 0;
+	translate: 0 22px;
+	transition:
+		opacity .7s cubic-bezier(.22, 1, .36, 1),
+		translate .7s cubic-bezier(.22, 1, .36, 1);
+	transition-delay: var(--firsttimer-delay, 0s);
+}
+.firsttimer-page.firsttimer-anim-ready .firsttimer-steps__list .firsttimer-step:nth-child(1){ --firsttimer-delay: .06s; }
+.firsttimer-page.firsttimer-anim-ready .firsttimer-steps__list .firsttimer-step:nth-child(2){ --firsttimer-delay: .16s; }
+.firsttimer-page.firsttimer-anim-ready .firsttimer-steps__list .firsttimer-step:nth-child(3){ --firsttimer-delay: .26s; }
+.firsttimer-page.firsttimer-anim-ready .firsttimer-step.is-visible{
+	opacity: 1;
+	translate: none;
+}
+
+/* --- Form card: the whole card rises; the form itself is
+       never individually tracked, so it stays usable ----------- */
+.firsttimer-page.firsttimer-anim-ready .firsttimer-card{
+	opacity: 0;
+	translate: 0 24px;
+	transition:
+		opacity .8s cubic-bezier(.22, 1, .36, 1),
+		translate .8s cubic-bezier(.22, 1, .36, 1);
+}
+.firsttimer-page.firsttimer-anim-ready .firsttimer-card.is-visible{
+	opacity: 1;
+	translate: none;
+}
+/* A validation alert or a success panel pops in on its own, so
+   neither is ever stranded invisible inside the card. */
+.firsttimer-page.firsttimer-anim-ready .firsttimer-card .firsttimer-alert{
+	animation: firsttimer-pop .6s cubic-bezier(.22, 1, .36, 1) backwards;
+}
+.firsttimer-page.firsttimer-anim-ready .firsttimer-card .firsttimer-success{
+	animation: firsttimer-pop .7s cubic-bezier(.22, 1, .36, 1) backwards;
+}
+@keyframes firsttimer-pop{
+	from{ opacity: 0; translate: 0 14px; }
+	to{ opacity: 1; translate: none; }
+}
+/* --- Closing band: title, text, buttons in turn ------------- */
+.firsttimer-page.firsttimer-anim-ready .firsttimer-band__title,
+.firsttimer-page.firsttimer-anim-ready .firsttimer-band__text,
+.firsttimer-page.firsttimer-anim-ready .firsttimer-band__actions{
+	opacity: 0;
+	translate: 0 16px;
+	transition:
+		opacity .7s cubic-bezier(.22, 1, .36, 1),
+		translate .7s cubic-bezier(.22, 1, .36, 1);
+	transition-delay: var(--firsttimer-delay, 0s);
+}
+.firsttimer-page.firsttimer-anim-ready .firsttimer-band__title{ --firsttimer-delay: .04s; }
+.firsttimer-page.firsttimer-anim-ready .firsttimer-band__text{ --firsttimer-delay: .14s; }
+.firsttimer-page.firsttimer-anim-ready .firsttimer-band__actions{ --firsttimer-delay: .26s; }
+.firsttimer-page.firsttimer-anim-ready .firsttimer-band__title.is-visible,
+.firsttimer-page.firsttimer-anim-ready .firsttimer-band__text.is-visible,
+.firsttimer-page.firsttimer-anim-ready .firsttimer-band__actions.is-visible{
+	opacity: 1;
+	translate: none;
+}
+
+/* --- Footer: same beat as every other page on the site ------ */
+.firsttimer-page.firsttimer-anim-ready .kc118 .kc119{
+	opacity: 0;
+	translate: 0 14px;
+	transition:
+		opacity .7s cubic-bezier(.22, 1, .36, 1),
+		translate .7s cubic-bezier(.22, 1, .36, 1);
+}
+.firsttimer-page.firsttimer-anim-ready .kc118 .kc119.is-visible{
+	opacity: 1;
+	translate: none;
+}
+
+/* ============================================================
+   RESPONSIVE — same breakpoints as the rest of the site
+   ============================================================ */
+@media (max-width: 960px){
+	/* Hero stacks: copy on top, tall photo underneath. */
+	.firsttimer-page .firsttimer-hero{
+		padding: 130px 6% 90px;
+	}
+	.firsttimer-page .firsttimer-hero__inner{
+		grid-template-columns: 1fr;
+		gap: 48px;
+	}
+	.firsttimer-page .firsttimer-hero__text{
+		max-width: none;
+	}
+	.firsttimer-page .firsttimer-hero__media,
+	.firsttimer-page .firsttimer-hero__media img{
+		min-height: 420px;
+		height: 420px;
+	}
+	.firsttimer-page .firsttimer-hero__badge{
+		left: 20px;
+		bottom: 24px;
+	}
+	/* Single-column field grid. */
+	.firsttimer-page .firsttimer-grid{
+		grid-template-columns: 1fr;
+	}
+}
+
+@media (max-width: 768px){
+	/* The steps stack vertically; the thin line turns vertical. */
+	.firsttimer-page .firsttimer-steps{
+		padding: 68px 6% 74px;
+	}
+	.firsttimer-page .firsttimer-steps__head{
+		margin-bottom: 44px;
+	}
+	.firsttimer-page .firsttimer-steps__list{
+		grid-template-columns: 1fr;
+		gap: 42px;
+	}
+	.firsttimer-page .firsttimer-steps__list::before{
+		top: 33px;
+		bottom: 33px;
+		left: 50%;
+		right: auto;
+		width: 1px;
+		height: auto;
+		background: linear-gradient(180deg, #d9d0ef, #6d42c1, #d9d0ef);
+	}
+	.firsttimer-page .firsttimer-step__icon{
+		margin-left: 0;
+		right: calc(50% - 48px);
+		left: auto;
+	}
+	.firsttimer-page .firsttimer-card{
+		padding: 38px 22px 42px;
+		border-radius: 22px;
+	}
+}
+@media (max-width: 640px){
+	.firsttimer-page .firsttimer-hero{
+		padding: 120px 5% 74px;
+	}
+	.firsttimer-page .firsttimer-hero__title{
+		margin: 14px 0 16px;
+	}
+	.firsttimer-page .firsttimer-hero__actions .firsttimer-btn{
+		width: 100%;
+	}
+	.firsttimer-page .firsttimer-hero__media,
+	.firsttimer-page .firsttimer-hero__media img{
+		min-height: 340px;
+		height: 340px;
+		border-radius: 120px 120px 20px 20px;
+	}
+	.firsttimer-page .firsttimer-hero__badge{
+		left: 14px;
+		bottom: 18px;
+		padding: 11px 18px;
+		font-size: .74rem;
+	}
+	.firsttimer-page .firsttimer-wrap{
+		padding: 66px 5% 74px;
+	}
+	.firsttimer-page .firsttimer-section__title{
+		font-size: 1rem;
+	}
+	.firsttimer-page .firsttimer-actions .firsttimer-btn{
+		width: 100%;
+	}
+	.firsttimer-page .firsttimer-actions__note{
+		justify-content: center;
+		text-align: center;
+	}
+	.firsttimer-page .firsttimer-success__actions .firsttimer-btn,
+	.firsttimer-page .firsttimer-band__actions .firsttimer-btn{
+		width: 100%;
+	}
+	.firsttimer-page .firsttimer-band{
+		padding: 70px 5% 76px;
+	}
+	/* Chips go full width so the pill text never clips. */
+	.firsttimer-page .firsttimer-chip{
+		flex: 1 1 auto;
+	}
+	.firsttimer-page .firsttimer-chip span{
+		width: 100%;
+		justify-content: center;
+		text-align: center;
+	}
+}
+
+/* --- Reduced motion: show everything, animate nothing -------- */
+@media (prefers-reduced-motion: reduce){
+	.firsttimer-page.firsttimer-anim-ready .firsttimer-hero__copy,
+	.firsttimer-page.firsttimer-anim-ready .firsttimer-hero__media,
+	.firsttimer-page.firsttimer-anim-ready .firsttimer-steps__head,
+	.firsttimer-page.firsttimer-anim-ready .firsttimer-step,
+	.firsttimer-page.firsttimer-anim-ready .firsttimer-card,
+	.firsttimer-page.firsttimer-anim-ready .firsttimer-card .firsttimer-alert,
+	.firsttimer-page.firsttimer-anim-ready .firsttimer-card .firsttimer-success,
+	.firsttimer-page.firsttimer-anim-ready .firsttimer-band__title,
+	.firsttimer-page.firsttimer-anim-ready .firsttimer-band__text,
+	.firsttimer-page.firsttimer-anim-ready .firsttimer-band__actions,
+	.firsttimer-page.firsttimer-anim-ready .kc118 .kc119{
+		opacity: 1;
+		translate: none;
+		transition: none;
+	}
+	/* Buttons and chips keep their usual hover transitions. */
+	.firsttimer-page.firsttimer-anim-ready .firsttimer-btn,
+	.firsttimer-page.firsttimer-anim-ready .firsttimer-chip span{
+		transition: transform .25s ease, box-shadow .25s ease,
+		            background .25s ease, color .25s ease,
+		            border-color .25s ease;
+		transition-delay: 0s;
+	}
+}

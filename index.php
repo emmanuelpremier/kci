@@ -1,16 +1,14 @@
 <?php
 /* ------------------------------------------------------------------
    KCI — Social links (Home page)
-   TODO: Replace the placeholder values below with the REAL, VERIFIED
-   URLs. They are deliberately left as placeholders so that no incorrect
-   profile / page is ever invented.
-     · Pastor David Vincent's personal Facebook profile -> $PASTOR_FACEBOOK_URL
-     · Kingdomite Church Int'l official Facebook page    -> $CHURCH_FACEBOOK_URL
-     · Pastor David Vincent's WhatsApp chat link         -> $PASTOR_WHATSAPP_URL
+   VERIFIED: the values below are the church's real, confirmed links.
+      · Pastor David Vincent's personal Facebook profile -> $PASTOR_FACEBOOK_URL
+      · Kingdomite Church Int'l official Facebook page    -> $CHURCH_FACEBOOK_URL
+      · Pastor David Vincent's WhatsApp chat link         -> $PASTOR_WHATSAPP_URL
    ------------------------------------------------------------------ */
-$PASTOR_FACEBOOK_URL = 'PASTOR_FACEBOOK_URL';   // TODO: insert verified URL
-$CHURCH_FACEBOOK_URL = 'CHURCH_FACEBOOK_URL';   // TODO: insert verified URL
-$PASTOR_WHATSAPP_URL = 'PASTOR_WHATSAPP_URL';   // TODO: insert verified URL
+$PASTOR_FACEBOOK_URL = 'https://www.facebook.com/profile.php?id=100083099004068';
+$CHURCH_FACEBOOK_URL = 'https://www.facebook.com/profile.php?id=100083099004068';
+$PASTOR_WHATSAPP_URL = 'https://wa.me/2348064979241';
 ?>
 <!DOCTYPE html>
 <html>
@@ -333,8 +331,8 @@ $PASTOR_WHATSAPP_URL = 'PASTOR_WHATSAPP_URL';   // TODO: insert verified URL
 
         <div class="kc124">
             <h4>Contact</h4>
-            <p>Phone: +234 806 497 9241</p>
-            <p>Email: info@kingdomitechurch@gmail.com</p>
+            <p>Phone / WhatsApp: <a href="https://wa.me/2348064979241" target="_blank" rel="noopener">+234 806 497 9241</a></p>
+            <p>Email: <a href="mailto:dkcifamily@gmail.com">dkcifamily@gmail.com</a></p>
         </div>
 
         <div class="kc124">
