@@ -11,6 +11,7 @@
  * stores serving applications. `created_at` is left to its column default.
  */
 include("kci_db.php");
+include_once("kci_validate.php");
 
 function contact_esc($value) {
 	return htmlspecialchars((string)$value, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8', false);
@@ -18,6 +19,13 @@ function contact_esc($value) {
 
 /* Subject options, value-for-value as they appear in the form below. */
 $contactSubjectOptions = ['General Enquiry', 'Prayer Request', 'Plan My First Visit', 'Partnership & Giving', 'Something Else'];
+
+/* Shared phone rule (kci_validate.php) — shown under the field and in the summary. */
+$contactPhoneError = 'Please enter a valid phone number, for example 0803 123 4567 or +234 803 123 4567.';
+
+/* Email rule (kci_validate.php) — filled in during validation and
+   shown under the email field when it fails. */
+$contactEmailError = '';
 
 $contactErrors = [];
 $contactValues = [
@@ -40,16 +48,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	if (strlen($contactValues['full_name']) < 2) {
 		$contactErrors[] = 'Please enter your full name.';
 	}
-	if (!filter_var($contactValues['email'], FILTER_VALIDATE_EMAIL) || strlen($contactValues['email']) > 255) {
-		$contactErrors[] = 'Please enter a valid email address.';
+	/* Email is required — shared rule from kci_validate.php; this
+	   message also appears directly under the email field below. */
+	$contactEmailCheck = kci_check_email($contactValues['email'], true);
+	if (!$contactEmailCheck['ok']) {
+		$contactEmailError = $contactEmailCheck['error'];
+		$contactErrors[] = $contactEmailError;
 	}
-	/* Phone is required — checked server-side, not only by the browser. */
+	/* Phone is required — shared rule from kci_validate.php; this message
+	   also appears directly under the phone field below. */
+	$contactPhoneNormalized = null;
 	if ($contactValues['phone'] === '') {
 		$contactErrors[] = 'Please enter your phone number - it is required so we can reach you.';
 	} else {
-		$contactPhoneDigits = preg_replace('/\D+/', '', $contactValues['phone']);
-		if (strlen($contactPhoneDigits) < 7 || strlen($contactValues['phone']) > 30 || !preg_match('/^[+()\-.\s0-9]+$/', $contactValues['phone'])) {
-			$contactErrors[] = 'Please enter a valid phone number.';
+		$contactPhoneNormalized = kci_normalize_phone($contactValues['phone']);
+		if ($contactPhoneNormalized === null) {
+			$contactErrors[] = $contactPhoneError;
 		}
 	}
 	if ($contactValues['subject'] === '') {
@@ -65,8 +79,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 		try {
 			$contactStmt = $conn->prepare("INSERT INTO contact_messages (full_name, email, phone, subject, message) VALUES (?, ?, ?, ?, ?)");
 			$contactName = substr($contactValues['full_name'], 0, 150);
-			$contactEmail = substr($contactValues['email'], 0, 255);
-			$contactPhone = substr($contactValues['phone'], 0, 30);
+			$contactEmail = substr($contactEmailCheck['email'], 0, 255);
+			$contactPhone = substr((string)$contactPhoneNormalized, 0, 30);
 			$contactSubject = substr($contactValues['subject'], 0, 150);
 			$contactMessage = substr($contactValues['message'], 0, 2000);
 			$contactStmt->bind_param("sssss", $contactName, $contactEmail, $contactPhone, $contactSubject, $contactMessage);
@@ -248,14 +262,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 							</div>
 							<div class="contact-field">
 								<label for="email">Email Address</label>
-								<input class="contact-input" type="email" id="email" name="email" value="<?= contact_esc($contactValues['email']) ?>" maxlength="255" placeholder="you@example.com" autocomplete="email" required>
+								<input class="contact-input" type="email" id="email" name="email" value="<?= contact_esc($contactValues['email']) ?>" maxlength="254" inputmode="email" placeholder="you@example.com" autocomplete="email" required>
+								<?php if ($contactEmailError !== ''): ?>
+								<p style="margin:6px 0 0;color:#c0392b;font-size:.8rem;line-height:1.4;"><?= contact_esc($contactEmailError) ?></p>
+								<?php endif; ?>
 							</div>
 						</div>
 
 						<div class="contact-form__row">
 							<div class="contact-field">
 								<label for="phone">Phone</label>
-								<input class="contact-input" type="tel" id="phone" name="phone" value="<?= contact_esc($contactValues['phone']) ?>" maxlength="30" placeholder="+234 800 000 0000" autocomplete="tel" required>
+								<input class="contact-input" type="tel" id="phone" name="phone" value="<?= contact_esc($contactValues['phone']) ?>" maxlength="20" inputmode="tel" placeholder="0803 123 4567" autocomplete="tel" required>
+								<?php if (in_array($contactPhoneError, $contactErrors, true)): ?>
+								<p style="margin:6px 0 0;color:#c0392b;font-size:.8rem;line-height:1.4;"><?= contact_esc($contactPhoneError) ?></p>
+								<?php endif; ?>
 							</div>
 							<div class="contact-field">
 								<label for="subject">Subject</label>
@@ -357,8 +377,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <div class="kc124">
             <h4>Location</h4>
-            <p>Kingdomite Church International</p>
-            <p>Nigeria</p>
+            <p>The Kingdomite Church International</p>
+            <p>Beside Jumbo Close, off Ogboso road, Obeama, Oyigbo, Rivers State, Nigeria</p>
         </div>
     </div>
 

@@ -256,8 +256,8 @@ if ($slug !== '' && !$isActive) {
 
 	        <div class="kc124">
 	            <h4>Location</h4>
-	            <p>Kingdomite Church International</p>
-	            <p>Nigeria</p>
+	            <p>The Kingdomite Church International</p>
+	            <p>Beside Jumbo Close, off Ogboso road, Obeama, Oyigbo, Rivers State, Nigeria</p>
 	        </div>
 	    </div>
 

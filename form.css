@@ -1,0 +1,72 @@
+/* ================================================================
+   FIRST-TIMER REVEAL (form.php)
+   Loaded only by form.php, right after kci.css. Same scroll-reveal
+   system as location.php / contact.php / aboutus.php: the pre-paint
+   script at the top of <body> adds .firsttimer-anim-ready, and the
+   observer at the bottom of form.php adds .is-visible to every
+   .firsttimer-reveal element as it arrives. Both classes are needed
+   for anything to be hidden, so reduced-motion visitors, browsers
+   without IntersectionObserver, and no-JS visitors simply never get
+   the hidden starting state.
+   Timing copied from location.css: a 24px rise over .75s on
+   cubic-bezier(.22, 1, .36, 1).
+   ================================================================ */
+.firsttimer-page.firsttimer-anim-ready .firsttimer-reveal{
+	opacity: 0;
+	translate: 0 24px;
+	transition:
+		opacity .75s cubic-bezier(.22, 1, .36, 1),
+		translate .75s cubic-bezier(.22, 1, .36, 1);
+	transition-delay: var(--firsttimer-delay, 0s);
+}
+.firsttimer-page.firsttimer-anim-ready .firsttimer-reveal.is-visible{
+	opacity: 1;
+	translate: none;
+}
+
+/* The three "Your First Sunday" steps stagger ~90ms apart. These
+   override the older per-element delays in kci.css (same
+   specificity, loaded later), so the strip reads as one clean wave. */
+.firsttimer-page.firsttimer-anim-ready .firsttimer-steps__list .firsttimer-step:nth-child(1){ --firsttimer-delay: 0s; }
+.firsttimer-page.firsttimer-anim-ready .firsttimer-steps__list .firsttimer-step:nth-child(2){ --firsttimer-delay: .09s; }
+.firsttimer-page.firsttimer-anim-ready .firsttimer-steps__list .firsttimer-step:nth-child(3){ --firsttimer-delay: .18s; }
+
+/* The closing band staggers like contact.php's CTA (title, text,
+   buttons in turn), but on location.css timing: a 24px rise over .75s
+   on cubic-bezier(.22, 1, .36, 1). The delays below beat the older
+   per-element band rules in kci.css (same specificity, loaded later). */
+.firsttimer-page.firsttimer-anim-ready .firsttimer-band__title{ --firsttimer-delay: .04s; }
+.firsttimer-page.firsttimer-anim-ready .firsttimer-band__text{ --firsttimer-delay: .14s; }
+.firsttimer-page.firsttimer-anim-ready .firsttimer-band__actions{ --firsttimer-delay: .26s; }
+
+/* Footer: the same quiet beat as every other page on the site —
+   a 14px rise over .7s, identical to location.css and kci.css. The
+   observer adds .is-visible to .kc119 (the class the task asks for on
+   the footer block is harmless and kept for parity with the other
+   .firsttimer-reveal targets). */
+.firsttimer-page.firsttimer-anim-ready .kc118 .kc119,
+.firsttimer-page.firsttimer-anim-ready .kc118 .firsttimer-reveal{
+	opacity: 0;
+	translate: 0 14px;
+	transition:
+		opacity .7s cubic-bezier(.22, 1, .36, 1),
+		translate .7s cubic-bezier(.22, 1, .36, 1);
+}
+.firsttimer-page.firsttimer-anim-ready .kc118 .kc119.is-visible,
+.firsttimer-page.firsttimer-anim-ready .kc118 .firsttimer-reveal.is-visible{
+	opacity: 1;
+	translate: none;
+}
+
+/* Reduced motion: show everything, animate nothing. The pre-paint
+   script already skips priming for these visitors; these rules also
+   cover a switch to reduced motion after the page has primed, and sit
+   last so they always win. */
+@media (prefers-reduced-motion: reduce){
+	.firsttimer-page.firsttimer-anim-ready .firsttimer-reveal,
+	.firsttimer-page.firsttimer-anim-ready .kc118 .kc119{
+		opacity: 1;
+		translate: none;
+		transition: none;
+	}
+}

@@ -254,8 +254,8 @@ function location_esc($value) {
 
 			<div class="kc124">
 				<h4>Location</h4>
-				<p>Kingdomite Church International</p>
-				<p>Oyigbo, Rivers State, Nigeria</p>
+				<p>The Kingdomite Church International</p>
+				<p>Beside Jumbo Close, off Ogboso road, Obeama, Oyigbo, Rivers State, Nigeria</p>
 			</div>
 		</div>
 

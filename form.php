@@ -11,6 +11,7 @@
  * contact messages. `id` and `created_at` are left to their defaults.
  */
 include("kci_db.php");
+include_once("kci_validate.php");
 
 function form_esc($value) {
 	return htmlspecialchars((string)$value, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8', false);
@@ -25,6 +26,9 @@ $heardFromOptions = [
 	'Other',
 ];
 
+/* Shared phone rule (kci_validate.php) — shown under the field and in the summary. */
+$formPhoneError = 'Please enter a valid phone number, for example 0803 123 4567 or +234 803 123 4567.';
+
 $formErrors = [];
 $formValues = [
 	'full_name'   => '',
@@ -37,12 +41,16 @@ $formValues = [
 $formSubmitted = false;
 $formSubmittedFirstName = '';
 
-/* Optional visit date: any real calendar date in Y-m-d form. */
-function form_valid_date($value) {
-	if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $value)) return false;
-	$date = DateTime::createFromFormat('Y-m-d', $value);
-	return $date !== false && $date->format('Y-m-d') === $value;
-}
+/* Optional visit date — today … 180 days ahead. Matches
+   kci_valid_upcoming_date() in kci_validate.php and also sets the
+   min/max window on the date input below. */
+$formMinDate = (new DateTimeImmutable('today'))->format('Y-m-d');
+$formMaxDate = (new DateTimeImmutable('today'))->modify('+180 days')->format('Y-m-d');
+
+/* Email / visit-date rules (kci_validate.php) — filled in during
+   validation and shown under their fields when they fail. */
+$formEmailError = '';
+$formDateError = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	/* Honeypot: a real visitor never sees this field, so anything in it is
@@ -59,22 +67,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	if (strlen($formValues['full_name']) < 2) {
 		$formErrors[] = 'Please enter your full name.';
 	}
-	/* Phone is required — checked server-side, not only by the browser,
-	   using the same rule as contact.php. */
+	/* Phone is required — shared rule from kci_validate.php; this message
+	   also appears directly under the phone field below. */
+	$formPhoneNormalized = null;
 	if ($formValues['phone'] === '') {
 		$formErrors[] = 'Please enter your phone number - it is required so we can reach you.';
 	} else {
-		$formPhoneDigits = preg_replace('/\D+/', '', $formValues['phone']);
-		if (strlen($formPhoneDigits) < 7 || strlen($formValues['phone']) > 30 || !preg_match('/^[+()\-. \s0-9]+$/', $formValues['phone'])) {
-			$formErrors[] = 'Please enter a valid phone number.';
+		$formPhoneNormalized = kci_normalize_phone($formValues['phone']);
+		if ($formPhoneNormalized === null) {
+			$formErrors[] = $formPhoneError;
 		}
 	}
-	/* Email is optional, but must be valid when it is given. */
-	if ($formValues['email'] !== '' && (!filter_var($formValues['email'], FILTER_VALIDATE_EMAIL) || strlen($formValues['email']) > 255)) {
-		$formErrors[] = 'Please enter a valid email address, or leave it blank.';
+	/* Email is optional — shared rule from kci_validate.php; the
+	   message also appears directly under the email field below. */
+	$formEmailCheck = kci_check_email($formValues['email'], false);
+	if (!$formEmailCheck['ok']) {
+		$formEmailError = $formEmailCheck['error'];
+		$formErrors[] = $formEmailError;
 	}
-	if ($formValues['visit_date'] !== '' && !form_valid_date($formValues['visit_date'])) {
-		$formErrors[] = 'Please enter a valid visit date.';
+	/* Visit date is optional, but when given it must be a real date
+	   from today onwards, within the next 6 months. */
+	if ($formValues['visit_date'] !== '' && !kci_valid_upcoming_date($formValues['visit_date'], 180)) {
+		$formDateError = 'Please choose a date from today onwards (within the next 6 months).';
+		$formErrors[] = $formDateError;
 	}
 	if ($formValues['heard_from'] !== '' && !in_array($formValues['heard_from'], $heardFromOptions, true)) {
 		$formErrors[] = 'Please choose one of the options for how you heard about us.';
@@ -95,8 +110,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 			try {
 				$formStmt = $conn->prepare("INSERT INTO first_timers (full_name, email, phone, visit_date, heard_from, prayer_need) VALUES (?, ?, ?, ?, ?, ?)");
 				$formName = substr($formValues['full_name'], 0, 150);
-				$formEmail = $formValues['email'] === '' ? null : substr($formValues['email'], 0, 255);
-				$formPhone = substr($formValues['phone'], 0, 30);
+				$formEmail = $formEmailCheck['email'] === '' ? null : substr($formEmailCheck['email'], 0, 255);
+				$formPhone = substr((string)$formPhoneNormalized, 0, 30);
 				$formVisitDate = $formValues['visit_date'] === '' ? null : $formValues['visit_date'];
 				$formHeardFrom = $formValues['heard_from'] === '' ? null : substr($formValues['heard_from'], 0, 150);
 				$formPrayerNeed = $formValues['prayer_need'] === '' ? null : substr($formValues['prayer_need'], 0, 1000);
@@ -122,11 +137,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="kci.css?v=13">
+	<link rel="stylesheet" href="form.css?v=1">
 	<link rel="icon" type="image/png" href="kci_image">
 	<title>Plan Your First Visit | Kingdomite Church International</title>
 
-	<!-- First-Time Visitor page: prime the scroll-reveal initial state before
-	     the first paint. Skipped for reduced-motion users and when
+	<!-- inserting of icon link from cdjns -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body class="firsttimer-page">
+	<!-- First-Time Visitor page: prime the scroll-reveal initial state
+	     before the first paint. It runs at the top of <body> (exactly
+	     like location.php) so document.body already exists when the
+	     class is added. Skipped for reduced-motion users and when
 	     IntersectionObserver is unavailable, so content is never hidden. -->
 	<script type="text/javascript">
 		(function () {
@@ -137,10 +159,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 		})();
 	</script>
 
-	<!-- inserting of icon link from cdjns -->
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-</head>
-<body class="firsttimer-page">
 	<!--header-->
 	<section class="kc1">
 		<a href="index.php" class="kc2" aria-label="KCI home">
@@ -192,7 +210,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 		<!-- SPLIT HERO -->
 		<section class="firsttimer-hero">
 			<div class="firsttimer-hero__inner">
-				<div class="firsttimer-hero__copy">
+				<div class="firsttimer-hero__copy firsttimer-reveal">
 					<span class="firsttimer-eyebrow">Kingdomite Church International</span>
 					<h1 class="firsttimer-hero__title">Welcome, First-Time Guest</h1>
 					<p class="firsttimer-hero__text">
@@ -209,7 +227,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 						<li><i class="fa-solid fa-children" aria-hidden="true"></i> Children&rsquo;s Church for every age</li>
 					</ul>
 				</div>
-				<div class="firsttimer-hero__media">
+				<div class="firsttimer-hero__media firsttimer-reveal">
 					<img src="kci_image/img20.webp" alt="A congregation gathered in worship at Kingdomite Church International">
 					<span class="firsttimer-hero__badge">
 						<i class="fa-solid fa-chair" aria-hidden="true"></i> We saved you a seat
@@ -220,24 +238,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <!-- YOUR FIRST SUNDAY — 3 STEPS -->
 		<section class="firsttimer-steps">
 			<div class="firsttimer-steps__inner">
-				<div class="firsttimer-steps__head">
+				<div class="firsttimer-steps__head firsttimer-reveal">
 					<span class="firsttimer-eyebrow firsttimer-eyebrow--dark">Your First Sunday</span>
 					<h2 class="firsttimer-steps__title">Three Small Steps, One Warm Welcome</h2>
 				</div>
 				<ol class="firsttimer-steps__list">
-					<li class="firsttimer-step">
+					<li class="firsttimer-step firsttimer-reveal">
 						<span class="firsttimer-step__num">1</span>
 						<span class="firsttimer-step__icon" aria-hidden="true"><i class="fa-solid fa-door-open"></i></span>
 						<h3>Arrive and be welcomed</h3>
 						<p>Come ten minutes early. Someone from the hospitality team will meet you at the door and walk you in.</p>
 					</li>
-					<li class="firsttimer-step">
+					<li class="firsttimer-step firsttimer-reveal">
 						<span class="firsttimer-step__num">2</span>
 						<span class="firsttimer-step__icon" aria-hidden="true"><i class="fa-solid fa-music"></i></span>
 						<h3>Worship and the Word</h3>
 						<p>Settle in for praise, a short welcome and a message that will help you find your place in God&rsquo;s family.</p>
 					</li>
-					<li class="firsttimer-step">
+					<li class="firsttimer-step firsttimer-reveal">
 						<span class="firsttimer-step__num">3</span>
 						<span class="firsttimer-step__icon" aria-hidden="true"><i class="fa-solid fa-people-group"></i></span>
 						<h3>Connect and fellowship</h3>
@@ -249,7 +267,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 		<!-- FIRST-TIMER FORM -->
 		<section class="firsttimer-wrap" id="firsttimer-form">
-			<div class="firsttimer-card">
+			<div class="firsttimer-card firsttimer-reveal">
 				<div class="firsttimer-card__head">
 					<span class="firsttimer-eyebrow firsttimer-eyebrow--dark">First-Timer Form</span>
 					<h2 class="firsttimer-card__title">Let&rsquo;s Get You Ready</h2>
@@ -266,7 +284,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 						</span>
 						<h3>We&rsquo;re glad you&rsquo;re coming<?= $formSubmittedFirstName !== '' ? ', ' . form_esc($formSubmittedFirstName) : '' ?>!</h3>
 						<p>
-							Your details are with our welcome team<?= $formValues['visit_date'] !== '' ? ' and we have pencilled in ' . form_esc(date('l, j F Y', strtotime($formValues['visit_date']))) : '' ?>.
+							Your details are with our welcome team<?= $formValues['visit_date'] !== '' && kci_valid_upcoming_date($formValues['visit_date']) ? ' and we have pencilled in ' . form_esc(date('l, j F Y', strtotime($formValues['visit_date']))) : '' ?>.
 							Someone will call you before then to confirm and answer any question
 							you have. Until Sunday &mdash; you are already family here.
 						</p>
@@ -306,11 +324,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 								</div>
 								<div class="firsttimer-field">
 									<label for="phone">Phone / WhatsApp *</label>
-									<input class="firsttimer-input" type="tel" id="phone" name="phone" value="<?= form_esc($formValues['phone']) ?>" maxlength="30" placeholder="+234 800 000 0000" autocomplete="tel" required>
+									<input class="firsttimer-input" type="tel" id="phone" name="phone" value="<?= form_esc($formValues['phone']) ?>" maxlength="20" inputmode="tel" placeholder="0803 123 4567" autocomplete="tel" required>
+								<?php if (in_array($formPhoneError, $formErrors, true)): ?>
+								<p style="margin:6px 0 0;color:#c0392b;font-size:.8rem;line-height:1.4;"><?= form_esc($formPhoneError) ?></p>
+								<?php endif; ?>
 								</div>
 								<div class="firsttimer-field">
 									<label for="email">Email <span class="firsttimer-optional">(optional)</span></label>
-									<input class="firsttimer-input" type="email" id="email" name="email" value="<?= form_esc($formValues['email']) ?>" maxlength="255" placeholder="you@example.com" autocomplete="email">
+									<input class="firsttimer-input" type="email" id="email" name="email" value="<?= form_esc($formValues['email']) ?>" maxlength="254" inputmode="email" placeholder="you@example.com" autocomplete="email">
+									<?php if ($formEmailError !== ''): ?>
+									<p style="margin:6px 0 0;color:#c0392b;font-size:.8rem;line-height:1.4;"><?= form_esc($formEmailError) ?></p>
+									<?php endif; ?>
 								</div>
 							</div>
 						</fieldset>
@@ -324,7 +348,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 							<div class="firsttimer-grid">
 								<div class="firsttimer-field">
 									<label for="visit_date">Which Sunday will you join us? <span class="firsttimer-optional">(optional)</span></label>
-									<input class="firsttimer-input" type="date" id="visit_date" name="visit_date" value="<?= form_esc($formValues['visit_date']) ?>">
+									<input class="firsttimer-input" type="date" id="visit_date" name="visit_date" min="<?= form_esc($formMinDate) ?>" max="<?= form_esc($formMaxDate) ?>" value="<?= form_esc($formValues['visit_date']) ?>">
+									<?php if ($formDateError !== ''): ?>
+									<p style="margin:6px 0 0;color:#c0392b;font-size:.8rem;line-height:1.4;"><?= form_esc($formDateError) ?></p>
+									<?php endif; ?>
 								</div>
 								<div class="firsttimer-field">
 									<span class="firsttimer-legendish">How did you hear about us? <span class="firsttimer-optional">(optional)</span></span>
@@ -369,12 +396,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 		<!-- CLOSING BAND -->
 		<section class="firsttimer-band">
 			<div class="firsttimer-band__inner">
-				<h2 class="firsttimer-band__title">There Is a Place for You Here</h2>
-				<p class="firsttimer-band__text">
+				<h2 class="firsttimer-band__title firsttimer-reveal">There Is a Place for You Here</h2>
+				<p class="firsttimer-band__text firsttimer-reveal">
 					Dress comfortably, bring the whole family, and come as you are.
 					We will handle the rest.
 				</p>
-				<div class="firsttimer-band__actions">
+				<div class="firsttimer-band__actions firsttimer-reveal">
 					<a href="location.php" class="firsttimer-btn firsttimer-btn--orange">Find Us <span>&rarr;</span></a>
 					<a href="index.php" class="firsttimer-btn firsttimer-btn--ghost">Back to Home</a>
 				</div>
@@ -383,7 +410,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	</main>
 <!-- Footer -->
 	<footer class="kc118">
-		<div class="kc119">
+		<div class="kc119 firsttimer-reveal">
 			<div class="kc120">
 				<div class="kc121">
 					<div class="kc122"><img src="kci_image/img13.webp"></div>
@@ -414,8 +441,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 			<div class="kc124">
 				<h4>Location</h4>
-				<p>Kingdomite Church International</p>
-				<p>Nigeria</p>
+				<p>The Kingdomite Church International</p>
+				<p>Beside Jumbo Close, off Ogboso road, Obeama, Oyigbo, Rivers State, Nigeria</p>
 			</div>
 		</div>
 
@@ -469,17 +496,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 			// was skipped, nothing is hidden and this can stop here.
 			if (!document.body.classList.contains('firsttimer-anim-ready')) return;
 
-			var targets = page.querySelectorAll(
-				'.firsttimer-hero__copy, ' +
-				'.firsttimer-hero__media, ' +
-				'.firsttimer-steps__head, ' +
-				'.firsttimer-step, ' +
-				'.firsttimer-card, ' +
-				'.firsttimer-band__title, ' +
-				'.firsttimer-band__text, ' +
-				'.firsttimer-band__actions, ' +
-				'.kc118 .kc119'
-			);
+			var targets = page.querySelectorAll('.firsttimer-reveal, .kc118 .kc119');
 
 			if (!targets.length) return;
 
@@ -513,6 +530,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 				targets.forEach(function (target) {
 					observer.observe(target);
 				});
+
+				// Reveal anything already in view on load (hero, top of
+				// the form after a validation-error reload with #anchor).
+				revealInView();
 			} catch (error) {
 				// Never leave content hidden if anything goes wrong.
 				document.body.classList.remove('firsttimer-anim-ready');

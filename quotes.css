@@ -1,0 +1,589 @@
+/* ================================================================
+   QUOTES PAGE (quotes.php)
+   Loaded only by quotes.php, right after kci.css. Every rule is
+   scoped under body.quotes-page and every class is prefixed
+   "quotes-", so the shared header, the shared footer and every
+   other KCI page stay untouched.
+   The design tokens below are the same values kci.css sets on
+   .home-page — they are repeated here because those are scoped to
+   the home page only and would not exist on this body class.
+   ================================================================ */
+.quotes-page{
+	--kci-ink:#151a33;
+	--kci-body:#4a5068;
+	--kci-violet:#7b52d6;
+	--kci-violet-d:#5731b8;
+	--kci-amber:#f59e0b;
+	--kci-amber-d:#e07a00;
+	--kci-line:rgba(21, 26, 51, .09);
+	--kci-radius:20px;
+
+	background: #f8f6ff;
+}
+.quotes-page main{
+	display: block;
+}
+
+/* ================================================================
+   1. HERO — the same short dark navy banner as location.php
+   ================================================================ */
+.quotes-page .quotes-hero{
+	position: relative;
+	isolation: isolate;
+	overflow: hidden;
+	box-sizing: border-box;
+	padding: 150px 6% 84px;
+	color: #ffffff;
+	text-align: center;
+	background:
+		radial-gradient(620px 280px at 82% -20%, rgba(109, 66, 193, .5), transparent 65%),
+		radial-gradient(520px 260px at 6% 130%, rgba(245, 119, 15, .18), transparent 60%),
+		linear-gradient(160deg, #1a1030 0%, #241547 55%, #131a3d 100%);
+}
+.quotes-page .quotes-hero__inner{
+	position: relative;
+	z-index: 1;
+	width: min(780px, 100%);
+	margin: 0 auto;
+}
+.quotes-page .quotes-hero__label{
+	display: block;
+	color: #ff9d3d;
+	font-size: .72rem;
+	font-weight: 700;
+	letter-spacing: 3.4px;
+	text-transform: uppercase;
+}
+.quotes-page .quotes-hero__title{
+	margin: 16px 0;
+	color: #ffffff;
+	font-size: clamp(2.4rem, 5.6vw, 4rem);
+	font-weight: 800;
+	line-height: 1.1;
+}
+.quotes-page .quotes-hero__text{
+	margin: 0 auto;
+	max-width: 600px;
+	color: rgba(255, 255, 255, .78);
+	font-size: clamp(.95rem, 1.6vw, 1.06rem);
+	line-height: 1.75;
+}
+
+/* ================================================================
+   2. SECTIONS — the home page's recent-quotes background
+   ================================================================ */
+.quotes-page .quotes-section{
+	width: 100%;
+	box-sizing: border-box;
+	margin: 0;
+	padding: 74px 7%;
+	text-align: center;
+}
+.quotes-page .quotes-section--images{
+	background: linear-gradient(180deg, #ffffff 0%, #f7f5ff 100%);
+}
+.quotes-page .quotes-section--scripture{
+	background: linear-gradient(180deg, #f7f5ff 0%, #ffffff 100%);
+}
+.quotes-page .quotes-section__inner{
+	width: min(1280px, 100%);
+	margin: 0 auto;
+}
+
+/* --- Heading block: amber label, big title, violet->amber rule */
+.quotes-page .quotes-head{
+	width: 100%;
+	margin: 0 0 40px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+}
+.quotes-page .quotes-head__label{
+	display: block;
+	margin: 0 0 6px;
+}
+.quotes-page .quotes-head__label p{
+	margin: 0;
+	font-family: 'Poppins', sans-serif;
+	font-size: 12px;
+	font-weight: 600;
+	letter-spacing: 4px;
+	text-transform: uppercase;
+	color: var(--kci-amber);
+}
+.quotes-page .quotes-head h2{
+	margin: 0;
+	font-family: 'Poppins', sans-serif;
+	font-size: clamp(1.9rem, 4.4vw, 2.9rem);
+	font-weight: 700;
+	line-height: 1.15;
+	letter-spacing: -.5px;
+	color: var(--kci-ink);
+}
+.quotes-page .quotes-head__rule{
+	display: block;
+	width: 56px;
+	height: 3px;
+	margin-top: 16px;
+	border-radius: 3px;
+	background: linear-gradient(90deg, var(--kci-violet), var(--kci-amber));
+}
+/* The single "KJV" label sits under the heading, never on the cards. */
+.quotes-page .quotes-head__version{
+	display: inline-block;
+	margin-top: 14px;
+	padding: 5px 14px;
+	border: 1px solid rgba(123, 82, 214, .30);
+	border-radius: 999px;
+	background: rgba(123, 82, 214, .08);
+	color: var(--kci-violet-d);
+	font-family: 'Poppins', sans-serif;
+	font-size: .70rem;
+	font-weight: 700;
+	letter-spacing: 2px;
+	text-transform: uppercase;
+}
+/* ================================================================
+   3. IMAGE GRID — re-creates the home page quote cards exactly
+   (kci.css "3. RECENT QUOTES"), because those rules only apply
+   under the .home-page body class.
+   ================================================================ */
+.quotes-page .quotes-grid--images{
+	width: 100%;
+	margin: 0;
+	padding: 0;
+	display: grid;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	gap: 22px;
+	align-items: stretch;
+}
+.quotes-page .quotes-card--image{
+	width: 100%;
+	height: auto;
+	margin: 0;
+	overflow: hidden;
+	border: 1px solid var(--kci-line);
+	border-radius: var(--kci-radius);
+	background: #ffffff;
+	box-shadow: 0 10px 28px rgba(21, 26, 51, .08);
+	transition: transform .35s cubic-bezier(.22, 1, .36, 1), box-shadow .35s ease;
+}
+.quotes-page .quotes-card--image:hover{
+	transform: translateY(-6px);
+	box-shadow: 0 20px 44px rgba(21, 26, 51, .15);
+}
+/* The card face is a real <button> so it is keyboard reachable and
+   opens the lightbox; it is reset to look like the plain card div
+   the home page uses. */
+.quotes-page .quotes-card__btn{
+	display: block;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+	border: none;
+	border-radius: 0;
+	background: none;
+	cursor: pointer;
+	font: inherit;
+	overflow: hidden;
+}
+.quotes-page .quotes-card__btn:focus-visible{
+	outline: 3px solid var(--kci-violet);
+	outline-offset: -3px;
+}
+.quotes-page .quotes-card--image img{
+	display: block;
+	width: 100%;
+	height: 100%;
+	min-height: 240px;
+	object-fit: cover;
+	border: none;
+	border-radius: 0;
+	transition: transform .5s cubic-bezier(.22, 1, .36, 1);
+}
+.quotes-page .quotes-card--image:hover img{
+	transform: scale(1.06);
+}
+
+/* ================================================================
+   4. SCRIPTURE GRID — white cards, 1px line border, site radius
+   ================================================================ */
+.quotes-page .quotes-grid--scripture{
+	width: 100%;
+	margin: 0;
+	padding: 0;
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 24px;
+	align-items: stretch;
+	text-align: left;
+}
+.quotes-page .quotes-card--verse{
+	box-sizing: border-box;
+	display: flex;
+	flex-direction: column;
+	padding: 30px 28px 24px;
+	border: 1px solid var(--kci-line);
+	border-radius: var(--kci-radius);
+	background: #ffffff;
+	box-shadow: 0 10px 28px rgba(21, 26, 51, .08);
+	transition: transform .35s cubic-bezier(.22, 1, .36, 1), box-shadow .35s ease;
+}
+.quotes-page .quotes-card--verse:hover{
+	transform: translateY(-6px);
+	box-shadow: 0 20px 44px rgba(21, 26, 51, .15);
+}
+.quotes-page .quotes-verse__icon{
+	display: block;
+	margin-bottom: 14px;
+	color: var(--kci-violet);
+	font-size: 1.7rem;
+	line-height: 1;
+}
+.quotes-page .quotes-verse__text{
+	margin: 0 0 20px;
+	flex: 1;
+	font-family: 'Poppins', sans-serif;
+	font-size: .95rem;
+	font-weight: 400;
+	line-height: 1.8;
+	color: var(--kci-body);
+}
+.quotes-page .quotes-verse__foot{
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 14px;
+	padding-top: 16px;
+	border-top: 1px solid var(--kci-line);
+}
+.quotes-page .quotes-verse__ref{
+	font-family: 'Poppins', sans-serif;
+	font-size: .72rem;
+	font-weight: 700;
+	letter-spacing: 1.2px;
+	text-transform: uppercase;
+	color: var(--kci-amber-d);
+}
+/* Small round WhatsApp share button. */
+.quotes-page .quotes-verse__share{
+	display: grid;
+	place-items: center;
+	flex: 0 0 auto;
+	width: 36px;
+	height: 36px;
+	border-radius: 50%;
+	background: #25d366;
+	color: #ffffff;
+	font-size: 1rem;
+	text-decoration: none;
+	box-shadow: 0 8px 18px rgba(37, 211, 102, .30);
+	transition: transform .25s ease, box-shadow .25s ease, background .25s ease;
+}
+.quotes-page .quotes-verse__share:hover{
+	transform: translateY(-2px);
+	background: #1fb857;
+	box-shadow: 0 12px 24px rgba(37, 211, 102, .40);
+}
+.quotes-page .quotes-verse__share:focus-visible{
+	outline: 3px solid var(--kci-violet);
+	outline-offset: 2px;
+}
+/* ================================================================
+   5. CLOSING BAND — same gradient and buttons as location.php
+   ================================================================ */
+.quotes-page .quotes-band{
+	padding: 92px 6% 96px;
+	text-align: center;
+	color: #ffffff;
+	background:
+		radial-gradient(700px 340px at 85% 0%, rgba(49, 87, 199, .5), transparent 62%),
+		linear-gradient(120deg, #241547 0%, #3a1f7a 50%, #131a3d 100%);
+}
+.quotes-page .quotes-band__inner{
+	width: min(820px, 100%);
+	margin: 0 auto;
+}
+.quotes-page .quotes-band__title{
+	margin: 0 0 30px;
+	font-size: clamp(1.9rem, 4vw, 3rem);
+	font-weight: 800;
+	line-height: 1.14;
+}
+.quotes-page .quotes-band__actions{
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 14px;
+}
+.quotes-page .quotes-btn{
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 10px;
+	box-sizing: border-box;
+	padding: 15px 30px;
+	border: none;
+	border-radius: 999px;
+	font-family: 'Poppins', sans-serif;
+	font-size: .84rem;
+	font-weight: 700;
+	text-decoration: none;
+	cursor: pointer;
+	transition: transform .25s ease, box-shadow .25s ease,
+	            background .25s ease, color .25s ease,
+	            border-color .25s ease;
+}
+.quotes-page .quotes-btn:hover{
+	transform: translateY(-2px);
+}
+/* Orange solid — the band's primary button, same as location.php. */
+.quotes-page .quotes-btn--solid{
+	color: #ffffff;
+	background: linear-gradient(135deg, #ff9d3d, #f5770f);
+	box-shadow: 0 14px 30px rgba(245, 119, 15, .34);
+}
+.quotes-page .quotes-btn--solid:hover{
+	box-shadow: 0 18px 38px rgba(245, 119, 15, .46);
+}
+/* White ghost pill for the dark band. */
+.quotes-page .quotes-btn--outline{
+	color: #ffffff;
+	background: rgba(255, 255, 255, .07);
+	border: 1.5px solid rgba(255, 255, 255, .38);
+}
+.quotes-page .quotes-btn--outline:hover{
+	background: rgba(255, 255, 255, .14);
+	border-color: #ffffff;
+}
+
+/* --- Footer links inherit the footer's colour --------------- */
+/* Never default blue, never underlined; hover keeps the site-wide
+   white pop that .kc118 already provides. */
+.quotes-page .kc118 .kc124 a{
+	color: rgba(255, 255, 255, .55);
+	text-decoration: none;
+}
+.quotes-page .kc118 .kc124 a:hover{
+	color: #ffffff;
+}
+
+/* ================================================================
+   6. LIGHTBOX — dark overlay, large image, close / prev / next
+   ================================================================ */
+.quotes-page .quotes-lightbox{
+	position: fixed;
+	inset: 0;
+	z-index: 2000;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 24px;
+}
+.quotes-page .quotes-lightbox[hidden]{
+	display: none;
+}
+.quotes-page .quotes-lightbox__backdrop{
+	position: absolute;
+	inset: 0;
+	background: rgba(12, 8, 26, .93);
+}
+.quotes-page .quotes-lightbox__dialog{
+	position: relative;
+	z-index: 1;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: min(940px, 100%);
+	max-height: 100%;
+}
+.quotes-page .quotes-lightbox__img{
+	display: block;
+	max-width: 100%;
+	max-height: 78vh;
+	width: auto;
+	height: auto;
+	border-radius: var(--kci-radius);
+	box-shadow: 0 34px 80px rgba(0, 0, 0, .6);
+}
+/* Round control buttons around the image. */
+.quotes-page .quotes-lightbox__close,
+.quotes-page .quotes-lightbox__nav{
+	position: absolute;
+	display: grid;
+	place-items: center;
+	width: 46px;
+	height: 46px;
+	padding: 0;
+	border: 1px solid rgba(255, 255, 255, .22);
+	border-radius: 50%;
+	background: rgba(255, 255, 255, .10);
+	color: #ffffff;
+	font-size: 1.05rem;
+	cursor: pointer;
+	transition: background .25s ease, border-color .25s ease, transform .25s ease;
+}
+.quotes-page .quotes-lightbox__close:hover,
+.quotes-page .quotes-lightbox__nav:hover{
+	background: rgba(255, 255, 255, .20);
+	border-color: rgba(255, 255, 255, .5);
+	transform: translateY(-2px);
+}
+.quotes-page .quotes-lightbox__close:focus-visible,
+.quotes-page .quotes-lightbox__nav:focus-visible{
+	outline: 3px solid var(--kci-amber);
+	outline-offset: 2px;
+}
+.quotes-page .quotes-lightbox__close{
+	top: -18px;
+	right: -18px;
+}
+.quotes-page .quotes-lightbox__nav{
+	top: 50%;
+	margin-top: -23px;
+}
+.quotes-page .quotes-lightbox__nav--prev{ left: -62px; }
+.quotes-page .quotes-lightbox__nav--next{ right: -62px; }
+.quotes-page .quotes-lightbox__count{
+	position: absolute;
+	bottom: -34px;
+	left: 0;
+	right: 0;
+	margin: 0;
+	text-align: center;
+	color: rgba(255, 255, 255, .66);
+	font-size: .80rem;
+	letter-spacing: 1.4px;
+}
+/* ================================================================
+   SCROLL REVEAL (quotes.php)
+   Same pattern as location.php: the pre-paint script at the top of
+   <body> adds .quotes-anim-ready, the observer at the bottom of
+   quotes.php adds .is-visible as each block arrives. Both classes
+   are required for anything to be hidden, so a reduced-motion
+   visitor (or a browser without IntersectionObserver) simply never
+   gets the hidden starting state.
+   ================================================================ */
+.quotes-page.quotes-anim-ready .quotes-reveal{
+	opacity: 0;
+	translate: 0 24px;
+	transition:
+		opacity .75s cubic-bezier(.22, 1, .36, 1),
+		translate .75s cubic-bezier(.22, 1, .36, 1);
+	transition-delay: var(--quotes-delay, 0s);
+}
+.quotes-page.quotes-anim-ready .quotes-reveal.is-visible{
+	opacity: 1;
+	translate: none;
+}
+/* Footer: same beat as every other page on the site. */
+.quotes-page.quotes-anim-ready .kc118 .kc119{
+	opacity: 0;
+	translate: 0 14px;
+	transition:
+		opacity .7s cubic-bezier(.22, 1, .36, 1),
+		translate .7s cubic-bezier(.22, 1, .36, 1);
+}
+.quotes-page.quotes-anim-ready .kc118 .kc119.is-visible{
+	opacity: 1;
+	translate: none;
+}
+
+/* ================================================================
+   RESPONSIVE — 900px and 600px (the site's breakpoints)
+   ================================================================ */
+@media (max-width: 900px){
+	.quotes-page .quotes-hero{
+		padding: 122px 6% 70px;
+	}
+	/* Image cards step down 4 -> 2. */
+	.quotes-page .quotes-grid--images{
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 18px;
+	}
+	/* Scripture cards step down 3 -> 2. */
+	.quotes-page .quotes-grid--scripture{
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 20px;
+	}
+	.quotes-page .quotes-section{
+		padding: 60px 6%;
+	}
+	/* Arrow buttons sit closer on narrower screens. */
+	.quotes-page .quotes-lightbox__nav--prev{ left: 4px; }
+	.quotes-page .quotes-lightbox__nav--next{ right: 4px; }
+	.quotes-page .quotes-lightbox__close{
+		top: 4px;
+		right: 4px;
+	}
+	.quotes-page .quotes-band{
+		padding: 76px 6% 80px;
+	}
+}
+
+@media (max-width: 600px){
+	.quotes-page .quotes-hero{
+		/* The header is sticky and in flow here, so the hero only
+		   needs a normal breathing gap instead of full clearance. */
+		padding: 56px 5% 56px;
+	}
+	.quotes-page .quotes-section{
+		padding: 52px 5%;
+	}
+	.quotes-page .quotes-head{
+		margin-bottom: 30px;
+	}
+	/* Each card takes the full row so nothing is clipped. */
+	.quotes-page .quotes-grid--images,
+	.quotes-page .quotes-grid--scripture{
+		grid-template-columns: minmax(0, 1fr);
+		gap: 16px;
+	}
+	.quotes-page .quotes-card--image img{
+		min-height: 0;
+		height: auto;
+	}
+	.quotes-page .quotes-card--verse{
+		padding: 26px 22px 20px;
+	}
+	/* Band buttons go full width so the labels stay on one line. */
+	.quotes-page .quotes-band{
+		padding: 66px 5% 70px;
+	}
+	.quotes-page .quotes-btn{
+		width: 100%;
+	}
+	/* The lightbox is now edge to edge. */
+	.quotes-page .quotes-lightbox{
+		padding: 14px;
+	}
+	.quotes-page .quotes-lightbox__img{
+		max-height: 70vh;
+		border-radius: 14px;
+	}
+	.quotes-page .quotes-lightbox__close{
+		top: 2px;
+		right: 2px;
+	}
+}
+
+/* --- Reduced motion: show everything, animate nothing -------- */
+@media (prefers-reduced-motion: reduce){
+	.quotes-page.quotes-anim-ready .quotes-reveal,
+	.quotes-page.quotes-anim-ready .kc118 .kc119{
+		opacity: 1;
+		translate: none;
+		transition: none;
+	}
+	.quotes-page.quotes-anim-ready .quotes-card--image,
+	.quotes-page.quotes-anim-ready .quotes-card--verse,
+	.quotes-page.quotes-anim-ready .quotes-card--image img,
+	.quotes-page.quotes-anim-ready .quotes-btn,
+	.quotes-page.quotes-anim-ready .quotes-verse__share,
+	.quotes-page.quotes-anim-ready .quotes-lightbox__close,
+	.quotes-page.quotes-anim-ready .quotes-lightbox__nav{
+		transition: none;
+	}
+}

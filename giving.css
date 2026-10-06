@@ -1,0 +1,1143 @@
+/* ================================================================
+   GIVING PAGE (giving.php)
+   Loaded only by giving.php, right after kci.css. Every rule is
+   scoped under body.giving-page and every class is prefixed
+   "giving-", so the shared header, the shared footer and every
+   other KCI page stay untouched.
+   Tokens mirror kci.css / quotes.css; the palette matches the
+   contact page: purple (#7b52d6 / #5731b8 / #6d42c1), navy
+   (#241547 / #131a3d) and orange (#ff9d3d / #f5770f).
+   ================================================================ */
+.giving-page{
+	--kci-ink:#151a33;
+	--kci-body:#4a5068;
+	--kci-violet:#7b52d6;
+	--kci-violet-d:#5731b8;
+	--kci-amber:#f59e0b;
+	--kci-amber-d:#e07a00;
+	--kci-line:rgba(21, 26, 51, .09);
+	--kci-radius:20px;
+
+	background: #f8f6ff;
+}
+.giving-page main{
+	display: block;
+}
+
+/* --- 1. Hero: navy-to-purple gradient with soft glows --------- */
+.giving-page .giving-hero{
+	position: relative;
+	isolation: isolate;
+	overflow: hidden;
+	box-sizing: border-box;
+	padding: 150px 6% 92px;
+	color: #ffffff;
+	text-align: center;
+	background:
+		radial-gradient(620px 280px at 82% -20%, rgba(109, 66, 193, .55), transparent 65%),
+		radial-gradient(520px 260px at 6% 130%, rgba(245, 119, 15, .20), transparent 60%),
+		linear-gradient(160deg, #1a1030 0%, #3a1f7a 55%, #131a3d 100%);
+}
+.giving-page .giving-hero__glow{
+	position: absolute;
+	z-index: 0;
+	border-radius: 50%;
+	filter: blur(70px);
+	pointer-events: none;
+}
+.giving-page .giving-hero__glow--one{
+	width: 380px;
+	height: 380px;
+	top: -140px;
+	right: -100px;
+	background: rgba(123, 82, 214, .45);
+}
+.giving-page .giving-hero__glow--two{
+	width: 300px;
+	height: 300px;
+	bottom: -160px;
+	left: -90px;
+	background: rgba(245, 119, 15, .28);
+}
+.giving-page .giving-hero__glow--three{
+	width: 220px;
+	height: 220px;
+	top: 30%;
+	left: 12%;
+	background: rgba(49, 87, 199, .35);
+}
+.giving-page .giving-hero__inner{
+	position: relative;
+	z-index: 1;
+	width: min(780px, 100%);
+	margin: 0 auto;
+}
+.giving-page .giving-hero__label{
+	display: block;
+	color: #ff9d3d;
+	font-size: .72rem;
+	font-weight: 700;
+	letter-spacing: 3.4px;
+	text-transform: uppercase;
+}
+.giving-page .giving-hero__title{
+	margin: 16px 0;
+	color: #ffffff;
+	font-size: clamp(2.4rem, 5.6vw, 4rem);
+	font-weight: 800;
+	line-height: 1.1;
+}
+.giving-page .giving-hero__verse{
+	margin: 0 auto 14px;
+	max-width: 640px;
+	color: rgba(255, 255, 255, .92);
+	font-size: clamp(.98rem, 1.7vw, 1.1rem);
+	font-style: italic;
+	line-height: 1.8;
+}
+.giving-page .giving-hero__ref{
+	margin: 0;
+	color: #ff9d3d;
+	font-size: .85rem;
+	font-weight: 700;
+	letter-spacing: 1.2px;
+	text-transform: uppercase;
+}
+
+/* --- 2. Main section: card LEFT, how-to RIGHT ----------------- */
+.giving-page .giving-main{
+	padding: 72px 6% 80px;
+	background: #ffffff;
+}
+.giving-page .giving-main__inner{
+	display: grid;
+	grid-template-columns: minmax(0, 440px) minmax(0, 1fr);
+	gap: 56px;
+	align-items: center;
+	width: min(1100px, 100%);
+	margin: 0 auto;
+}
+/* --- 2. Main section: card LEFT, how-to RIGHT ----------------- */
+
+/* --- 3. THE 3D BANK CARD -------------------------------------- */
+.giving-page .giving-cardzone{
+	min-width: 0;
+}
+.giving-page .giving-cardscene{
+	perspective: 1400px;
+	width: min(420px, 100%);
+	margin: 0 auto;
+	animation: giving-float 6s ease-in-out infinite;
+}
+@keyframes giving-float{
+	0%, 100%{ transform: translateY(0); }
+	50%{ transform: translateY(-9px); }
+}
+.giving-page .giving-card{
+	position: relative;
+	width: 100%;
+	aspect-ratio: 1.586;
+	border-radius: 22px;
+	transform-style: preserve-3d;
+	transition: transform .8s cubic-bezier(.22, 1, .36, 1);
+	cursor: pointer;
+	outline-offset: 4px;
+}
+.giving-page .giving-card:focus-visible{
+	outline: 3px solid #7b52d6;
+}
+/* Tapped / keyboard flip. */
+.giving-page .giving-card.is-flipped{
+	transform: rotateY(180deg);
+}
+/* Hover flip — hover-capable devices only. */
+@media (hover: hover){
+	.giving-page .giving-cardscene:hover .giving-card{
+		transform: rotateY(180deg);
+	}
+}
+.giving-page .giving-card__inner{
+	position: absolute;
+	inset: 0;
+	transform-style: preserve-3d;
+}
+/* The two faces sit stacked on top of each other. */
+.giving-page .giving-card__face{
+	position: absolute;
+	inset: 0;
+	box-sizing: border-box;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	overflow: hidden;
+	padding: 24px 24px 20px;
+	border-radius: 22px;
+	color: #ffffff;
+	-webkit-backface-visibility: hidden;
+	backface-visibility: hidden;
+	background:
+		radial-gradient(420px 200px at 88% -30%, rgba(255, 255, 255, .16), transparent 60%),
+		radial-gradient(300px 220px at -10% 120%, rgba(0, 0, 0, .35), transparent 60%),
+		linear-gradient(135deg, #1e7a46 0%, #145c34 45%, #0b3d22 100%);
+	box-shadow:
+		0 30px 60px rgba(11, 61, 34, .38),
+		0 4px 12px rgba(11, 61, 34, .30);
+}
+/* Subtle pattern — faint diagonal lines, CSS only. */
+.giving-page .giving-card__face::before{
+	content: "";
+	position: absolute;
+	inset: 0;
+	border-radius: inherit;
+	pointer-events: none;
+	background: repeating-linear-gradient(115deg,
+		rgba(255, 255, 255, .045) 0 2px,
+		transparent 2px 14px);
+}
+.giving-page .giving-card__face--back{
+	transform: rotateY(180deg);
+}
+/* Glossy shine that sweeps across on hover. */
+.giving-page .giving-card__shine{
+	position: absolute;
+	top: -40%;
+	bottom: -40%;
+	left: -30%;
+	width: 45%;
+	z-index: 3;
+	pointer-events: none;
+	background: linear-gradient(100deg,
+		transparent 0%,
+		rgba(255, 255, 255, .28) 50%,
+		transparent 100%);
+	transform: skewX(-18deg) translateX(-160%);
+	transition: transform 1s ease;
+}
+@media (hover: hover){
+	.giving-page .giving-cardscene:hover .giving-card__shine{
+		transform: skewX(-18deg) translateX(520%);
+	}
+}
+/* Card FRONT details: chip, bank name, digits, holder. */
+.giving-page .giving-card__top{
+	position: relative;
+	z-index: 2;
+	display: flex;
+	align-items: center;
+	gap: 12px;
+}
+/* Gold CSS chip — pure gradients, no images. */
+.giving-page .giving-card__chip{
+	display: block;
+	width: 48px;
+	height: 36px;
+	flex: 0 0 auto;
+	border-radius: 7px;
+	background:
+		linear-gradient(180deg, transparent 44%, rgba(120, 70, 0, .55) 44% 56%, transparent 56%),
+		linear-gradient(90deg, transparent 46%, rgba(120, 70, 0, .55) 46% 54%, transparent 54%),
+		linear-gradient(135deg, #ffe9a8 0%, #f3c44f 45%, #c98f1b 100%);
+	box-shadow: inset 0 0 0 1px rgba(120, 70, 0, .45);
+}
+.giving-page .giving-card__bank{
+	font-size: 1.35rem;
+	font-weight: 800;
+	font-style: italic;
+	letter-spacing: .5px;
+	text-shadow: 0 2px 8px rgba(0, 0, 0, .35);
+}
+/* Contactless icon, rotated like the real mark. */
+.giving-page .giving-card__wave{
+	margin-left: auto;
+	color: rgba(255, 255, 255, .85);
+	font-size: 1.3rem;
+}
+.giving-page .giving-card__wave i{
+	display: inline-block;
+	transform: rotate(90deg);
+}
+/* Spaced digits — clamp() keeps them on one line down to 360px. */
+.giving-page .giving-card__number{
+	position: relative;
+	z-index: 2;
+	margin: 6px 0;
+	white-space: nowrap;
+	font-size: clamp(1.15rem, 6.4vw, 1.72rem);
+	font-weight: 600;
+	letter-spacing: .14em;
+	text-shadow: 0 2px 10px rgba(0, 0, 0, .4);
+	font-variant-numeric: tabular-nums;
+}
+.giving-page .giving-card__bottom{
+	position: relative;
+	z-index: 2;
+	display: flex;
+	align-items: flex-end;
+	justify-content: space-between;
+	gap: 12px;
+}
+.giving-page .giving-card__holder{
+	min-width: 0;
+}
+.giving-page .giving-card__label{
+	display: block;
+	color: rgba(255, 255, 255, .65);
+	font-size: .6rem;
+	font-weight: 600;
+	letter-spacing: 2.4px;
+	text-transform: uppercase;
+}
+.giving-page .giving-card__name{
+	display: block;
+	margin-top: 4px;
+	font-size: clamp(.8rem, 3.6vw, .98rem);
+	font-weight: 700;
+	letter-spacing: 1.2px;
+	text-transform: uppercase;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+.giving-page .giving-card__tag{
+	flex: 0 0 auto;
+	padding: 5px 14px;
+	border: 1px solid rgba(255, 255, 255, .45);
+	border-radius: 999px;
+	font-size: .62rem;
+	font-weight: 700;
+	letter-spacing: 2.6px;
+	text-transform: uppercase;
+}
+/* Card BACK details: stripe, signature, copy, hint. */
+.giving-page .giving-card__face--back{
+	padding-left: 0;
+	padding-right: 0;
+}
+.giving-page .giving-card__stripe{
+	display: block;
+	height: 46px;
+	margin-top: 6px;
+	background: #0a0a0c;
+}
+.giving-page .giving-card__sign{
+	margin: 16px 24px 0;
+	padding: 11px 14px;
+	border-radius: 6px;
+	background: #ffffff;
+}
+.giving-page .giving-card__signtext{
+	color: #233;
+	font-size: .8rem;
+	font-style: italic;
+	font-weight: 600;
+}
+.giving-page .giving-card__copy{
+	position: relative;
+	z-index: 2;
+	align-self: center;
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	margin: 14px 24px 0;
+	padding: 10px 22px;
+	border: 1px solid rgba(255, 255, 255, .55);
+	border-radius: 999px;
+	background: rgba(255, 255, 255, .14);
+	color: #ffffff;
+	font-family: 'Poppins', sans-serif;
+	font-size: .76rem;
+	font-weight: 700;
+	cursor: pointer;
+	transition: background .25s ease, transform .25s ease;
+}
+.giving-page .giving-card__copy:hover{
+	background: rgba(255, 255, 255, .26);
+	transform: translateY(-2px);
+}
+.giving-page .giving-card__hint{
+	position: relative;
+	z-index: 2;
+	margin: 10px 24px 0;
+	color: rgba(255, 255, 255, .7);
+	font-size: .68rem;
+	letter-spacing: 1.4px;
+	text-align: center;
+	text-transform: uppercase;
+}
+
+/* Under the card: flip + copy pills and the toast. */
+.giving-page .giving-flip{
+	display: block;
+	margin: 20px auto 0;
+	padding: 0;
+	border: none;
+	background: none;
+	color: #5731b8;
+	font-family: 'Poppins', sans-serif;
+	font-size: .8rem;
+	font-weight: 700;
+	text-decoration: underline;
+	text-underline-offset: 3px;
+	cursor: pointer;
+}
+.giving-page .giving-copyrow{
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 10px;
+	margin-top: 14px;
+}
+.giving-page .giving-copy{
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	padding: 12px 24px;
+	border: none;
+	border-radius: 999px;
+	background: linear-gradient(135deg, #7b52d6, #5731b8);
+	color: #ffffff;
+	font-family: 'Poppins', sans-serif;
+	font-size: .78rem;
+	font-weight: 700;
+	text-decoration: none;
+	cursor: pointer;
+	box-shadow: 0 12px 26px rgba(87, 49, 184, .32);
+	transition: transform .25s ease, box-shadow .25s ease;
+}
+.giving-page .giving-copy:hover{
+	transform: translateY(-2px);
+	box-shadow: 0 16px 32px rgba(87, 49, 184, .42);
+}
+.giving-page .giving-copy--ghost{
+	background: #ffffff;
+	color: #5731b8;
+	border: 1.5px solid #7b52d6;
+	box-shadow: none;
+}
+.giving-page .giving-copy--ghost:hover{
+	background: rgba(123, 82, 214, .08);
+	box-shadow: none;
+}
+/* Toast: slides up, fades after 2 seconds (script hides it). */
+.giving-page .giving-toast{
+	margin: 14px auto 0;
+	width: fit-content;
+	max-width: 100%;
+	box-sizing: border-box;
+	padding: 11px 22px;
+	border-radius: 999px;
+	background: #145c34;
+	color: #ffffff;
+	font-size: .8rem;
+	font-weight: 600;
+	opacity: 0;
+	transform: translateY(10px);
+	transition: opacity .3s ease, transform .3s ease;
+}
+.giving-page .giving-toast.is-show{
+	opacity: 1;
+	transform: translateY(0);
+}
+/* Ways to give grid – five clean cards matching quotes.css style */
+.giving-page .giving-ways{
+	padding: 96px 6% 88px;
+	background: #ffffff;
+}
+.giving-page .giving-ways__inner{
+	width: min(980px, 100%);
+	margin: 0 auto;
+}
+.giving-page .giving-ways__title{
+	margin: 0 0 56px;
+	color: #241547;
+	font-size: clamp(1.7rem, 3.2vw, 2.2rem);
+	font-weight: 800;
+	text-align: center;
+}
+.giving-page .giving-ways__grid{
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+	gap: 24px;
+}
+.giving-page .giving-way{
+	box-sizing: border-box;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 26px 18px;
+	border: 1px solid var(--kci-line);
+	border-radius: var(--kci-radius);
+	background: #ffffff;
+	text-align: center;
+	box-shadow: 0 10px 26px rgba(21, 26, 51, .06);
+	transition: transform .35s cubic-bezier(.22, 1, .36, 1), box-shadow .35s ease;
+	font-family: 'Poppins', sans-serif;
+}
+.giving-page .giving-ways .giving-way:hover{
+	transform: translateY(-6px);
+	box-shadow: 0 20px 44px rgba(0, 0, 0, .12);
+}
+/* Numbered badge (01 – 05) */
+.giving-page .giving-way__no{
+	display: inline-block;
+	margin-bottom: 14px;
+	padding: 5px 13px;
+	border-radius: 999px;
+	background: rgba(123, 82, 214, .12);
+	color: var(--kci-violet-d);
+	font-size: .68rem;
+	font-weight: 700;
+	letter-spacing: 1.5px;
+}
+/* Icon in a soft violet circle */
+.giving-page .giving-way__icon{
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 54px;
+	height: 54px;
+	margin-bottom: 14px;
+	border-radius: 50%;
+	background: rgba(123, 82, 214, .12);
+	color: var(--kci-violet);
+	font-size: 1.3rem;
+}
+.giving-page .giving-way__title{
+	margin: 0;
+	color: var(--kci-ink);
+	font-size: .95rem;
+	font-weight: 600;
+}
+.giving-page .giving-way__text{
+	margin: 8px 0 0;
+	color: var(--kci-body);
+	font-size: .74rem;
+	line-height: 1.5;
+}
+
+/* --- 5. Scripture strip --- */
+.giving-page .giving-verse{
+	padding: 68px 6% 74px;
+	text-align: center;
+	color: #ffffff;
+	background:
+		radial-gradient(500px 260px at 70% 0%, rgba(49, 87, 199, .45), transparent 55%),
+		linear-gradient(120deg, #241547 0%, #3a1f7a 50%, #131a3d 100%);
+}
+.giving-page .giving-verse__icon{
+	font-size: 3.4rem;
+	opacity: .22;
+	margin-bottom: 18px;
+}
+.giving-page .giving-verse__text{
+	margin: 0 auto 14px;
+	max-width: 660px;
+	font-size: clamp(.92rem, 1.65vw, 1.15rem);
+	font-style: italic;
+	line-height: 1.6;
+}
+.giving-page .giving-verse__ref{
+	margin: 0;
+	font-size: .82rem;
+	font-weight: 700;
+	letter-spacing: 1.5px;
+	text-transform: uppercase;
+	color: #ff9d3d;
+}
+
+/* --- 6. Questions strip --- */
+.giving-page .giving-help{
+	padding: 72px 6% 76px;
+	text-align: center;
+	background:
+		radial-gradient(600px 280px at 85% 0%, rgba(255, 157, 61, .12), transparent 60%),
+		linear-gradient(120deg, #f1eafd 0%, #f9f2fb 55%, #fdeede 100%);
+}
+.giving-page .giving-help__inner{
+	width: min(720px, 100%);
+	margin: 0 auto;
+}
+.giving-page .giving-help__title{
+	margin: 0 0 28px;
+	color: #241547;
+	font-size: clamp(1.5rem, 2.8vw, 1.9rem);
+	font-weight: 800;
+}
+.giving-page .giving-help__text{
+	margin: 0 0 20px;
+	color: var(--kci-body);
+	font-size: .88rem;
+	line-height: 1.5;
+}
+.giving-page .giving-help__actions{
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 14px;
+}
+.giving-page .giving-pill{
+	display: inline-flex;
+	align-items: center;
+	gap: 10px;
+	padding: 12px 24px 12px 12px;
+	border: 1px solid #e7def9;
+	border-radius: 999px;
+	background: #ffffff;
+	color: #241547;
+	font-size: .8rem;
+	font-weight: 700;
+	text-decoration: none;
+	box-shadow: 0 10px 24px rgba(36, 21, 71, .08);
+	transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+}
+.giving-page .giving-pill:hover{
+	transform: translateY(-2px);
+	border-color: var(--kci-violet);
+	box-shadow: 0 14px 28px rgba(36, 21, 71, .14);
+}
+.giving-page .giving-pill__icon{
+	display: grid;
+	place-items: center;
+	width: 34px;
+	height: 34px;
+	flex: 0 0 auto;
+	border-radius: 50%;
+	font-size: .95rem;
+}
+.giving-page .giving-pill--wa .giving-pill__icon{background: #25d366; color: #ffffff;}
+.giving-page .giving-pill--mail .giving-pill__icon{background: var(--kci-violet); color: #ffffff;}
+.giving-page .giving-pill--visit .giving-pill__icon{background: #6d42c1; color: #ffffff;}
+
+/* --- 7. Closing band --- */
+.giving-page .giving-band{
+	padding: 92px 6% 96px;
+	text-align: center;
+	color: #ffffff;
+	background:
+		radial-gradient(700px 340px at 85% 0%, rgba(49, 87, 199, .5), transparent 62%),
+		linear-gradient(120deg, #241547 0%, #3a1f7a 50%, #131a3d 100%);
+}
+.giving-page .giving-band__inner{
+	width: min(820px, 100%);
+	margin: 0 auto;
+}
+.giving-page .giving-band__title{
+	margin: 0 0 30px;
+	font-size: clamp(1.9rem, 4vw, 3rem);
+	font-weight: 800;
+	line-height: 1.14;
+}
+.giving-page .giving-band__actions{
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 14px;
+}
+.giving-page .giving-band .giving-btn--orange{
+	color: #ffffff;
+	background: linear-gradient(135deg, #ff9d3d, #f5770f);
+	box-shadow: 0 12px 28px rgba(245, 119, 15, .38);
+}
+.giving-page .giving-band .giving-btn--orange:hover{
+	box-shadow: 0 16px 36px rgba(245, 119, 15, .52);
+}
+
+/* --- Confirm form split-card --- */
+.giving-page .giving-confirm{
+	padding: 96px 6% 88px;
+	background: #ffffff;
+}
+.giving-page .giving-confirm__inner{
+	width: min(1100px, 100%);
+	margin: 0 auto;
+}
+.giving-page .giving-split{
+	display: grid;
+	grid-template-columns: minmax(0, 400px) minmax(0, 1fr);
+	gap: 42px;
+	align-items: flex-start;
+}
+@media (max-width: 900px){
+	.giving-page .giving-split{
+		grid-template-columns: 1fr;
+	}
+}
+.giving-page .giving-side{
+	box-sizing: border-box;
+	padding: 32px;
+	border-radius: var(--kci-radius);
+	background: linear-gradient(160deg, #241547 0%, #3a1f7a 55%, #131a3d 100%);
+	color: #ffffff;
+}
+.giving-page .giving-side__icon{
+	font-size: 2.6rem;
+	margin-bottom: 20px;
+}
+.giving-page .giving-side__title{
+	margin: 0 0 12px;
+	color: #ffffff;
+	font-size: 1.5rem;
+	font-weight: 700;
+	line-height: 1.2;
+}
+.giving-page .giving-side__text{
+	margin: 0 0 14px;
+	color: rgba(255, 255, 255, .92);
+	font-size: .92rem;
+	line-height: 1.5;
+}
+.giving-page .giving-side__privacy{
+	margin: 0;
+	color: rgba(255, 255, 255, .76);
+	font-size: .78rem;
+}
+.giving-page .giving-side__privacy i{
+	margin-right: 6px;
+}
+
+/* Form styling */
+.giving-page .giving-form{
+	display: grid;
+	gap: 20px;
+	padding: 28px 32px;
+	border-radius: var(--kci-radius);
+	background: #ffffff;
+	box-shadow: 0 10px 26px rgba(0, 0, 0, .06);
+	border: 1px solid var(--kci-line);
+}
+@media (max-width: 900px){
+	.giving-page .giving-form{
+		padding: 24px;
+	}
+}
+.giving-page .giving-field{
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+}
+.giving-page .giving-field label,.giving-page .giving-field legend{
+	color: var(--kci-ink);
+	font-size: .82rem;
+	font-weight: 600;
+	padding: 0;
+	margin: 0;
+	border: none;
+}
+.giving-page .giving-form input[type="text"],
+.giving-page .giving-form input[type="tel"],
+.giving-page .giving-form input[type="email"],
+.giving-page .giving-form input[type="date"],
+.giving-page .giving-form textarea{
+	box-sizing: border-box;
+	width: 100%;
+	padding: 12px 16px;
+	border-radius: 12px;
+	border: 1px solid var(--kci-line);
+	background: #f8f6ff;
+	color: var(--kci-ink);
+	font-family: 'Poppins', sans-serif;
+	font-size: .92rem;
+	transition: border-color .25s ease, box-shadow .25s ease;
+}
+.giving-page .giving-form input:focus,.giving-page .giving-form textarea:focus{
+	outline: none;
+	border-color: var(--kci-violet);
+	box-shadow: 0 0 0 3px rgba(123, 82, 214, .24);
+}
+.giving-page .giving-amount{
+	position: relative;
+	display: flex;
+	align-items: center;
+}
+/* ₦ sits in a fixed-width slot: absolutely placed, ~18px from the
+   left edge, vertically centred; pointer-events keeps clicks/caret
+   going to the input underneath. */
+.giving-page .giving-amount__cur{
+	position: absolute;
+	left: 18px;
+	top: 50%;
+	transform: translateY(-50%);
+	width: 16px;
+	text-align: center;
+	color: var(--kci-body);
+	font-size: .95rem;
+	font-weight: 600;
+	pointer-events: none;
+}
+/* Specificity (0,4,1) must beat the general padding shorthand in
+   `.giving-form input[type="text"]` (0,3,1) — the attribute selector
+   counts as a class, so the old (0,2,1) rule lost and the digits
+   crashed into the ₦. Top/right/bottom stay 12px/16px/12px so the
+   field height matches its neighbours; left is 3.25rem (52px). */
+.giving-page .giving-form .giving-amount input[type="text"]{
+	padding: 12px 16px 12px 3.25rem;
+}
+/* The chips fieldset carries BOTH `giving-field` (column layout +
+   the generic label rule above) and `giving-chips`, so these need
+   (0,3,0)+ specificity to win over `.giving-field` (0,2,0) and
+   `.giving-field label` (0,2,1) — otherwise chips stretch full
+   width with padding:0 and border:none. */
+.giving-page .giving-field.giving-chips{
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	gap: 10px;
+	border: none;
+	padding: 0;
+	margin: 0;
+}
+/* Legend keeps its own full-width row above the chip row. */
+.giving-page .giving-field.giving-chips legend{
+	flex: 0 0 100%;
+	margin-bottom: 2px;
+}
+/* Inline pill chips — width: auto so they never fill the row. */
+.giving-page .giving-field .giving-chip{
+	position: relative;
+	display: inline-flex;
+	align-items: center;
+	width: auto;
+	padding: 10px 18px;
+	border: 1px solid var(--kci-line);
+	border-radius: 999px;
+	background: rgba(123, 82, 214, .08);
+	color: var(--kci-ink);
+	font-family: 'Poppins', sans-serif;
+	font-size: .78rem;
+	font-weight: 600;
+	cursor: pointer;
+	transition: background .25s ease, color .25s ease, border-color .25s ease, transform .25s ease, box-shadow .25s ease;
+}
+/* Native radio: visually hidden but still focusable, checked and
+   submitted — the same is-active class PHP and JS already toggle. */
+.giving-page .giving-chips .giving-chip input{
+	position: absolute;
+	opacity: 0;
+	width: 1px;
+	height: 1px;
+	margin: 0;
+	pointer-events: none;
+}
+/* Keyboard users must always see the focused chip. */
+.giving-page .giving-chips .giving-chip:focus-within{
+	outline: 2px solid var(--kci-violet);
+	outline-offset: 2px;
+}
+.giving-page .giving-chips .giving-chip:hover{
+	transform: translateY(-2px);
+	box-shadow: 0 6px 14px rgba(36, 21, 71, .10);
+}
+.giving-page .giving-chips .giving-chip.is-active{
+	background: var(--kci-violet);
+	color: #ffffff;
+	border-color: var(--kci-violet);
+	box-shadow: 0 8px 18px rgba(109, 66, 193, .35);
+}
+.giving-page .giving-submit{
+	align-self: start;
+	margin-top: 8px;
+}
+
+/* Success state */
+.giving-page .giving-success{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 16px;
+	padding: 36px 28px;
+	border-radius: var(--kci-radius);
+	background: linear-gradient(135deg, #1f9d55, #145c34);
+	color: #ffffff;
+	text-align: center;
+}
+.giving-page .giving-success__icon{
+	font-size: 2.8rem;
+}
+.giving-page .giving-success__title{
+	margin: 0;
+	color: #ffffff;
+	font-size: 1.55rem;
+	font-weight: 800;
+}
+.giving-page .giving-success__text{
+	margin: 0;
+	color: #ffffff;
+	font-size: .95rem;
+	line-height: 1.5;
+}
+.giving-page .giving-success__ref{
+	margin: 0;
+	color: #ff9d3d;
+	font-size: 1.05rem;
+	font-weight: 700;
+}
+.giving-page .giving-btn--wa{
+	background: #25d366;
+	color: #ffffff;
+	margin-top: 8px;
+}
+.giving-page .giving-btn--wa:hover{
+	background: #1ebc57;
+}
+
+/* Alert for errors */
+.giving-page .giving-alert{
+	box-sizing: border-box;
+	padding: 14px 18px;
+	border-radius: var(--kci-radius);
+	background: rgba(220, 53, 69, .12);
+	border: 1px solid rgba(220, 53, 69, .38);
+	color: #dc3545;
+	font-family: 'Poppins', sans-serif;
+	font-size: .88rem;
+	margin-bottom: 16px;
+}
+.giving-page .giving-alert ul{
+	margin: 8px 0 0 0;
+	padding-left: 1.3em;
+}
+
+/* Honeypot field */
+.giving-page .giving-honey{
+	display: none;
+}
+
+/* Scroll reveal rules */
+.giving-page.giving-anim-ready .giving-reveal{
+	opacity: 0;
+	transform: translateY(24px);
+	transition: opacity .75s cubic-bezier(.22, 1, .36, 1), transform .75s cubic-bezier(.22, 1, .36, 1);
+}
+.giving-page.giving-anim-ready .giving-reveal.is-visible{
+	opacity: 1;
+	transform: none;
+}
+
+@media (prefers-reduced-motion: reduce){
+	.giving-page.giving-anim-ready .giving-reveal{
+		opacity: 1;
+		transform: none;
+		transition: none;
+	}
+	.giving-page .giving-card__inner{
+		transition: opacity .4s ease;
+	}
+	.giving-page .giving-card.is-flipped .giving-card__face--front{
+		opacity: 0;
+		pointer-events: none;
+	}
+	.giving-page .giving-card.is-flipped .giving-card__face--back{
+		opacity: 1;
+		pointer-events: auto;
+		transform: none;
+	}
+}
+
+/* ================================================================
+   COMPLETION BLOCK — rules for every class that the markup uses
+   but that had no style yet: the shared pill buttons, the "How to
+   give" panel and its steps, the section head, the form wrapper,
+   the verse wrapper and the two-column form grid.
+   ================================================================ */
+
+/* --- Shared pill buttons ---------------------------------------- */
+.giving-page .giving-btn{
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 9px;
+	box-sizing: border-box;
+	padding: 14px 30px;
+	border: none;
+	border-radius: 999px;
+	background: linear-gradient(135deg, #7b52d6, #5731b8);
+	color: #ffffff;
+	font-family: 'Poppins', sans-serif;
+	font-size: .84rem;
+	font-weight: 700;
+	text-decoration: none;
+	cursor: pointer;
+	box-shadow: 0 12px 26px rgba(87, 49, 184, .30);
+	transition: transform .25s ease, box-shadow .25s ease, background .25s ease;
+}
+.giving-page .giving-btn:hover{
+	transform: translateY(-2px);
+	box-shadow: 0 16px 34px rgba(87, 49, 184, .40);
+}
+.giving-page .giving-btn--solid{
+	background: linear-gradient(135deg, #7b52d6, #5731b8);
+}
+.giving-page .giving-btn--outline{
+	background: transparent;
+	color: #ffffff;
+	border: 1.6px solid rgba(255, 255, 255, .7);
+	box-shadow: none;
+}
+.giving-page .giving-btn--outline:hover{
+	background: rgba(255, 255, 255, .12);
+	box-shadow: none;
+}
+/* Re-stated after the base rule (same specificity, later wins). */
+.giving-page .giving-btn--wa{ background: #25d366; box-shadow: 0 12px 26px rgba(37, 211, 102, .32); }
+.giving-page .giving-btn--wa:hover{ background: #1ebc57; }
+.giving-page a.giving-scroll{ cursor: pointer; }
+
+/* --- "How to give" panel ---------------------------------------- */
+.giving-page .giving-how{
+	box-sizing: border-box;
+	padding: 34px 34px 30px;
+	border: 1px solid var(--kci-line);
+	border-radius: var(--kci-radius);
+	background: #ffffff;
+	box-shadow: 0 18px 44px rgba(21, 26, 51, .08);
+}
+.giving-page .giving-how__label{
+	display: block;
+	margin-bottom: 8px;
+	color: var(--kci-violet);
+	font-size: .72rem;
+	font-weight: 700;
+	letter-spacing: 2.6px;
+	text-transform: uppercase;
+}
+.giving-page .giving-how__title{
+	margin: 0 0 22px;
+	color: var(--kci-ink);
+	font-size: clamp(1.4rem, 2.6vw, 1.9rem);
+	font-weight: 800;
+	line-height: 1.2;
+}
+.giving-page .giving-steps{
+	list-style: none;
+	margin: 0 0 24px;
+	padding: 0;
+	display: grid;
+	gap: 14px;
+}
+.giving-page .giving-step{
+	display: flex;
+	align-items: center;
+	gap: 13px;
+	box-sizing: border-box;
+	padding: 14px 16px;
+	border: 1px solid var(--kci-line);
+	border-radius: 16px;
+	background: #fbfaff;
+}
+.giving-page .giving-step__no{
+	flex: 0 0 auto;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 27px;
+	height: 27px;
+	border-radius: 50%;
+	background: linear-gradient(135deg, var(--kci-violet), var(--kci-violet-d));
+	color: #ffffff;
+	font-size: .76rem;
+	font-weight: 700;
+}
+.giving-page .giving-step__icon{
+	flex: 0 0 auto;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 42px;
+	height: 42px;
+	border-radius: 50%;
+	background: rgba(123, 82, 214, .12);
+	color: var(--kci-violet);
+	font-size: 1rem;
+}
+.giving-page .giving-step__text{
+	color: var(--kci-body);
+	font-size: .87rem;
+	line-height: 1.5;
+}
+.giving-page .giving-step__text strong{ color: var(--kci-ink); font-weight: 600; }
+.giving-page .giving-how__note{
+	margin: 0;
+	color: var(--kci-body);
+	font-size: .8rem;
+	line-height: 1.5;
+}
+.giving-page .giving-how__note i{ margin-right: 7px; color: #1f9d55; }
+
+/* --- Section head (Ways to give) -------------------------------- */
+.giving-page .giving-head{
+	margin-bottom: 44px;
+	text-align: center;
+}
+.giving-page .giving-head__label{
+	display: block;
+	margin-bottom: 10px;
+	color: var(--kci-violet);
+	font-size: .72rem;
+	font-weight: 700;
+	letter-spacing: 2.8px;
+	text-transform: uppercase;
+}
+.giving-page .giving-head__title{
+	margin: 0 0 12px;
+	color: #241547;
+	font-size: clamp(1.7rem, 3.2vw, 2.2rem);
+	font-weight: 800;
+}
+.giving-page .giving-head__text{
+	margin: 0 auto;
+	max-width: 560px;
+	color: var(--kci-body);
+	font-size: .95rem;
+	line-height: 1.6;
+}
+
+/* --- Form wrapper + verse wrapper ------------------------------- */
+.giving-page .giving-formwrap{ min-width: 0; }
+.giving-page .giving-verse__inner{
+	width: min(760px, 100%);
+	margin: 0 auto;
+}
+
+/* --- Two-column field grid on desktop --------------------------- */
+@media (min-width: 761px){
+	.giving-page .giving-form{
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		align-items: start;
+	}
+	.giving-page .giving-chips,
+	.giving-page .giving-submit{ grid-column: 1 / -1; }
+	.giving-page .giving-field:has(textarea){ grid-column: 1 / -1; }
+}
+
+/* --- Reveal stagger for the steps and the ways cards ------------ */
+.giving-page.giving-anim-ready .giving-steps .giving-step:nth-child(2){ transition-delay: .09s; }
+.giving-page.giving-anim-ready .giving-steps .giving-step:nth-child(3){ transition-delay: .18s; }
+.giving-page.giving-anim-ready .giving-ways__grid .giving-way:nth-child(2){ transition-delay: .07s; }
+.giving-page.giving-anim-ready .giving-ways__grid .giving-way:nth-child(3){ transition-delay: .14s; }
+.giving-page.giving-anim-ready .giving-ways__grid .giving-way:nth-child(4){ transition-delay: .21s; }
+.giving-page.giving-anim-ready .giving-ways__grid .giving-way:nth-child(5){ transition-delay: .28s; }
+
+/* --- Reduced motion: always last so it wins ---------------------
+   Everything is shown instantly (never hidden) and the bank card
+   cross-fades between its faces instead of rotating or floating. */
+@media (prefers-reduced-motion: reduce){
+	.giving-page.giving-anim-ready .giving-reveal{
+		opacity: 1 !important;
+		transform: none !important;
+		transition: none !important;
+		transition-delay: 0s !important;
+	}
+	.giving-page .giving-cardscene{ animation: none; }
+	.giving-page .giving-cardscene:hover .giving-card{ transform: none; }
+	.giving-page .giving-card,
+	.giving-page .giving-card.is-flipped{ transform: none; transition: none; }
+	.giving-page .giving-card__face{
+		transform: none;
+		transition: opacity .4s ease;
+	}
+	.giving-page .giving-card__face--back{ opacity: 0; }
+	.giving-page .giving-card.is-flipped .giving-card__face--front{ opacity: 0; pointer-events: none; }
+	.giving-page .giving-card.is-flipped .giving-card__face--back{ opacity: 1; pointer-events: auto; }
+	.giving-page .giving-card__shine{ transition: none; }
+}
+

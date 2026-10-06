@@ -7,10 +7,14 @@
  * `serve_applications` table. Uses the existing connection in kci_db.php.
  */
 include("kci_db.php");
+include_once("kci_validate.php");
 
 function serve_esc($value) {
 	return htmlspecialchars((string)$value, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8', false);
 }
+
+/* Shared phone rule (kci_validate.php) — shown under the field and in the summary. */
+$servePhoneError = 'Please enter a valid phone number, for example 0803 123 4567 or +234 803 123 4567.';
 
 $availabilityOptions = ['Weekdays', 'Weekends', 'Evenings', 'Flexible'];
 
@@ -66,6 +70,9 @@ if ($requestedMinistry) {
 }
 
 $serveErrors = [];
+/* Email rule (kci_validate.php) — filled in during validation and
+   shown under the email field when it fails. */
+$serveEmailError = '';
 $serveValues = [
 	'full_name'     => '',
 	'email'         => '',
@@ -90,12 +97,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	if (strlen($serveValues['full_name']) < 2) {
 		$serveErrors[] = 'Please enter your full name.';
 	}
-	if (!filter_var($serveValues['email'], FILTER_VALIDATE_EMAIL) || strlen($serveValues['email']) > 190) {
-		$serveErrors[] = 'Please enter a valid email address.';
+	/* Email is required — shared rule from kci_validate.php; this
+	   message also appears directly under the email field below. */
+	$serveEmailCheck = kci_check_email($serveValues['email'], true);
+	if (!$serveEmailCheck['ok']) {
+		$serveEmailError = $serveEmailCheck['error'];
+		$serveErrors[] = $serveEmailError;
 	}
-	$phoneDigits = preg_replace('/\D+/', '', $serveValues['phone']);
-	if (strlen($phoneDigits) < 7 || strlen($serveValues['phone']) > 25 || !preg_match('/^[+()\-.\s0-9]+$/', $serveValues['phone'])) {
-		$serveErrors[] = 'Please enter a valid phone number.';
+	/* Phone is required — the shared rule from kci_validate.php. */
+	$servePhoneNormalized = null;
+	if ($serveValues['phone'] === '') {
+		$serveErrors[] = 'Please enter your phone number - it is required so we can reach you.';
+	} else {
+		$servePhoneNormalized = kci_normalize_phone($serveValues['phone']);
+		if ($servePhoneNormalized === null) {
+			$serveErrors[] = $servePhoneError;
+		}
 	}
 	$chosenMinistry = serve_find_ministry($conn, $serveValues['ministry_slug']);
 	if (!$chosenMinistry) {
@@ -109,8 +126,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 		try {
 			$serveStmt = $conn->prepare("INSERT INTO serve_applications (full_name, email, phone, ministry_slug, availability, message, status, created_at) VALUES (?, ?, ?, ?, ?, ?, 'pending', NOW())");
 			$serveName = substr($serveValues['full_name'], 0, 120);
-			$serveEmail = substr($serveValues['email'], 0, 190);
-			$servePhone = substr($serveValues['phone'], 0, 40);
+			$serveEmail = substr($serveEmailCheck['email'], 0, 190);
+			$servePhone = substr((string)$servePhoneNormalized, 0, 40);
 			$serveMinistrySlug = $chosenMinistry['slug'];
 			$serveAvailability = $serveValues['availability'] === '' ? null : $serveValues['availability'];
 			$serveMessage = $serveValues['message'] === '' ? null : substr($serveValues['message'], 0, 2000);
@@ -284,14 +301,20 @@ if ($displayMinistry && !empty($displayMinistry['image'])) {
 						</div>
 						<div class="serve-field">
 							<label for="serve-email">Email Address *</label>
-							<input class="serve-input" type="email" id="serve-email" name="email" value="<?= serve_esc($serveValues['email']) ?>" maxlength="190" required autocomplete="email" placeholder="you@example.com">
+							<input class="serve-input" type="email" id="serve-email" name="email" value="<?= serve_esc($serveValues['email']) ?>" maxlength="254" inputmode="email" required autocomplete="email" placeholder="you@example.com">
+							<?php if ($serveEmailError !== ''): ?>
+							<p style="margin:6px 0 0;color:#c0392b;font-size:.8rem;line-height:1.4;"><?= serve_esc($serveEmailError) ?></p>
+							<?php endif; ?>
 						</div>
 					</div>
 
 					<div class="serve-row">
 						<div class="serve-field">
 							<label for="serve-phone">Phone Number *</label>
-							<input class="serve-input" type="tel" id="serve-phone" name="phone" value="<?= serve_esc($serveValues['phone']) ?>" maxlength="40" required autocomplete="tel" placeholder="+234 ...">
+							<input class="serve-input" type="tel" id="serve-phone" name="phone" value="<?= serve_esc($serveValues['phone']) ?>" maxlength="20" required inputmode="tel" autocomplete="tel" placeholder="0803 123 4567">
+							<?php if (in_array($servePhoneError, $serveErrors, true)): ?>
+							<p style="margin:6px 0 0;color:#c0392b;font-size:.8rem;line-height:1.4;"><?= serve_esc($servePhoneError) ?></p>
+							<?php endif; ?>
 						</div>
 						<div class="serve-field">
 							<label for="serve-ministry">Ministry *</label>
@@ -372,8 +395,8 @@ if ($displayMinistry && !empty($displayMinistry['image'])) {
 
 	        <div class="kc124">
 	            <h4>Location</h4>
-	            <p>Kingdomite Church International</p>
-	            <p>Nigeria</p>
+	            <p>The Kingdomite Church International</p>
+	            <p>Beside Jumbo Close, off Ogboso road, Obeama, Oyigbo, Rivers State, Nigeria</p>
 	        </div>
 	    </div>
 
