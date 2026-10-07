@@ -16,39 +16,10 @@
     vertical-align: middle;
 }
 
-/* ── Slightly muted look for past event cards ───────── */
-.event-muted {
-    opacity: 0.6;
-}
-
-.event-muted .kc83 img,
-.event-muted .kc83 span,
-.event-muted .kc85 h3,
-.event-muted .kc85 p,
-.event-muted .kc85 .text-btn {
-    opacity: 0.6;
-}
-
-/* ── Events page: group title + empty-upcoming banner ── */
+/* ── Events page: group title ── */
 .cleanup-group-title {
     text-align: center;
     margin: 30px 0 18px;
-}
-
-.cleanup-empty-banner {
-    text-align: center;
-    padding: 40px 20px;
-    margin: 0 auto 10px;
-    max-width: 760px;
-}
-
-.cleanup-empty-banner p {
-    margin: 0 0 14px;
-}
-
-.cleanup-empty-banner .primary-btn {
-    display: inline-block;
-    margin: 4px 6px;
 }
 
 /* ── Event detail page: past-event note ─────────────── */

@@ -15,6 +15,29 @@
 
 	<!-- inserting of icon link from cdjns -->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+	<!-- About: JOIN US card links — same look, real links, Poppins, pointer, hover lift, visible focus, stacked with gap. Scoped to .about-page .kc72 only. -->
+	<style>
+		.about-page .kc72 .btn-primary{
+			font-family: 'Poppins', sans-serif;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			gap: 8px;
+			width: 100%;
+			box-sizing: border-box;
+			margin-top: 12px;
+			color: #fff;
+			cursor: pointer;
+		}
+		.about-page .kc72 .btn-primary:first-of-type{ margin-top: 16px; }
+		.about-page .kc72 .btn-primary span{ margin-left: 6px; transition: transform .2s ease; }
+		.about-page .kc72 .btn-primary:hover{ transform: translateY(-3px); }
+		.about-page .kc72 .btn-primary:hover span{ transform: translateX(6px); }
+		.about-page .kc72 .btn-primary:focus-visible{
+			outline: 3px solid #6d42c1;
+			outline-offset: 3px;
+		}
+	</style>
 
 </head>
 <body class="about-page">
@@ -164,6 +187,7 @@
 				</div>
 			</div>
 
+			</div>
 			<div class="kc60">
 				<div class="kc61" style="background-image: url('kci_image/img23.webp');"></div>
 				<div class="kc62">02</div>
@@ -179,6 +203,7 @@
 				</div>
 			</div>
 
+			</div>
 			<div class="kc60">
 				<div class="kc61" style="background-image: url('kci_image/img22.webp');"></div>
 				<div class="kc62">03</div>
@@ -193,6 +218,7 @@
 				<p>A family where faith grows and lives are shared.</p>
 				</div>
 			</div>	
+		</div>
 		</div>
 	</section>
 	

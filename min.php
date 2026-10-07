@@ -18,6 +18,7 @@
 include("kci_db.php");
 
 $ministries = [];
+
 try {
 	$ministryStmt = $conn->prepare("SELECT id, name, slug, category, icon, image, description, meeting FROM ministries WHERE status = 'active' ORDER BY id ASC");
 	$ministryStmt->execute();

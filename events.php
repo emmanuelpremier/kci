@@ -144,6 +144,7 @@ $nextEvent = count($upcomingEvents) > 0 ? $upcomingEvents[0] : null;
     <!-- Events Card -->
     <section class="kc80" id="upcoming-events">
         <?php if (count($upcomingEvents) > 0): ?>
+        <h2 class="cleanup-group-title">Upcoming</h2>
         <div class="kc81">
             <?php foreach ($upcomingEvents as $event): ?>
                 <article class="kc82">
@@ -175,15 +176,6 @@ $nextEvent = count($upcomingEvents) > 0 ? $upcomingEvents[0] : null;
                     </div>
                 </article>
                 <?php endforeach; ?>
-        </div>
-        <?php endif; ?>
-        <?php if (count($upcomingEvents) === 0): ?>
-        <div class="cleanup-empty-banner">
-            <p>No upcoming events right now. Check back soon, or follow us for announcements.</p>
-            <p>
-                <a href="<?= htmlspecialchars(CHURCH_WHATSAPP_URL) ?>" target="_blank" rel="noopener" class="primary-btn">Chat on WhatsApp <span>→</span></a>
-                <a href="<?= htmlspecialchars(CHURCH_FACEBOOK_URL) ?>" target="_blank" rel="noopener" class="primary-btn">Follow on Facebook <span>→</span></a>
-            </p>
         </div>
         <?php endif; ?>
         <?php if (count($pastEvents) > 0): ?>
