@@ -3,11 +3,13 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta name="description" content="Kingdomite Church Int'l">
+	<meta name="description" content="Learn why Kingdomite Church International was started in Oyigbo and what we believe, how we worship and how we serve.">
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="kci.css">
+	<link rel="stylesheet" type="text/css" href="mobilefix.css?v=1">
+	<link rel="stylesheet" type="text/css" href="cleanup.css">
 	<link rel="icon" type="image/png" href="kci_image">
 	<title>About Us - Kingdomite Church Int'l</title>
 
@@ -80,8 +82,8 @@
 		<div class="kc43">
 			<span class="kc44">ABOUT US</span>
 			<h1>Why We Started<br>This Church</h1>
-			<p>While clarifying focus for married and single, we set goals for building Christ-focused values in Oyigbo</p>
-			<a href="#first" class="btn-primary">Explore <span>→</span></a>
+			<p>We started Kingdomite Church International to build Christ-focused values in Oyigbo, for married and single people, for families, and for everyone looking for a home.</p>
+			<a href="#first" class="btn-primary">Explore <span>?</span></a>
 		</div>
 	</section>
 
@@ -91,9 +93,9 @@
 		<div class="kc46">
 			<div class="kc47">
 				<div class="kc48">
-					<span class="kc49">ABOUT</span>
-					<h2>We're / What to</h2>
-					<p>In the Kingdomite Church, we are a spirit filled family, your call, text, connection and care describes our church vision and mission. A hearfelt heart ultimately from the word.</p>
+					<span class="kc49">WHO WE ARE</span>
+					<h2>A Spirit-Filled Family</h2>
+					<p>At Kingdomite Church, we are a spirit-filled family. Your call, your message, your connection and your care describe our vision and mission: a heartfelt church built on the Word.</p>
 				</div>
 				<div class="kc50">
 					<img src="kci_image/img20.webp">
@@ -107,26 +109,26 @@
 				<div class="kc52">
 					<div>
 						<i class="fa-regular fa-star kc53" aria-hidden="true"></i>
-						<h3>We're Expecting</h3>
+						<h3>You're Expected</h3>
 					</div>
-					<span class="kc54">In 2026</span>
-					<p><i class="fa-regular fa-circle-check" aria-hidden="true"></i> We are expecting everyone, and will take everyone there for the meeting. Join us and become part of our coummunity environment.</p>
+					<span class="kc54">Welcome</span>
+					<p><i class="fa-regular fa-circle-check" aria-hidden="true"></i> Everyone is welcome here. Come as you are and become part of our community.</p>
 				</div>
 				<div class="kc52">
 					<div>
 						<i class="fa-regular fa-circle-check kc53" aria-hidden="true"></i>
 						<h3>What to Expect</h3>
 					</div>
-					<span class="kc54">In 2026</span>
-					<p><i class="fa-regular fa-circle-check" aria-hidden="true"></i>Lower hearts in center like, to actually feel close to your family and real connections.</p>
+					<span class="kc54">Worship</span>
+					<p><i class="fa-regular fa-circle-check" aria-hidden="true"></i> Warm worship, practical teaching from the Word, and real friendships, a place to feel close to family.</p>
 				</div>
 				<div class="kc52">
 					<div>
 						<i class="fa-solid fa-cube kc53" aria-hidden="true"></i>
 						<h3>Community</h3>
 					</div>
-					<span class="kc54">In 2026</span>
-					<p><i class="fa-regular fa-circle-check" aria-hidden="true"></i>We are warmly accept lower,broken or anykind of hearts in Church, not religiosity, welcome into church and team of connections.</p>
+					<span class="kc54">Family</span>
+					<p><i class="fa-regular fa-circle-check" aria-hidden="true"></i> We welcome every kind of heart, broken or whole. No religiosity, just a team of people who connect and care.</p>
 				</div>
 			</div>
 			<div class="kc55">
@@ -140,58 +142,55 @@
 	<!-- team section -->
 	<section class="kc57">
 		<div class="kc58">
-			<span>VISIT 1</span>
-			<h2>Meet the Team</h2>
-			<p>Love and family stay on time for day.</p>
+			<span>WHAT WE DO</span>
+			<h2>How We Serve</h2>
+			<p>Love and family, every day.</p>
 		</div>
 
 		<div class="kc59">
 
 			<div class="kc60">
 				<div class="kc61" style="background-image: url('kci_image/img24.webp');"></div>
-				<div class="kc62">3</div>
+				<div class="kc62">01</div>
 				<div class="kc63">
-					<h3>Meet the Team</h3>
-					<p>Community love, care and welcome. Or some story here.</p>
+				<h3>Worship</h3>
+				<p>Worship that lifts our hearts and welcomes the presence of God.</p>
 				</div>
 				<div class="kc64"> <!-- white footer -->
 					<img src="kci_image/img16.webp" alt="Worship" class="kcsam">
 					<div>
-						<h4>Worship</h4>
-						<p>Love from within, have you more amazing and wonderful.</p>
-					</div>
+					<h4>Worship</h4>
+					<p>Love from within, expressed in song.</p>
 				</div>
 			</div>
 
 			<div class="kc60">
 				<div class="kc61" style="background-image: url('kci_image/img23.webp');"></div>
-				<div class="kc62">4</div>
+				<div class="kc62">02</div>
 				<div class="kc63">
 					<h3>Teaching</h3>
-					<p>Love from the people, the word, the teaching.</p>
+				<p>Clear teaching from the Word that sinks deep and shapes daily life.</p>
 				</div>
 				<div class="kc64">
 					<img src="kci_image/img25.webp" alt="Teaching" class="kcsam">
 					<div>
-						<h4>Teaching</h4>
-						<p>A heart felt teaching, with deep and clear word that sink deep into the heart of the people.</p>
-					</div>
+					<h4>Teaching</h4>
+				<p>A heartfelt message, week after week.</p>
 				</div>
 			</div>
 
 			<div class="kc60">
 				<div class="kc61" style="background-image: url('kci_image/img22.webp');"></div>
-				<div class="kc62">5</div>
+				<div class="kc62">03</div>
 				<div class="kc63">
 					<h3>Testimony</h3>
-					<p>Find God, find hope. Or some story here will help you believe.</p>
+				<p>Stories of what God is doing among us, to help you believe.</p>
 				</div>
 				<div class="kc64">
 					<img src="kci_image/img26.webp" alt="Community" class="kcsam">
 					<div>
-						<h4>Community</h4>
-						<p>Love from within, have you more amazing.</p>
-					</div>
+					<h4>Community</h4>
+				<p>A family where faith grows and lives are shared.</p>
 				</div>
 			</div>	
 		</div>
@@ -202,18 +201,18 @@
 	<section class="kc65">
 		<div class="kc66">
 			<div class="kc67">
-				<span class="kc68">VISIT 7</span>
+				<span class="kc68">FROM OUR FAMILY</span>
 				<div class="kc69">
 					<div class="kc70">
 						<div class="kc71"><img src="kci_image/img27.webp"><div><h4>David & Chisom</h4><p>Members for 3 years</p></div></div>
 						<h5>Vision To See People Connected</h5>
-						<p>Growing together. Serving together.<br>Because Community is where faith comes alive.<br><br>This church has helped us grow and find faith in our real community,A family where faith grows and lives are shared,Connected to God, Connected to each orther.</p>
+						<p>Growing together. Serving together.<br>Because Community is where faith comes alive.<br><br>This church has helped us grow and find faith in our real community, a family where faith grows and lives are shared, connected to God, connected to each other.</p>
 						<span>Sunday Service 8:00 AM</span>
 					</div>
 					<div class="kc70">
 						<div class="kc71"><img src="kci_image/img28.webp"><div><h4>Bro Micheal</h4><p>First time visitor</p></div></div>
 						<h5>Weekly Teaching Quotes</h5>
-						<p>The teaching is practical and helps me apply the Bible to my daily life.<br>Teaching that shapes your heart and direct your steps.<br><br>Fresh insight from God's word every week. Learn,grow,and apply the word each week.</p>
+						<p>The teaching is practical and helps me apply the Bible to my daily life.<br>Teaching that shapes your heart and direct your steps.<br><br>Fresh insight from God's word every week. Learn, grow, and apply the word each week.</p>
 						<span>Wednesday Service 5:00 PM</span>
 					</div>
 				</div>
@@ -222,52 +221,12 @@
 				<h3>Join Us This Sunday</h3>
 				<p><i class="fa-solid fa-location-dot" style="font-size: 38px; margin-left: 10px;"></i> Beside Jumbo Close off ogboso road,Obaema,Oyigbo,Rivers State,Nigeria.</p>
 				<p><i class="fa-solid fa-clock" style="font-size: 35px; margin-left: 6px;"></i> 8:00 AM</p>
-				<input type="email" placeholder="Email to connect...">
-				<button>Let's Go</button>
+				<a href="location.php" class="btn-primary">Find Us <span>→</span></a>
+				<a href="form.php" class="btn-primary">First-Time Guest Form <span>→</span></a>
 			</div>
 		</div>
 	</section>
-	<footer class="kc118">
-    <div class="kc119">
-        <div class="kc120">
-            <div class="kc121">
-                <div class="kc122"><img src="kci_image/img13.webp"></div>
-                <div class="kc123">
-                    <strong>KINGDOMITE</strong>
-                    <span>CHURCH INTERNATIONAL</span>
-                </div>
-            </div>
-            <p>
-                Building a people who know God, love people
-                and live out His purpose.
-            </p>
-        </div>
-
-        <div class="kc124">
-            <h4>Quick Links</h4>
-            <a href="index.php">Home</a>
-            <a href="aboutus.php">About</a>
-            <a href="events.php">Events</a>
-            <a href="contact.php">Contact</a>
-        </div>
-
-        <div class="kc124">
-            <h4>Contact</h4>
-            <p>Phone / WhatsApp: <a href="https://wa.me/2348064979241" target="_blank" rel="noopener">+234 806 497 9241</a></p>
-            <p>Email: <a href="mailto:dkcifamily@gmail.com">dkcifamily@gmail.com</a></p>
-        </div>
-
-        <div class="kc124">
-            <h4>Location</h4>
-            <p>The Kingdomite Church International</p>
-            <p>Beside Jumbo Close, off Ogboso road, Obeama, Oyigbo, Rivers State, Nigeria</p>
-        </div>
-    </div>
-
-    <div class="kc125">
-        <p>© <?= date('Y') ?> Kingdomite Church International. All Rights Reserved.</p>
-    </div>
-</footer>
+	<?php include 'footer.php'; ?>
 	<script type="text/javascript">
 		// Mobile menu toggle
 		var menuToggle = document.getElementById('menuToggle');
@@ -301,7 +260,7 @@
 	</script>
 	<script type="text/javascript">
 		// About page: lightweight IntersectionObserver scroll-reveal.
-		// Fully self-contained — it does NOT touch the mobile menu, the
+		// Fully self-contained � it does NOT touch the mobile menu, the
 		// dropdown or the header scroll/glassmorphism code above.
 		(function () {
 			var body = document.body;
@@ -347,3 +306,4 @@
 
 </body>
 </html>
+

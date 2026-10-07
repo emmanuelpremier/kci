@@ -37,6 +37,7 @@ function location_esc($value) {
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="kci.css?v=21">
+	<link rel="stylesheet" type="text/css" href="mobilefix.css?v=1">
 	<link rel="stylesheet" href="location.css?v=1">
 	<link rel="icon" type="image/png" href="kci_image">
 	<title>Find Us | Kingdomite Church International</title>
@@ -221,48 +222,7 @@ function location_esc($value) {
 		</section>
 	</main>
 
-	<!-- Footer -->
-	<footer class="kc118">
-		<div class="kc119">
-			<div class="kc120">
-				<div class="kc121">
-					<div class="kc122"><img src="kci_image/img13.webp"></div>
-					<div class="kc123">
-						<strong>KINGDOMITE</strong>
-						<span>CHURCH INTERNATIONAL</span>
-					</div>
-				</div>
-				<p>
-					Building a people who know God, love people
-					and live out His purpose.
-				</p>
-			</div>
-
-			<div class="kc124">
-				<h4>Quick Links</h4>
-				<a href="index.php">Home</a>
-				<a href="aboutus.php">About</a>
-				<a href="events.php">Events</a>
-				<a href="contact.php">Contact</a>
-			</div>
-
-			<div class="kc124">
-				<h4>Contact</h4>
-				<p>Phone / WhatsApp: <a href="<?= location_esc($whatsappUrl) ?>" target="_blank" rel="noopener"><?= location_esc($churchPhone) ?></a></p>
-				<p>Email: <a href="mailto:<?= location_esc($churchEmail) ?>"><?= location_esc($churchEmail) ?></a></p>
-			</div>
-
-			<div class="kc124">
-				<h4>Location</h4>
-				<p>The Kingdomite Church International</p>
-				<p>Beside Jumbo Close, off Ogboso road, Obeama, Oyigbo, Rivers State, Nigeria</p>
-			</div>
-		</div>
-
-		<div class="kc125">
-			<p>&copy; <?= location_esc(date('Y')) ?> Kingdomite Church International. All Rights Reserved.</p>
-		</div>
-	</footer>
+	<?php include 'footer.php'; ?>
 
 	<script type="text/javascript">
 		// Mobile menu toggle

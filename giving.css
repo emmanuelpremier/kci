@@ -1117,6 +1117,52 @@
 .giving-page.giving-anim-ready .giving-ways__grid .giving-way:nth-child(4){ transition-delay: .21s; }
 .giving-page.giving-anim-ready .giving-ways__grid .giving-way:nth-child(5){ transition-delay: .28s; }
 
+/* --- Mobile: stack the two-column main grid, center + shrink card,
+   compact buttons and tighten vertical rhythm (desktop untouched) --- */
+@media (max-width: 900px){
+	.giving-page .giving-main__inner{
+		grid-template-columns: minmax(0, 1fr);
+		align-items: start;
+		gap: 24px;
+	}
+	.giving-page .giving-cardzone,
+	.giving-page .giving-how{
+		min-width: 0;
+		min-height: 0;
+	}
+	.giving-page .giving-cardzone{ order: 1; }
+	.giving-page .giving-how{ order: 2; }
+	.giving-page .giving-hero{ padding-bottom: 40px; }
+	.giving-page .giving-main{ padding: 40px 6% 40px; }
+	.giving-page .giving-ways{ padding: 40px 6% 40px; }
+}
+@media (max-width: 600px){
+	.giving-page .giving-hero{ padding: 56px 5% 40px; }
+	.giving-page .giving-main{ padding: 40px 5% 40px; }
+	.giving-page .giving-cardscene{
+		width: min(320px, 100%);
+		margin-inline: auto;
+	}
+	.giving-page .giving-cardzone{
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+	.giving-page .giving-flip{
+		font-size: .8rem;
+		text-align: center;
+	}
+	.giving-page .giving-copyrow{
+		justify-content: center;
+		text-align: center;
+	}
+	.giving-page .giving-copy{
+		font-size: .8rem;
+		padding: .55rem 1rem;
+	}
+	.giving-page .giving-ways{ padding: 40px 5% 40px; }
+}
+
 /* --- Reduced motion: always last so it wins ---------------------
    Everything is shown instantly (never hidden) and the bank card
    cross-fades between its faces instead of rotating or floating. */

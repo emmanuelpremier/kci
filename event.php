@@ -1,4 +1,5 @@
 <?php
+include_once "site_config.php";
 include("kci_db.php");
 
 // Get the slug from the URL
@@ -45,6 +46,8 @@ if (!empty($slug) && !$event) {
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="kci.css">
+<link rel="stylesheet" type="text/css" href="mobilefix.css?v=1">
+<link rel="stylesheet" type="text/css" href="cleanup.css">
 <link rel="icon" type="image/png" href="kci_image">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <title><?= $event ? htmlspecialchars($event['title']) : 'Events' ?> | Kingdomite Church International</title>
@@ -169,11 +172,20 @@ if (!empty($slug) && !$event) {
 			<div class="event-detail-hero-text">
 				<span class="event-detail-hero-tag">EVENT</span>
 				<h1><?= htmlspecialchars($event['title']) ?></h1>
+				<?php $isPastEvent = (date('Y-m-d', strtotime($event['date'])) < date('Y-m-d')); ?>
+				<?php if ($isPastEvent): ?>
+					<p><span class="past-event-badge">Past event</span></p>
+				<?php endif; ?>
 				<p class="event-detail-hero-meta">
 					<span><i class="fa-regular fa-calendar-days"></i> <?= htmlspecialchars(date('F j, Y', strtotime($event['date']))) ?></span>
 					<span><i class="fa-solid fa-location-crosshairs"></i> <?= htmlspecialchars($event['location']) ?></span>
 				</p>
-				<a href="contact.php" class="event-detail-register-btn">Register Now <span>→</span></a>
+				<?php if ($isPastEvent): ?>
+					<p class="cleanup-ended-note">This event has ended</p>
+					<p><a href="events.php" class="event-detail-register-btn">See our events <span>→</span></a></p>
+				<?php else: ?>
+					<a href="contact.php" class="event-detail-register-btn">Register Now <span>→</span></a>
+				<?php endif; ?>
 			</div>
 			<div class="event-detail-hero-image">
 				<img src="<?= htmlspecialchars($event['image']) ?>" alt="<?= htmlspecialchars($event['title']) ?>">
@@ -208,51 +220,15 @@ if (!empty($slug) && !$event) {
 		</div>
 	</section>
 	<section class="event-detail-cta">
+		<?php if ($isPastEvent): ?>
+		<div class="event-detail-cta-content"><h2>Stay connected for our next gathering.</h2><p>We look forward to experiencing this special time together.</p><a href="contact.php" class="event-detail-cta-button">Contact Us</a></div>
+		<?php else: ?>
 		<div class="event-detail-cta-content"><h2>Join Us</h2><p>We look forward to experiencing this special time together.</p><a href="contact.php" class="event-detail-cta-button">Contact Us</a></div>
+		<?php endif; ?>
 	</section>
 	<?php endif; ?>
 
-	<footer class="kc118">
-    <div class="kc119">
-        <div class="kc120">
-            <div class="kc121">
-                <div class="kc122"><img src="kci_image/img13.webp"></div>
-                <div class="kc123">
-                    <strong>KINGDOMITE</strong>
-                    <span>CHURCH INTERNATIONAL</span>
-                </div>
-            </div>
-            <p>
-                Building a people who know God, love people
-                and live out His purpose.
-            </p>
-        </div>
-
-        <div class="kc124">
-            <h4>Quick Links</h4>
-            <a href="index.php">Home</a>
-            <a href="aboutus.php">About</a>
-            <a href="events.php">Events</a>
-            <a href="contact.php">Contact</a>
-        </div>
-
-        <div class="kc124">
-            <h4>Contact</h4>
-            <p>Phone / WhatsApp: <a href="https://wa.me/2348064979241" target="_blank" rel="noopener">+234 806 497 9241</a></p>
-            <p>Email: <a href="mailto:dkcifamily@gmail.com">dkcifamily@gmail.com</a></p>
-        </div>
-
-        <div class="kc124">
-            <h4>Location</h4>
-            <p>The Kingdomite Church International</p>
-            <p>Beside Jumbo Close, off Ogboso road, Obeama, Oyigbo, Rivers State, Nigeria</p>
-        </div>
-    </div>
-
-    <div class="kc125">
-        <p>© <?= date('Y') ?> Kingdomite Church International. All Rights Reserved.</p>
-    </div>
-</footer>
+	<?php include 'footer.php'; ?>
 
 	<script type="text/javascript">
 		// Mobile menu toggle

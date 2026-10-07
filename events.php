@@ -1,27 +1,51 @@
 <?php
+include_once "site_config.php";
 include("kci_db.php");
 
 // Fetch events from the database
-$sql = "SELECT id, title, slug, image, date, location, description FROM events ORDER BY date DESC";
+$sql = "SELECT id, title, slug, image, date, location, description FROM events ORDER BY date ASC";
 $result = mysqli_query($conn, $sql);
 
-$events = [];
+$allEvents = [];
 if ($result) {
     while ($row = mysqli_fetch_assoc($result)) {
-        $events[] = $row;
+        $allEvents[] = $row;
     }
 }
+
+// Split into upcoming (date on or after today) and past (before today).
+// Today is computed in PHP in the Africa/Lagos timezone (see site_config.php).
+$today = date('Y-m-d');
+$upcomingEvents = [];
+$pastEvents = [];
+foreach ($allEvents as $ev) {
+    $evDay = date('Y-m-d', strtotime($ev['date']));
+    if ($evDay >= $today) {
+        $upcomingEvents[] = $ev;
+    } else {
+        $pastEvents[] = $ev;
+    }
+}
+
+// Upcoming: soonest first. Past: newest first.
+usort($upcomingEvents, function ($a, $b) { return strtotime($a['date']) - strtotime($b['date']); });
+usort($pastEvents, function ($a, $b) { return strtotime($b['date']) - strtotime($a['date']); });
+
+// Featured block shows the NEXT upcoming event (soonest on/after today).
+$nextEvent = count($upcomingEvents) > 0 ? $upcomingEvents[0] : null;
 ?>
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Kingdomite Church Int'l">
+    <meta name="description" content="Worship services, conferences and gatherings at Kingdomite Church International in Oyigbo.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="kci.css?v=19">
+    <link rel="stylesheet" type="text/css" href="mobilefix.css?v=1">
+    <link rel="stylesheet" type="text/css" href="cleanup.css">
     <link rel="icon" type="image/png" href="kci_image">
     <title>Events | Kingdomite Church International</title>
     <!-- inserting of icon link from cdjns -->
@@ -96,7 +120,11 @@ if ($result) {
             <span class="kc76">KINGDOMITE CHURCH INTERNATIONAL</span>
             <h1>Our Events</h1>
             <p>Experience worship. Build connections. Grow in faith.</p>
+            <?php if (count($upcomingEvents) > 0): ?>
             <a href="#upcoming-events" class="primary-btn">View Upcoming Events <span>→</span></a>
+            <?php else: ?>
+            <a href="#upcoming-events" class="primary-btn">View Events <span>→</span></a>
+            <?php endif; ?>
         </div>
     </section>
 
@@ -104,7 +132,7 @@ if ($result) {
     <section class="kc77">
         <div class="kc78">
             <span class="kc79">GATHER • WORSHIP • GROW</span>
-            <h2>Upcoming Events</h2>
+            <h2>Our Events</h2>
             <p>
                 There is always something happening at Kingdomite.
                 Join us as we gather together in worship, fellowship,
@@ -115,9 +143,9 @@ if ($result) {
 
     <!-- Events Card -->
     <section class="kc80" id="upcoming-events">
+        <?php if (count($upcomingEvents) > 0): ?>
         <div class="kc81">
-            <?php if (count($events) > 0): ?>
-                <?php foreach ($events as $event): ?>
+            <?php foreach ($upcomingEvents as $event): ?>
                 <article class="kc82">
                     <div class="kc83">
                         <img src="<?= htmlspecialchars($event['image']) ?>"
@@ -147,27 +175,66 @@ if ($result) {
                     </div>
                 </article>
                 <?php endforeach; ?>
-            <?php else: ?>
-                <div style="grid-column: 1 / -1; text-align: center; padding: 60px 20px;">
-                    <h3>No Events Available</h3>
-                    <p>Check back soon for upcoming events.</p>
-                </div>
-            <?php endif; ?>
         </div>
+        <?php endif; ?>
+        <?php if (count($upcomingEvents) === 0): ?>
+        <div class="cleanup-empty-banner">
+            <p>No upcoming events right now. Check back soon, or follow us for announcements.</p>
+            <p>
+                <a href="<?= htmlspecialchars(CHURCH_WHATSAPP_URL) ?>" target="_blank" rel="noopener" class="primary-btn">Chat on WhatsApp <span>→</span></a>
+                <a href="<?= htmlspecialchars(CHURCH_FACEBOOK_URL) ?>" target="_blank" rel="noopener" class="primary-btn">Follow on Facebook <span>→</span></a>
+            </p>
+        </div>
+        <?php endif; ?>
+        <?php if (count($pastEvents) > 0): ?>
+        <h2 class="cleanup-group-title">Past Events</h2>
+        <div class="kc81">
+            <?php foreach ($pastEvents as $event): ?>
+                <article class="kc82 event-muted">
+                    <div class="kc83">
+                        <img src="<?= htmlspecialchars($event['image']) ?>"
+                             alt="<?= htmlspecialchars($event['title']) ?>">
+                        <span class="kc84"><?= htmlspecialchars($event['location']) ?></span>
+                    </div>
+
+                    <div class="kc85">
+                        <h3><?= htmlspecialchars($event['title']) ?> <span class="past-event-badge">Past event</span></h3>
+
+                        <div class="kc86">
+                            <div>
+                                <span class="meta-icon"><i class="fa-regular fa-calendar-days"></i></span>
+                                <span><?= htmlspecialchars(date('F j, Y', strtotime($event['date']))) ?></span>
+                            </div>
+                            <div>
+                                <span class="meta-icon"><i class="fa-solid fa-location-crosshairs"></i></span>
+                                <span><?= htmlspecialchars($event['location']) ?></span>
+                            </div>
+                        </div>
+
+                        <p><?= htmlspecialchars($event['description']) ?></p>
+
+                        <a href="event.php?slug=<?= urlencode($event['slug']) ?>" class="text-btn">
+                            View Event <span>→</span>
+                        </a>
+                    </div>
+                </article>
+                <?php endforeach; ?>
+        </div>
+        <?php endif; ?>
     </section>
 
-    <!-- Featured Events -->
+    <!-- Featured Events: shows the NEXT upcoming event from the database -->
+    <?php if ($nextEvent): ?>
      <section class="kc87">
         <div class="kc88">
-            <img src="kci_image/img37p.webp" alt="Oil & Wine Summit">
+            <img src="<?= htmlspecialchars($nextEvent['image']) ?>" alt="<?= htmlspecialchars($nextEvent['title']) ?>">
         </div>
 
         <div class="kc89">
-            <span class="kc90">FEATURED EVENT</span>
-            <h2>Oil &amp; Wine Summit</h2>
+            <span class="kc90">NEXT EVENT</span>
+            <h2><?= htmlspecialchars($nextEvent['title']) ?></h2>
             <p class="kc91">
-                A special gathering created for worship, prayer, teaching
-                and meaningful fellowship.
+                <?= htmlspecialchars($nextEvent['description']) ?>
             </p>
 
             <div class="kc92">
@@ -175,7 +242,7 @@ if ($result) {
                     <span class="detail-icon"><i class="fa-regular fa-calendar-days"></i></span>
                     <div>
                         <small>Date</small>
-                        <strong>August 15–17, 2026</strong>
+                        <strong><?= htmlspecialchars(date('F j, Y', strtotime($nextEvent['date']))) ?></strong>
                     </div>
                 </div>
 
@@ -183,16 +250,17 @@ if ($result) {
                     <span class="detail-icon"><i class="fa-solid fa-location-crosshairs"></i></span>
                     <div>
                         <small>Location</small>
-                        <strong>Kingdomite Church International</strong>
+                        <strong><?= htmlspecialchars($nextEvent['location']) ?></strong>
                     </div>
                 </div>
             </div>
 
-            <a href="event.php?slug=oil-wine-summit" class="primary-btn">
+            <a href="event.php?slug=<?= urlencode($nextEvent['slug']) ?>" class="primary-btn">
                 Learn More <span>→</span>
             </a>
         </div>
     </section>
+    <?php endif; ?>
 
     <!-- Event Category -->
      <section class="kc93">
@@ -232,7 +300,8 @@ if ($result) {
         </div>
     </section>
 
-      <!-- UPCOMING DATES -->
+      <!-- UPCOMING DATES: database-driven, upcoming events only -->
+    <?php if (count($upcomingEvents) > 0): ?>
     <section class="kc99">
         <div class="kc100">
             <span class="kc101">MARK YOUR CALENDAR</span>
@@ -241,43 +310,22 @@ if ($result) {
         </div>
 
         <div class="kc102">
-            <a href="event.php?slug=oil-wine-summit" class="kc103">
+            <?php foreach ($upcomingEvents as $event): ?>
+            <a href="event.php?slug=<?= urlencode($event['slug']) ?>" class="kc103">
                 <div class="kc104">
-                    <strong>15</strong>
-                    <span>AUG</span>
+                    <strong><?= htmlspecialchars(date('j', strtotime($event['date']))) ?></strong>
+                    <span><?= htmlspecialchars(strtoupper(date('M', strtotime($event['date'])))) ?></span>
                 </div>
                 <div class="kc105">
-                    <span>Oil &amp; Wine Summit</span>
-                    <small>Kingdomite Church International</small>
+                    <span><?= htmlspecialchars($event['title']) ?></span>
+                    <small><?= htmlspecialchars($event['location']) ?></small>
                 </div>
                 <span class="kc106">→</span>
             </a>
-
-            <a href="event.php?slug=june-conference" class="kc103">
-                <div class="kc104">
-                    <strong>2027</strong>
-                    <span>JUNE</span>
-                </div>
-                <div class="kc105">
-                    <span>June Conference</span>
-                    <small>Details coming soon</small>
-                </div>
-                <span class="kc106">→</span>
-            </a>
-
-            <a href="event.php?slug=embers-of-glory" class="kc103">
-                <div class="kc104">
-                    <strong>—</strong>
-                    <span>TBA</span>
-                </div>
-                <div class="kc105">
-                    <span>Embers of Glory</span>
-                    <small>Date and venue to be announced</small>
-                </div>
-                <span class="kc106">→</span>
-            </a>
+            <?php endforeach; ?>
         </div>
     </section>
+    <?php endif; ?>
 
         <!-- WHY ATTEND -->
     <section class="kc107">
@@ -325,48 +373,7 @@ if ($result) {
 
     
 
-    <!-- Footer -->
-    <footer class="kc118">
-    <div class="kc119">
-        <div class="kc120">
-            <div class="kc121">
-                <div class="kc122"><img src="kci_image/img13.webp"></div>
-                <div class="kc123">
-                    <strong>KINGDOMITE</strong>
-                    <span>CHURCH INTERNATIONAL</span>
-                </div>
-            </div>
-            <p>
-                Building a people who know God, love people
-                and live out His purpose.
-            </p>
-        </div>
-
-        <div class="kc124">
-            <h4>Quick Links</h4>
-            <a href="index.php">Home</a>
-            <a href="aboutus.php">About</a>
-            <a href="events.php">Events</a>
-            <a href="contact.php">Contact</a>
-        </div>
-
-        <div class="kc124">
-            <h4>Contact</h4>
-            <p>Phone / WhatsApp: <a href="https://wa.me/2348064979241" target="_blank" rel="noopener">+234 806 497 9241</a></p>
-            <p>Email: <a href="mailto:dkcifamily@gmail.com">dkcifamily@gmail.com</a></p>
-        </div>
-
-        <div class="kc124">
-            <h4>Location</h4>
-            <p>The Kingdomite Church International</p>
-            <p>Beside Jumbo Close, off Ogboso road, Obeama, Oyigbo, Rivers State, Nigeria</p>
-        </div>
-    </div>
-
-    <div class="kc125">
-        <p>© <?= date('Y') ?> Kingdomite Church International. All Rights Reserved.</p>
-    </div>
-</footer>
+    <?php include 'footer.php'; ?>
     <script type="text/javascript">
         // Mobile menu toggle
         var menuToggle = document.getElementById('menuToggle');

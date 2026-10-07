@@ -76,6 +76,7 @@ if ($slug !== '' && !$isActive) {
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="kci.css?v=12">
+	<link rel="stylesheet" type="text/css" href="mobilefix.css?v=1">
 	<link rel="icon" type="image/png" href="kci_image">
 	<title><?= $isActive ? ministry_esc($ministry['name']) : ministry_esc($errorTitle) ?> | Kingdomite Church International</title>
 
@@ -223,48 +224,7 @@ if ($slug !== '' && !$isActive) {
 		<?php endif; ?>
 	</main>
 
-	<!-- Footer -->
-	<footer class="kc118">
-	    <div class="kc119">
-	        <div class="kc120">
-	            <div class="kc121">
-	                <div class="kc122"><img src="kci_image/img13.webp"></div>
-	                <div class="kc123">
-	                    <strong>KINGDOMITE</strong>
-	                    <span>CHURCH INTERNATIONAL</span>
-	                </div>
-	            </div>
-	            <p>
-	                Building a people who know God, love people
-	                and live out His purpose.
-	            </p>
-	        </div>
-
-	        <div class="kc124">
-	            <h4>Quick Links</h4>
-	            <a href="index.php">Home</a>
-	            <a href="aboutus.php">About</a>
-	            <a href="events.php">Events</a>
-	            <a href="contact.php">Contact</a>
-	        </div>
-
-	        <div class="kc124">
-	            <h4>Contact</h4>
-	            <p>Phone / WhatsApp: <a href="https://wa.me/2348064979241" target="_blank" rel="noopener">+234 806 497 9241</a></p>
-	            <p>Email: <a href="mailto:dkcifamily@gmail.com">dkcifamily@gmail.com</a></p>
-	        </div>
-
-	        <div class="kc124">
-	            <h4>Location</h4>
-	            <p>The Kingdomite Church International</p>
-	            <p>Beside Jumbo Close, off Ogboso road, Obeama, Oyigbo, Rivers State, Nigeria</p>
-	        </div>
-	    </div>
-
-	    <div class="kc125">
-	        <p>© <?= date('Y') ?> Kingdomite Church International. All Rights Reserved.</p>
-	    </div>
-	</footer>
+	<?php include 'footer.php'; ?>
 
 	<script type="text/javascript">
 		// Mobile menu toggle
