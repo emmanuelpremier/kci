@@ -253,6 +253,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	<link rel="stylesheet" type="text/css" href="kci.css?v=21">
 	<link rel="stylesheet" type="text/css" href="mobilefix.css?v=1">
 	<link rel="stylesheet" href="giving.css?v=2">
+	<link rel="stylesheet" type="text/css" href="mobile-header.css?v=1">
 	<link rel="icon" type="image/png" href="kci_image">
 	<title>Give | Kingdomite Church International</title>
 

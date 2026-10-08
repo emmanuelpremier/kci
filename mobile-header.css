@@ -1,0 +1,175 @@
+/* ================================================================
+   mobile-header.css — make the mobile header on min.php,
+   ministry.php, serve.php, contact.php, form.php, location.php,
+   quotes.php and giving.php look and behave exactly like it does
+   on index.php (home-page), aboutus.php (about-page) and
+   events.php / event.php (events-page) on phones:
+
+   - see-through (transparent) fixed header at the top of the page
+     so the hero shows behind it;
+   - near-black (rgba(0,0,0,.94)) once the visitor scrolls
+     (.kc1.scrolled, toggled by the existing inline script).
+
+   Loaded AFTER kci.css (and after any other page CSS) on those
+   eight pages only. Never loaded on index/aboutus/events/event.
+   Desktop is untouched: every rule below lives inside a
+   max-width: 900px (or smaller) media query, except nothing.
+   kci.css is never edited.
+   ================================================================ */
+
+/* ---------- 1. Transparent fixed header (<=900px) ---------- */
+@media (max-width: 900px){
+  /* Specific enough (0,1,1) to beat the general .kc1 rules in
+     kci.css (0,1,0), including the sticky fallback at <=768px. */
+  body .kc1{
+    position: fixed;
+    top: 0;
+    left: 0;
+    margin-top: 0;
+    background: transparent;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    box-shadow: none;
+  }
+  body .kc1.scrolled{
+    background: rgba(0, 0, 0, .94);
+    box-shadow: 0 4px 18px rgba(0, 0, 0, .28);
+  }
+
+  /* Heroes sit directly under the fixed header, exactly like
+     .home-page .kc5 / .about-page .kc42 / .events-page .kc73. */
+  body:not(.header-solid) .ministry-hero,
+  body:not(.header-solid) .serve-hero,
+  body:not(.header-solid) .contact-hero,
+  body:not(.header-solid) .firsttimer-hero,
+  body:not(.header-solid) .location-hero,
+  body:not(.header-solid) .quotes-hero,
+  body:not(.header-solid) .giving-hero,
+  body:not(.header-solid) .ministry-error{
+    position: relative;
+    z-index: 0;
+  }
+
+  /* HERO POSITION (tablet 769-900px): the header no longer takes up
+     space, so the section padding-top is increased by the header
+     height (72px) to keep content in the same visual position and
+     let the hero background extend behind the header to the very
+     top of the screen. Skipped on header-solid pages, where the
+     sticky header still takes up its own space. */
+  body.ministry-page:not(.header-solid) .ministry-hero,
+  body.serve-page:not(.header-solid) .serve-hero{
+    padding-top: 212px; /* 140px + 72px */
+  }
+  body.contact-page:not(.header-solid) .contact-hero{
+    padding-top: 222px; /* 150px + 72px */
+  }
+  body.firsttimer-page:not(.header-solid) .firsttimer-hero{
+    padding-top: 202px; /* 130px + 72px */
+  }
+  body.location-page:not(.header-solid) .location-hero,
+  body.quotes-page:not(.header-solid) .quotes-hero{
+    padding-top: 194px; /* 122px + 72px */
+  }
+  body.giving-page:not(.header-solid) .giving-hero{
+    padding-top: 222px; /* 150px + 72px */
+  }
+  body.ministry-page:not(.header-solid) .ministry-error{
+    padding-top: 250px; /* 178px + 72px */
+  }
+
+  /* READABILITY SCRIM: subtle fade behind the header while it is
+     see-through, so white menu text stays readable over bright
+     hero images. Removed on .scrolled and on header-solid pages. */
+  body:not(.header-solid) .kc1::before{
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: calc(100% + 24px);
+    background: linear-gradient(to bottom, rgba(0,0,0,.5), rgba(0,0,0,0));
+    pointer-events: none;
+    z-index: -1;
+  }
+  body:not(.header-solid) .kc1.scrolled::before{
+    content: none;
+  }
+
+  /* LIGHT-TOP PAGES: dark glass look instead of see-through, so the
+     white menu text stays readable over a light hero. The header is
+     fixed (not sticky) because position:sticky does not work when an
+     ancestor (html/body here) has overflow-x:hidden — see kci.css
+     html/body rules. body padding-top replaces the in-flow header
+     height so the hero sits exactly where it did with sticky. */
+  body.header-solid .kc1{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    background: rgba(15, 15, 20, .92);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    box-shadow: 0 4px 18px rgba(0, 0, 0, .28);
+  }
+  /* Offset for the fixed header on header-solid pages (min.php).
+     Header real heights from kci.css: 80px base (.kc1 height:80px),
+     68px at <=620px (@media max-width:620px .kc1{height:68px}).
+     At 768px -> 80px, at 360/390px -> 68px. Unscrolled height is
+     used so the hero sits exactly where it sat with sticky. */
+  body.header-solid{
+    padding-top: 80px;
+  }
+}
+
+/* ---------- 2. 601-768px tier ---------- */
+@media (max-width: 768px){
+  body.contact-page:not(.header-solid) .contact-hero{
+    padding-top: 132px; /* 60px + 72px */
+  }
+  body.firsttimer-page:not(.header-solid) .firsttimer-hero{
+    padding-top: 202px; /* 130px + 72px */
+  }
+  body.location-page:not(.header-solid) .location-hero,
+  body.quotes-page:not(.header-solid) .quotes-hero{
+    padding-top: 194px; /* 122px + 72px */
+  }
+  body.giving-page:not(.header-solid) .giving-hero{
+    padding-top: 222px; /* 150px + 72px */
+  }
+}
+
+/* ---------- 3. <=640px tier (390px lives here) ---------- */
+@media (max-width: 640px){
+  body.ministry-page:not(.header-solid) .ministry-hero,
+  body.serve-page:not(.header-solid) .serve-hero{
+    padding-top: 200px; /* 128px + 72px */
+  }
+  body.contact-page:not(.header-solid) .contact-hero{
+    padding-top: 124px; /* 52px + 72px */
+  }
+  body.firsttimer-page:not(.header-solid) .firsttimer-hero{
+    padding-top: 192px; /* 120px + 72px */
+  }
+  body.ministry-page:not(.header-solid) .ministry-error{
+    padding-top: 222px; /* 150px + 72px */
+  }
+}
+
+/* ---------- 4. <=600px tier (390px lives here too) ---------- */
+@media (max-width: 600px){
+  body.location-page:not(.header-solid) .location-hero,
+  body.quotes-page:not(.header-solid) .quotes-hero,
+  body.giving-page:not(.header-solid) .giving-hero{
+    padding-top: 128px; /* 56px + 72px */
+  }
+}
+
+/* ---------- 5. header-solid offset: match real header height ---------- */
+/* kci.css sets .kc1{height:80px} and @media(max-width:620px){.kc1{height:68px}}.
+   768px -> 80px (rule above), 360/390px -> 68px (rule below). */
+@media (max-width: 620px){
+  body.header-solid{
+    padding-top: 68px;
+  }
+}

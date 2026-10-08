@@ -164,6 +164,7 @@ if ($displayMinistry && !empty($displayMinistry['image'])) {
 	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="kci.css?v=14">
 	<link rel="stylesheet" type="text/css" href="mobilefix.css?v=1">
+	<link rel="stylesheet" type="text/css" href="mobile-header.css?v=1">
 	<link rel="icon" type="image/png" href="kci_image">
 	<title>Serve With Us | Kingdomite Church International</title>
 

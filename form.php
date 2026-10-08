@@ -139,6 +139,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	<link rel="stylesheet" type="text/css" href="kci.css?v=13">
 	<link rel="stylesheet" type="text/css" href="mobilefix.css?v=1">
 	<link rel="stylesheet" href="form.css?v=1">
+	<link rel="stylesheet" type="text/css" href="mobile-header.css?v=1">
 	<link rel="icon" type="image/png" href="kci_image">
 	<title>Plan Your First Visit | Kingdomite Church International</title>
 

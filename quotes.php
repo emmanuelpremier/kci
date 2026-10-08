@@ -65,6 +65,7 @@ function quotes_esc($value) {
 	<link rel="stylesheet" type="text/css" href="kci.css?v=21">
 	<link rel="stylesheet" type="text/css" href="mobilefix.css?v=1">
 	<link rel="stylesheet" href="quotes.css?v=1">
+	<link rel="stylesheet" type="text/css" href="mobile-header.css?v=1">
 	<link rel="icon" type="image/png" href="kci_image">
 	<title>Quotes | Kingdomite Church International</title>
 

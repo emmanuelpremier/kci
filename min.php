@@ -88,13 +88,14 @@ foreach ($ministries as $ministry) {
 	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="kci.css?v=20">
 	<link rel="stylesheet" type="text/css" href="mobilefix.css?v=1">
+	<link rel="stylesheet" type="text/css" href="mobile-header.css?v=1">
 	<link rel="icon" type="image/png" href="kci_image">
 	<title>Ministries | Kingdomite Church International</title>
 
 	<!-- inserting of icon link from cdjns -->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
-<body class="ministries-page">
+<body class="ministries-page header-solid">
 	<!-- Ministries page: prime the scroll-reveal initial state before the first
 	     paint. Skipped for reduced-motion users and when IntersectionObserver
 	     is unavailable, so the content is never left hidden. -->
