@@ -1,6 +1,10 @@
 <?php
 include_once 'site_config.php';
 ?>
+<style>
+.kc-admin-link:hover,.kc-admin-link:focus-visible,.kc-admin-link:focus{opacity:1 !important;}
+@media (max-width:600px){.kc-admin-link{display:flex !important;justify-content:center;margin:.6em auto 0 !important;}}
+</style>
 <footer class="kc118">
 	<div class="kc119">
 		<div class="kc120">
@@ -41,6 +45,7 @@ include_once 'site_config.php';
 
 	<div class="kc125">
 		<p>&copy; <?php echo date('Y'); ?> <?php echo htmlspecialchars(CHURCH_NAME, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8', false); ?>. All Rights Reserved.</p>
+		<a class="kc-admin-link" href="admin/login.php" rel="nofollow noopener" style="font-size:.8rem;color:inherit;opacity:.6;text-decoration:none;display:inline-flex;align-items:center;gap:.35em;margin-top:.4em;"><i class="fa-solid fa-lock" aria-hidden="true"></i> Admin Login</a>
 	</div>
 </footer>
 <script src="kci_nav.js?v=1" defer></script>
