@@ -5,6 +5,7 @@ define('KCI_ADMIN', true);
 require __DIR__ . '/includes/bootstrap.php';
 require __DIR__ . '/includes/helpers.php';
 require __DIR__ . '/includes/csrf.php';
+require __DIR__ . '/includes/auth.php';
 require __DIR__ . '/../kci_db.php';
 
 if (!csrf_check()) {

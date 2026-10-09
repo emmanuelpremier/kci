@@ -18,7 +18,7 @@ $__flash = flash_get();
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer">
-<link rel="stylesheet" href="admin.css">
+<link rel="stylesheet" href="admin.css?v=5">
 </head>
 <body class="kci-admin">
 <div class="kci-overlay" id="kci-overlay" hidden></div>
@@ -48,7 +48,7 @@ $__flash = flash_get();
 </span>
 <span class="kci-nav__item is-disabled" aria-disabled="true" tabindex="-1">
 <span class="kci-nav__icon"><i class="fa-solid fa-hand-holding-heart"></i></span>
-<span>Serve Applications</span>
+<span>Serve</span>
 <span class="kci-pill">Soon</span>
 </span>
 <span class="kci-nav__item is-disabled" aria-disabled="true" tabindex="-1">
@@ -58,7 +58,7 @@ $__flash = flash_get();
 </span>
 <span class="kci-nav__item is-disabled" aria-disabled="true" tabindex="-1">
 <span class="kci-nav__icon"><i class="fa-solid fa-envelope"></i></span>
-<span>Messages &amp; Forms</span>
+<span>Messages</span>
 <span class="kci-pill">Soon</span>
 </span>
 </nav>

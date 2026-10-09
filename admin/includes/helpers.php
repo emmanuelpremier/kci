@@ -123,3 +123,43 @@ function admin_last4($number) {
     if (strlen($digits) < 4) { return '****'; }
     return '****' . substr($digits, -4);
 }
+
+/* Validate a candidate password. Returns an empty string when acceptable,
+ * otherwise a clear error message for direct display. Reused by
+ * admin/password.php; kept here so any future admin form can share it. */
+function admin_password_error($new, $username, $displayName) {
+    $new = (string)$new;
+    if ($new === '') {
+        return 'Please choose a new password.';
+    }
+    if (strlen($new) < 12) {
+        return 'Choose a new password of at least 12 characters.';
+    }
+    if (preg_match('/^[0-9]+$/', $new)) {
+        return 'Your new password cannot be made up of numbers only.';
+    }
+    if (preg_match('/0123|1234|2345|3456|4567|5678|6789|0000|1111|2222|3333|4444|5555|6666|7777|8888|9999/', $new)) {
+        return 'Your new password cannot contain a simple number run such as 1234 or 0000.';
+    }
+    $lower = strtolower($new);
+    foreach (array(trim((string)$username), trim((string)$displayName)) as $name) {
+        $name = strtolower($name);
+        if ($name !== '' && strpos($lower, $name) !== false) {
+            return 'Your new password cannot contain your username or display name.';
+        }
+    }
+    $common = array('password', 'welcome', 'qwerty', 'church', 'kingdomite', 'emmanuel',
+        'admin', 'letmein', 'login', 'passw0rd', 'iloveyou', 'monkey', 'dragon',
+        'football', 'baseball', 'sunshine', 'princess', 'trustno1', 'abc123',
+        '123456', '1234567', '12345678', '123456789', '1234567890', 'qwerty123',
+        'qwertyuiop', 'changeme', 'secret', 'master', 'superman');
+    foreach ($common as $bad) {
+        if (strpos($lower, $bad) !== false) {
+            return 'Your new password is too common. Please choose something less predictable.';
+        }
+    }
+    if (!preg_match('/[A-Za-z]/', $new) || !preg_match('/[^A-Za-z]/', $new)) {
+        return 'Your new password must mix letters with at least one number or symbol.';
+    }
+    return '';
+}
