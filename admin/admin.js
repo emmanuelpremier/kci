@@ -70,4 +70,63 @@
   wireShowPass('kci-showpass', 'kci-password');
   wireShowPass('kci-showpass-new', 'kci-password-new');
   wireShowPass('kci-showpass-confirm', 'kci-password-confirm');
+
+  // Giving Account live preview — activates only on giving-settings.php
+  // (the only page with #givingPreview). Mirrors the typed bank name,
+  // account number (grouped 9013 194 092), account name and card style.
+  var preview = $('givingPreview');
+  if (preview) {
+    var bankInput = $('giving-bank');
+    var numberInput = $('giving-number');
+    var nameInput = $('giving-name');
+    var bankOut = $('giving-preview-bank');
+    var numberOut = $('giving-preview-number');
+    var nameOut = $('giving-preview-name');
+    var themes = ['green', 'orange', 'blue', 'purple', 'black'];
+
+    // Group exactly 10 digits as 9013 194 092; anything else shows raw.
+    function groupDigits(value) {
+      var digits = String(value || '').replace(/[^0-9]/g, '');
+      if (digits.length === 10) {
+        return digits.slice(0, 4) + ' ' + digits.slice(4, 7) + ' ' + digits.slice(7);
+      }
+      return String(value || '');
+    }
+
+    function applyTheme(theme) {
+      themes.forEach(function (name) {
+        preview.classList.toggle('giving-preview--' + name, name === theme);
+      });
+    }
+
+    function renderPreview() {
+      if (bankOut) {
+        bankOut.textContent = (bankInput && bankInput.value.trim()) ? bankInput.value.trim() : 'Bank name';
+      }
+      if (numberOut) {
+        numberOut.textContent = (numberInput && numberInput.value.trim()) ? groupDigits(numberInput.value.trim()) : '0000 000 000';
+      }
+      if (nameOut) {
+        nameOut.textContent = (nameInput && nameInput.value.trim()) ? nameInput.value.trim().toUpperCase() : 'ACCOUNT NAME';
+      }
+    }
+
+    [bankInput, nameInput].forEach(function (input) {
+      if (input) input.addEventListener('input', renderPreview);
+    });
+    if (numberInput) {
+      numberInput.addEventListener('input', function () {
+        var digits = numberInput.value.replace(/[^0-9]/g, '').slice(0, 10);
+        if (digits !== numberInput.value) numberInput.value = digits;
+        renderPreview();
+      });
+    }
+    var themeInputs = document.querySelectorAll('input[name="card_theme"]');
+    themeInputs.forEach(function (input) {
+      input.addEventListener('change', function () {
+        if (input.checked) applyTheme(input.value);
+      });
+    });
+    renderPreview();
+  }
 })();

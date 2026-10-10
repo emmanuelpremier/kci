@@ -197,6 +197,56 @@
 .giving-page .giving-card__face--back{
 	transform: rotateY(180deg);
 }
+
+/* --- Card colour themes (chosen on admin/giving-settings.php) ------
+   The modifier sits on the card wrapper (.giving-card--<theme>) and
+   repaints both faces. The green modifier repeats the base rule word
+   for word, so the default card looks exactly as it always has. */
+.giving-page .giving-card--green .giving-card__face{
+	background:
+		radial-gradient(420px 200px at 88% -30%, rgba(255, 255, 255, .16), transparent 60%),
+		radial-gradient(300px 220px at -10% 120%, rgba(0, 0, 0, .35), transparent 60%),
+		linear-gradient(135deg, #1e7a46 0%, #145c34 45%, #0b3d22 100%);
+	box-shadow:
+		0 30px 60px rgba(11, 61, 34, .38),
+		0 4px 12px rgba(11, 61, 34, .30);
+}
+.giving-page .giving-card--orange .giving-card__face{
+	background:
+		radial-gradient(420px 200px at 88% -30%, rgba(255, 255, 255, .16), transparent 60%),
+		radial-gradient(300px 220px at -10% 120%, rgba(0, 0, 0, .35), transparent 60%),
+		linear-gradient(135deg, #ff9d3d 0%, #f5770f 45%, #b45309 100%);
+	box-shadow:
+		0 30px 60px rgba(245, 119, 15, .38),
+		0 4px 12px rgba(180, 83, 9, .30);
+}
+.giving-page .giving-card--blue .giving-card__face{
+	background:
+		radial-gradient(420px 200px at 88% -30%, rgba(255, 255, 255, .16), transparent 60%),
+		radial-gradient(300px 220px at -10% 120%, rgba(0, 0, 0, .35), transparent 60%),
+		linear-gradient(135deg, #4f7ff0 0%, #3157c7 45%, #1b2f7a 100%);
+	box-shadow:
+		0 30px 60px rgba(27, 47, 122, .42),
+		0 4px 12px rgba(27, 47, 122, .32);
+}
+.giving-page .giving-card--purple .giving-card__face{
+	background:
+		radial-gradient(420px 200px at 88% -30%, rgba(255, 255, 255, .16), transparent 60%),
+		radial-gradient(300px 220px at -10% 120%, rgba(0, 0, 0, .35), transparent 60%),
+		linear-gradient(135deg, #7b52d6 0%, #6d42c1 45%, #5731b8 100%);
+	box-shadow:
+		0 30px 60px rgba(87, 49, 184, .42),
+		0 4px 12px rgba(87, 49, 184, .32);
+}
+.giving-page .giving-card--black .giving-card__face{
+	background:
+		radial-gradient(420px 200px at 88% -30%, rgba(255, 255, 255, .16), transparent 60%),
+		radial-gradient(300px 220px at -10% 120%, rgba(0, 0, 0, .35), transparent 60%),
+		linear-gradient(135deg, #2b3040 0%, #14182a 45%, #07090f 100%);
+	box-shadow:
+		0 30px 60px rgba(7, 9, 15, .45),
+		0 4px 12px rgba(7, 9, 15, .35);
+}
 /* Glossy shine that sweeps across on hover. */
 .giving-page .giving-card__shine{
 	position: absolute;

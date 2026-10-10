@@ -2,7 +2,7 @@
 session_start();
 /* giving.php — Give page (Kingdomite Church International).
  * Reached from the "Give" button in the main header on every page.
- * Shows the church's Opay account on a flip-able 3D bank card and a
+ * Shows the church's bank account on a flip-able 3D bank card and a
  * "Confirm your giving" form that saves into the `giving_proofs`
  * table through kci_db.php (id, status, created_at are automatic).
  * The table already exists and is never created or altered here.
@@ -10,12 +10,20 @@ session_start();
  * No payment processing, file uploads, tracking or external scripts.
  */
 include_once("kci_validate.php");
+include_once("kci_db.php");
+include_once("kci_settings.php");
 
+/* Bank account details — stored in site_settings and edited on
+   admin/giving-settings.php; kci_giving_details() supplies the
+   defaults from kci_settings.php until an admin saves them, and
+   whenever a stored value fails validation. */
+$giving = kci_giving_details($conn);
+$bankName = $giving['bank'];
+$accountNumber = $giving['number'];
+$accountName = $giving['name'];
+$cardTheme = $giving['theme'];
 
-/* Account + contact details — edit here only; the page reads these. */
-$bankName = "Opay";
-$accountNumber = "9013194092";
-$accountName = "Lucy David Vincent";
+/* Contact details — edit here only; the page reads these. */
 $whatsappUrl = "https://wa.me/2348064979241";
 $churchEmail = "dkcifamily@gmail.com";
 $churchPhone = "+234 806 497 9241";
@@ -190,7 +198,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 			$giveErrors[] = 'Please keep your note under 500 characters.';
 		}
 		if (empty($giveErrors)) {
-			include("kci_db.php");
+			include_once("kci_db.php");
 			try {
 				$stmt = $conn->prepare("INSERT INTO giving_proofs (full_name, phone, email, amount, giving_type, give_date, sender_account_name, reference, note) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
 				if ($stmt === false) {
@@ -246,7 +254,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta name="description" content="<?= giving_esc('Give to Kingdomite Church International — our Opay account details and a simple form to confirm your tithe, offering, seed or gift.') ?>">
+	<meta name="description" content="<?= giving_esc('Give to Kingdomite Church International — our ' . $bankName . ' account details and a simple form to confirm your tithe, offering, seed or gift.') ?>">
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -337,7 +345,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 		<div class="giving-main__inner">
 			<div class="giving-cardzone giving-reveal">
 				<div class="giving-cardscene">
-					<div class="giving-card" id="giving-card" tabindex="0" role="button" aria-label="Church giving account card. Press Enter or Space to flip it." aria-pressed="false">
+					<div class="giving-card giving-card--<?= giving_esc($cardTheme) ?>" id="giving-card" tabindex="0" role="button" aria-label="Church giving account card. Press Enter or Space to flip it." aria-pressed="false">
 						<div class="giving-card__inner" id="giving-card-inner">
 							<div class="giving-card__face giving-card__face--front" aria-hidden="false">
 								<span class="giving-card__shine" aria-hidden="true"></span>
@@ -386,7 +394,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 					<li class="giving-step giving-reveal">
 						<span class="giving-step__no">1</span>
 						<span class="giving-step__icon"><i class="fa-solid fa-mobile-screen-button"></i></span>
-						<span class="giving-step__text"><strong>Open your bank or Opay app</strong> on your phone.</span>
+						<span class="giving-step__text"><strong>Open your bank or mobile money app</strong> on your phone.</span>
 					</li>
 					<li class="giving-step giving-reveal">
 						<span class="giving-step__no">2</span>

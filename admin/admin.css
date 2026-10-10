@@ -791,3 +791,207 @@ img { max-width: 100%; }
     .kci-feed__item { grid-template-columns: 1fr; }
     .kci-feed__when { grid-column: 1; grid-row: auto; }
 }
+
+/* ---------- Giving Account editor (giving-settings.php) ---------- */
+/* Editor card LEFT, live preview RIGHT; stacked (preview below) on phones. */
+.kci-give {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 420px);
+    gap: 18px;
+    align-items: start;
+}
+
+.kci-themes {
+    border: 0;
+    padding: 0;
+    margin: 0 0 16px;
+    min-width: 0;
+}
+.kci-themes legend {
+    padding: 0;
+    margin-bottom: 9px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--ink);
+}
+
+.kci-swatches {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+}
+.kci-swatch {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+}
+.kci-swatch input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: 0;
+    opacity: 0;
+    pointer-events: none;
+}
+.kci-swatch__dot {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    border: 2px solid #ffffff;
+    box-shadow: 0 0 0 1px var(--line-strong);
+    transition: box-shadow var(--dur) var(--ease);
+}
+.kci-swatch input:checked + .kci-swatch__dot {
+    box-shadow: 0 0 0 2px var(--violet-600);
+}
+.kci-swatch input:focus-visible + .kci-swatch__dot {
+    outline: 3px solid rgba(124, 58, 237, 0.55);
+    outline-offset: 2px;
+}
+.kci-swatch__label {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--ink-soft);
+}
+.kci-swatch--green .kci-swatch__dot { background: linear-gradient(135deg, #1e7a46, #0b3d22); }
+.kci-swatch--orange .kci-swatch__dot { background: linear-gradient(135deg, #ff9d3d, #b45309); }
+.kci-swatch--blue .kci-swatch__dot { background: linear-gradient(135deg, #4f7ff0, #1b2f7a); }
+.kci-swatch--purple .kci-swatch__dot { background: linear-gradient(135deg, #7b52d6, #5731b8); }
+.kci-swatch--black .kci-swatch__dot { background: linear-gradient(135deg, #2b3040, #07090f); }
+
+@media (max-width: 900px) {
+    .kci-give { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* --- Live bank-card preview (id="givingPreview") ------------------ */
+.kci-give__preview .giving-preview {
+    position: relative;
+    overflow: hidden;
+    box-sizing: border-box;
+    width: 100%;
+    aspect-ratio: 86 / 54;
+    margin-top: 14px;
+    padding: 22px 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-radius: 16px;
+    color: #ffffff;
+    box-shadow: 0 24px 48px rgba(11, 61, 34, 0.38), 0 4px 12px rgba(11, 61, 34, 0.30);
+}
+.giving-preview__top {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.giving-preview__chip {
+    display: inline-block;
+    width: 34px;
+    height: 24px;
+    border-radius: 5px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, .9), rgba(255, 255, 255, .55));
+}
+.giving-preview__bank {
+    font-size: .95rem;
+    font-weight: 700;
+    letter-spacing: .4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 60%;
+}
+.giving-preview__wave {
+    margin-left: auto;
+    transform: rotate(90deg);
+    font-size: .95rem;
+    opacity: .9;
+}
+.giving-preview__number {
+    margin: 0;
+    font-size: clamp(1.25rem, 2.4vw, 1.6rem);
+    font-weight: 700;
+    letter-spacing: 3px;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+}
+.giving-preview__bottom {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 12px;
+}
+.giving-preview__holder {
+    min-width: 0;
+}
+.giving-preview__label {
+    display: block;
+    font-size: .6rem;
+    text-transform: uppercase;
+    letter-spacing: 1.6px;
+    opacity: .75;
+}
+.giving-preview__name {
+    display: block;
+    max-width: 100%;
+    font-size: .86rem;
+    font-weight: 700;
+    letter-spacing: .6px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.giving-preview__tag {
+    flex: none;
+    padding: 4px 10px;
+    border: 1px solid rgba(255, 255, 255, .55);
+    border-radius: 999px;
+    font-size: .62rem;
+    font-weight: 700;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+}
+
+/* --- The five card styles (same gradients as giving.css) ---------- */
+.giving-preview,
+.giving-preview--green {
+    background:
+        radial-gradient(420px 200px at 88% -30%, rgba(255, 255, 255, 0.16), transparent 60%),
+        radial-gradient(300px 220px at -10% 120%, rgba(0, 0, 0, 0.35), transparent 60%),
+        linear-gradient(135deg, #1e7a46 0%, #145c34 45%, #0b3d22 100%);
+}
+.giving-preview--orange {
+    background:
+        radial-gradient(420px 200px at 88% -30%, rgba(255, 255, 255, 0.16), transparent 60%),
+        radial-gradient(300px 220px at -10% 120%, rgba(0, 0, 0, 0.35), transparent 60%),
+        linear-gradient(135deg, #ff9d3d 0%, #f5770f 45%, #b45309 100%);
+    box-shadow: 0 24px 48px rgba(245, 119, 15, 0.38), 0 4px 12px rgba(180, 83, 9, 0.30);
+}
+.giving-preview--blue {
+    background:
+        radial-gradient(420px 200px at 88% -30%, rgba(255, 255, 255, 0.16), transparent 60%),
+        radial-gradient(300px 220px at -10% 120%, rgba(0, 0, 0, 0.35), transparent 60%),
+        linear-gradient(135deg, #4f7ff0 0%, #3157c7 45%, #1b2f7a 100%);
+    box-shadow: 0 24px 48px rgba(27, 47, 122, 0.42), 0 4px 12px rgba(27, 47, 122, 0.32);
+}
+.giving-preview--purple {
+    background:
+        radial-gradient(420px 200px at 88% -30%, rgba(255, 255, 255, 0.16), transparent 60%),
+        radial-gradient(300px 220px at -10% 120%, rgba(0, 0, 0, 0.35), transparent 60%),
+        linear-gradient(135deg, #7b52d6 0%, #6d42c1 45%, #5731b8 100%);
+    box-shadow: 0 24px 48px rgba(87, 49, 184, 0.42), 0 4px 12px rgba(87, 49, 184, 0.32);
+}
+.giving-preview--black {
+    background:
+        radial-gradient(420px 200px at 88% -30%, rgba(255, 255, 255, 0.16), transparent 60%),
+        radial-gradient(300px 220px at -10% 120%, rgba(0, 0, 0, 0.35), transparent 60%),
+        linear-gradient(135deg, #2b3040 0%, #14182a 45%, #07090f 100%);
+    box-shadow: 0 24px 48px rgba(7, 9, 15, 0.45), 0 4px 12px rgba(7, 9, 15, 0.35);
+}
+
+@media (max-width: 560px) {
+    .kci-give__preview .giving-preview { padding: 18px; }
+}
+
