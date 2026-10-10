@@ -46,6 +46,7 @@ $stats = array(
         'sql'   => 'SELECT COUNT(*) AS c FROM serve_applications WHERE status = ?',
         'p'     => 's',
         'v'     => 'pending',
+        'href'  => 'serve-applications.php?status=pending',
     ),
     'giving'   => array(
         'label' => 'Giving confirmations',
@@ -133,11 +134,19 @@ include __DIR__ . '/includes/layout_top.php';
 </div>
 <div class="kci-grid kci-grid--3">
 <?php foreach ($stats as $stat): ?>
+<?php if (isset($stat['href'])): ?>
+<a class="kci-stat kci-stat--link" href="<?php echo e($stat['href']); ?>" aria-label="<?php echo e($stat['label'] . ': ' . (int)$stat['count'] . ' — ' . $stat['hint'] . '. View pending serve applications.'); ?>">
+<p class="kci-stat__label"><i class="fa-solid <?php echo e($stat['icon']); ?>"></i> <?php echo e($stat['label']); ?></p>
+<p class="kci-stat__value"><?php echo (int)$stat['count']; ?></p>
+<p class="kci-stat__hint"><?php echo e($stat['hint']); ?> <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></p>
+</a>
+<?php else: ?>
 <article class="kci-stat">
 <p class="kci-stat__label"><i class="fa-solid <?php echo e($stat['icon']); ?>"></i> <?php echo e($stat['label']); ?></p>
 <p class="kci-stat__value"><?php echo (int)$stat['count']; ?></p>
 <p class="kci-stat__hint"><?php echo e($stat['hint']); ?></p>
 </article>
+<?php endif; ?>
 <?php endforeach; ?>
 </div>
 <div class="kci-grid kci-grid--2">

@@ -3,11 +3,47 @@
  * Expects $admin (row), $pageTitle, $activeNav before include. */
 if (!defined('KCI_ADMIN')) { http_response_code(403); exit; }
 
-$__nav = isset($activeNav) ? (string)$activeNav : 'dashboard';
+$__nav = isset($activeNav) ? (string)$activeNav : '';
+$__script = strtolower((string)basename((string)(isset($_SERVER['SCRIPT_NAME']) ? $_SERVER['SCRIPT_NAME'] : '')));
 $__title = isset($pageTitle) ? (string)$pageTitle : 'Dashboard';
 $__display = isset($admin['display_name']) ? (string)$admin['display_name'] : 'Admin';
 $__initials = admin_initials($__display);
 $__flash = flash_get();
+
+/* Sidebar registry: every admin section with its label, icon and file.
+ * An item is a real link when its file exists in admin/ (and the current
+ * page is highlighted); otherwise it is faded with a "Soon" pill. Labels
+ * wrap and are never truncated. */
+$__navItems = array(
+    array('key' => 'dashboard', 'label' => 'Dashboard',     'icon' => 'fa-gauge-high',         'file' => 'index.php'),
+    array('key' => 'giving',    'label' => 'Giving Account', 'icon' => 'fa-building-columns',  'file' => 'giving-settings.php'),
+    array('key' => 'events',    'label' => 'Events',        'icon' => 'fa-calendar-days',      'file' => 'events.php'),
+    array('key' => 'ministries','label' => 'Ministries',    'icon' => 'fa-people-group',       'file' => 'ministries.php'),
+    array('key' => 'home',      'label' => 'Home Page',     'icon' => 'fa-house',              'file' => 'home-page.php'),
+    array('key' => 'serve',     'label' => 'Serve',         'icon' => 'fa-hand-holding-heart', 'file' => 'serve-applications.php'),
+    array('key' => 'messages',  'label' => 'Messages',      'icon' => 'fa-envelope',           'file' => 'messages.php'),
+);
+
+/* Pending Serve applications for the Serve badge (0 on any failure). */
+$__servePending = 0;
+try {
+    if (isset($conn) && $conn instanceof mysqli) {
+        $__serveStmt = $conn->prepare('SELECT COUNT(*) AS c FROM serve_applications WHERE status = ?');
+        if ($__serveStmt !== false) {
+            $__serveWanted = 'pending';
+            $__serveStmt->bind_param('s', $__serveWanted);
+            $__serveStmt->execute();
+            $__serveRes = $__serveStmt->get_result();
+            $__serveRow = ($__serveRes !== false) ? $__serveRes->fetch_assoc() : null;
+            if (is_array($__serveRow) && isset($__serveRow['c'])) {
+                $__servePending = max(0, (int)$__serveRow['c']);
+            }
+            $__serveStmt->close();
+        }
+    }
+} catch (Throwable $ignored) {
+    $__servePending = 0;
+}
 ?><!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,7 +54,7 @@ $__flash = flash_get();
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer">
-<link rel="stylesheet" href="admin.css?v=5">
+<link rel="stylesheet" href="admin.css?v=8">
 </head>
 <body class="kci-admin">
 <div class="kci-overlay" id="kci-overlay" hidden></div>
@@ -28,39 +64,38 @@ $__flash = flash_get();
 <span class="kci-brand__text">KCI Admin</span>
 </div>
 <nav class="kci-nav">
-<a class="kci-nav__item<?php echo ($__nav === 'dashboard') ? ' is-active' : ''; ?>" href="index.php">
-<span class="kci-nav__icon"><i class="fa-solid fa-gauge-high"></i></span>
-<span>Dashboard</span>
+<?php foreach ($__navItems as $__navItem): ?>
+<?php
+    $__navFile = (string)$__navItem['file'];
+    $__navExists = file_exists(__DIR__ . '/../' . $__navFile);
+    $__navKey = (string)$__navItem['key'];
+    /* Highlight by matching the running script file (Dashboard only on index.php;
+     * Serve also matches any future serve-* detail page). Falls back to $activeNav
+     * only when SCRIPT_NAME is unavailable (e.g. CLI). */
+    $__navActive = ($__script !== '' && $__script === strtolower($__navFile));
+    if (!$__navActive && $__navKey === 'serve' && $__script !== '' && strpos($__script, 'serve-') === 0) {
+        $__navActive = true;
+    }
+    if (!$__navActive && $__script === '' && $__nav !== '' && $__nav === $__navKey) {
+        $__navActive = true;
+    }
+?>
+<?php if ($__navExists): ?>
+<a class="kci-nav__item<?php echo $__navActive ? ' is-active' : ''; ?>"<?php echo $__navActive ? ' aria-current="page"' : ''; ?> href="<?php echo e($__navFile); ?>">
+<span class="kci-nav__icon"><i class="fa-solid <?php echo e((string)$__navItem['icon']); ?>"></i></span>
+<span class="kci-nav__label"><?php echo e((string)$__navItem['label']); ?></span>
+<?php if ((string)$__navItem['key'] === 'serve'): ?>
+<span class="kci-nav__badge" title="<?php echo (int)$__servePending; ?> pending application<?php echo ((int)$__servePending === 1) ? '' : 's'; ?>"><?php echo (int)$__servePending; ?></span>
+<?php endif; ?>
 </a>
-<a class="kci-nav__item<?php echo ($__nav === 'giving') ? ' is-active' : ''; ?>" href="giving-settings.php">
-<span class="kci-nav__icon"><i class="fa-solid fa-building-columns"></i></span>
-<span>Giving Account</span>
-</a>
+<?php else: ?>
 <span class="kci-nav__item is-disabled" aria-disabled="true" tabindex="-1">
-<span class="kci-nav__icon"><i class="fa-solid fa-calendar-days"></i></span>
-<span>Events</span>
+<span class="kci-nav__icon"><i class="fa-solid <?php echo e((string)$__navItem['icon']); ?>"></i></span>
+<span class="kci-nav__label"><?php echo e((string)$__navItem['label']); ?></span>
 <span class="kci-pill">Soon</span>
 </span>
-<span class="kci-nav__item is-disabled" aria-disabled="true" tabindex="-1">
-<span class="kci-nav__icon"><i class="fa-solid fa-people-group"></i></span>
-<span>Ministries</span>
-<span class="kci-pill">Soon</span>
-</span>
-<span class="kci-nav__item is-disabled" aria-disabled="true" tabindex="-1">
-<span class="kci-nav__icon"><i class="fa-solid fa-hand-holding-heart"></i></span>
-<span>Serve</span>
-<span class="kci-pill">Soon</span>
-</span>
-<span class="kci-nav__item is-disabled" aria-disabled="true" tabindex="-1">
-<span class="kci-nav__icon"><i class="fa-solid fa-house"></i></span>
-<span>Home Page</span>
-<span class="kci-pill">Soon</span>
-</span>
-<span class="kci-nav__item is-disabled" aria-disabled="true" tabindex="-1">
-<span class="kci-nav__icon"><i class="fa-solid fa-envelope"></i></span>
-<span>Messages</span>
-<span class="kci-pill">Soon</span>
-</span>
+<?php endif; ?>
+<?php endforeach; ?>
 </nav>
 <p class="kci-sidebar__foot">Kingdomite Church International</p>
 </aside>
@@ -89,4 +124,4 @@ $__flash = flash_get();
 <?php if (is_array($__flash) && isset($__flash['message'])): ?>
 <p class="kci-flash kci-flash--<?php echo e(isset($__flash['type']) ? $__flash['type'] : 'info'); ?>" role="status"><?php echo e($__flash['message']); ?></p>
 <?php endif; ?>
-<?php unset($__nav, $__title, $__display, $__initials, $__flash); ?>
+<?php unset($__nav, $__script, $__title, $__display, $__initials, $__flash, $__navItems, $__navItem, $__navFile, $__navKey, $__navExists, $__navActive, $__servePending, $__serveStmt, $__serveRes, $__serveRow, $__serveWanted); ?>

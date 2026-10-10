@@ -1,4 +1,5 @@
-/* admin/admin.js — drawer, user menu, show/hide password. Plain JS, no deps. */
+/* admin/admin.js — drawer, user menu, show/hide password, confirm dialog.
+   Plain JS, no deps. */
 (function () {
   'use strict';
 
@@ -129,4 +130,150 @@
     });
     renderPreview();
   }
+
+  // Confirm dialog for destructive / review actions (e.g. Serve Accept,
+  // Reject and Delete). Any form carrying data-confirm is intercepted and
+  // the dialog built from its attributes: data-confirm (message),
+  // data-confirm-title (heading) and data-confirm-note="1" (optional note
+  // textarea, e.g. a rejection reason, submitted as admin_note).
+  // Keyboard accessible: focuses the dialog, traps Tab, closes on Esc,
+  // and returns focus to the original submit button.
+  var confirmDialog = null;
+  var confirmState = { form: null, trigger: null, noteInput: null };
+
+  function getConfirmDialog() {
+    if (confirmDialog) return confirmDialog;
+    var overlay = document.createElement('div');
+    overlay.className = 'kci-modal';
+    overlay.setAttribute('hidden', '');
+    overlay.innerHTML = ''
+      + '<div class="kci-modal__backdrop" data-close="1"></div>'
+      + '<div class="kci-modal__box" role="dialog" aria-modal="true" aria-labelledby="kci-modal-title">'
+      + '<h2 class="kci-modal__title" id="kci-modal-title"></h2>'
+      + '<p class="kci-modal__text" id="kci-modal-text"></p>'
+      + '<label class="kci-field kci-modal__note" id="kci-modal-note" hidden>'
+      + '<span>Optional note</span>'
+      + '<textarea name="admin_note" maxlength="500" rows="3" placeholder="Add a short note (optional)"></textarea>'
+      + '</label>'
+      + '<div class="kci-actions kci-modal__actions">'
+      + '<button type="button" class="kci-btn kci-btn--ghost kci-btn--sm" data-close="1">Cancel</button>'
+      + '<button type="button" class="kci-btn kci-btn--primary kci-btn--sm" id="kci-modal-confirm">Confirm</button>'
+      + '</div>'
+      + '</div>';
+    document.body.appendChild(overlay);
+    confirmDialog = overlay;
+    return confirmDialog;
+  }
+
+  function focusables(box) {
+    var nodes = box.querySelectorAll('button, textarea, input, select, a[href], [tabindex]:not([tabindex="-1"])');
+    return Array.prototype.filter.call(nodes, function (el) {
+      return !el.disabled && el.offsetParent !== null;
+    });
+  }
+  function openConfirm(form, trigger) {
+    var dialog = getConfirmDialog();
+    var box = dialog.querySelector('.kci-modal__box');
+    var title = form.getAttribute('data-confirm-title') || 'Are you sure?';
+    var text = form.getAttribute('data-confirm') || 'Do you want to continue?';
+    var withNote = form.getAttribute('data-confirm-note') === '1';
+    dialog.querySelector('#kci-modal-title').textContent = title;
+    dialog.querySelector('#kci-modal-text').textContent = text;
+    var noteWrap = dialog.querySelector('#kci-modal-note');
+    var noteField = noteWrap.querySelector('textarea');
+    if (withNote) {
+      noteWrap.removeAttribute('hidden');
+      noteField.value = '';
+    } else {
+      noteWrap.setAttribute('hidden', '');
+      noteField.value = '';
+    }
+    confirmState = { form: form, trigger: trigger, noteInput: withNote ? noteField : null };
+    dialog.removeAttribute('hidden');
+    document.body.classList.add('kci-modal-open');
+    var focusList = focusables(box);
+    var first = withNote ? noteField : focusList[0];
+    if (first) first.focus();
+  }
+
+  function closeConfirm() {
+    var dialog = getConfirmDialog();
+    dialog.setAttribute('hidden', '');
+    document.body.classList.remove('kci-modal-open');
+    var trigger = confirmState.trigger;
+    confirmState = { form: null, trigger: null, noteInput: null };
+    if (trigger && document.contains(trigger)) trigger.focus();
+  }
+  function submitConfirmed() {
+    var form = confirmState.form;
+    var note = confirmState.noteInput;
+    if (!form) { closeConfirm(); return; }
+    if (note) {
+      var existing = form.querySelector('input[name="admin_note"]');
+      if (existing && existing.parentNode) existing.parentNode.removeChild(existing);
+      var hidden = document.createElement('input');
+      hidden.type = 'hidden';
+      hidden.name = 'admin_note';
+      hidden.value = note.value;
+      form.appendChild(hidden);
+    }
+    var trigger = confirmState.trigger;
+    confirmState = { form: null, trigger: null, noteInput: null };
+    getConfirmDialog().setAttribute('hidden', '');
+    document.body.classList.remove('kci-modal-open');
+    if (typeof form.requestSubmit === 'function') {
+      form.dataset.kciConfirmed = '1';
+      form.requestSubmit(trigger && trigger.type === 'submit' ? trigger : undefined);
+    } else {
+      form.submit();
+    }
+  }
+
+  document.addEventListener('submit', function (ev) {
+    var form = ev.target;
+    if (!form || !form.hasAttribute || !form.hasAttribute('data-confirm')) return;
+    if (form.dataset.kciConfirmed === '1') {
+      delete form.dataset.kciConfirmed;
+      return;
+    }
+    ev.preventDefault();
+    var active = document.activeElement;
+    var trigger = (active && form.contains(active))
+      ? active
+      : form.querySelector('button[type="submit"], input[type="submit"]');
+    openConfirm(form, trigger);
+  });
+
+  document.addEventListener('click', function (ev) {
+    if (!confirmDialog || confirmDialog.hasAttribute('hidden')) return;
+    if (ev.target && ev.target.id === 'kci-modal-confirm') {
+      submitConfirmed();
+      return;
+    }
+    var closer = ev.target && ev.target.closest ? ev.target.closest('[data-close]') : null;
+    if (closer && confirmDialog.contains(closer)) closeConfirm();
+  });
+
+  document.addEventListener('keydown', function (ev) {
+    if (!confirmDialog || confirmDialog.hasAttribute('hidden')) return;
+    if (ev.key === 'Escape') {
+      ev.preventDefault();
+      closeConfirm();
+      return;
+    }
+    if (ev.key === 'Tab') {
+      var box = confirmDialog.querySelector('.kci-modal__box');
+      var list = focusables(box);
+      if (list.length === 0) { ev.preventDefault(); return; }
+      var first = list[0];
+      var last = list[list.length - 1];
+      if (ev.shiftKey && document.activeElement === first) {
+        ev.preventDefault();
+        last.focus();
+      } else if (!ev.shiftKey && document.activeElement === last) {
+        ev.preventDefault();
+        first.focus();
+      }
+    }
+  });
 })();

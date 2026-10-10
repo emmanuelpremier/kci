@@ -995,3 +995,291 @@ img { max-width: 100%; }
     .kci-give__preview .giving-preview { padding: 18px; }
 }
 
+/* ==========================================================================
+   Serve applications (serve-applications.php + serve-action.php)
+   Navy / violet / amber — white cards, soft shadows, Poppins.
+   ========================================================================== */
+
+.kci-serve__heading { margin: 0 0 4px; color: var(--navy-900); }
+
+/* Extra status-chip colours (green / amber / red already exist). */
+.kci-chip--blue { background: #eff6ff; border-color: #bfdbfe; color: #1d4ed8; }
+.kci-chip--grey { background: #f3f4f6; border-color: #e5e7eb; color: #4b5563; }
+
+/* Status tabs with live counts. */
+.kci-tabs { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0 0; }
+.kci-tabs__item {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 14px;
+    border-radius: 999px;
+    border: 1px solid var(--line-strong);
+    background: #fff;
+    color: var(--ink-soft);
+    font-weight: 600;
+    font-size: 0.84rem;
+    text-decoration: none;
+    transition: border-color var(--dur) var(--ease), background var(--dur) var(--ease), transform var(--dur) var(--ease);
+}
+.kci-tabs__item:hover { border-color: var(--violet-500); transform: translateY(-1px); }
+.kci-tabs__item.is-active {
+    background: linear-gradient(135deg, var(--violet-700), var(--violet-500));
+    border-color: transparent;
+    color: #fff;
+    box-shadow: 0 10px 24px rgba(124, 58, 237, 0.35);
+}
+.kci-tabs__count {
+    display: inline-flex;
+    align-items: center;
+    min-width: 24px;
+    justify-content: center;
+    padding: 1px 8px;
+    border-radius: 999px;
+    background: rgba(11, 18, 32, 0.06);
+    font-size: 0.76rem;
+    font-weight: 700;
+}
+.kci-tabs__item.is-active .kci-tabs__count { background: rgba(255, 255, 255, 0.25); }
+
+/* Search + ministry filter row. */
+.kci-serve__filters { display: flex; align-items: flex-end; flex-wrap: wrap; gap: 12px; margin: 16px 0 0; }
+.kci-serve__search-label { display: block; margin-bottom: 6px; font-size: 0.8rem; font-weight: 600; color: var(--navy-900); }
+.kci-serve__search-box { position: relative; display: block; }
+.kci-serve__search-box > i { position: absolute; left: 13px; top: 50%; transform: translateY(-50%); color: var(--ink-faint); font-size: 0.85rem; }
+.kci-serve__search-box input[type="search"] {
+    width: min(300px, 100%);
+    height: 42px;
+    padding: 0 14px 0 36px;
+    border-radius: 12px;
+    border: 1px solid var(--line-strong);
+    background: #f3f2f8;
+    color: var(--ink);
+    font: inherit;
+    font-size: 0.9rem;
+}
+.kci-serve__ministry select {
+    height: 42px;
+    padding: 0 14px;
+    border-radius: 12px;
+    border: 1px solid var(--line-strong);
+    background: #f3f2f8;
+    color: var(--ink);
+    font: inherit;
+    font-size: 0.9rem;
+    max-width: 220px;
+}
+.kci-serve__search-box input[type="search"]:focus,
+.kci-serve__ministry select:focus {
+    outline: none;
+    border-color: var(--violet-600);
+    background: #fff;
+    box-shadow: 0 0 0 4px rgba(124, 58, 237, 0.16);
+}
+
+/* Table rows. */
+.kci-serve__name { display: block; font-weight: 600; color: var(--navy-900); }
+.kci-serve__message { display: inline-block; max-width: 300px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; vertical-align: bottom; }
+.kci-iconbtn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 9px;
+    border: 1px solid var(--line-strong);
+    background: #fff;
+    color: var(--violet-600);
+    font-size: 0.8rem;
+    text-decoration: none;
+    transition: background var(--dur) var(--ease), transform var(--dur) var(--ease);
+}
+.kci-iconbtn:hover { background: var(--violet-100); transform: translateY(-1px); }
+.kci-serve__contact { display: flex; gap: 6px; margin-top: 6px; }
+
+/* Small pill action buttons. */
+.kci-serve__form { display: inline; margin: 0; }
+.kci-serve__rowactions { display: flex; flex-wrap: wrap; gap: 8px; }
+.kci-pillbtn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: 999px;
+    border: 1px solid transparent;
+    font: inherit;
+    font-size: 0.78rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
+}
+.kci-pillbtn:hover { transform: translateY(-1px); }
+.kci-pillbtn--green { background: #f0fdf4; border-color: #bbf7d0; color: #15803d; }
+.kci-pillbtn--green:hover { background: #dcfce7; }
+.kci-pillbtn--red { background: #fef2f2; border-color: #fecaca; color: #b91c1c; }
+.kci-pillbtn--red:hover { background: #fee2e2; }
+.kci-pillbtn--blue { background: #eff6ff; border-color: #bfdbfe; color: #1d4ed8; }
+.kci-pillbtn--blue:hover { background: #dbeafe; }
+.kci-pillbtn--amber { background: #fffbeb; border-color: #fde68a; color: #92400e; }
+.kci-pillbtn--amber:hover { background: #fef3c7; }
+.kci-pillbtn--violet { background: var(--violet-50); border-color: #ddd6fe; color: var(--violet-700); }
+.kci-pillbtn--violet:hover { background: var(--violet-100); }
+.kci-pillbtn--outline { background: #fff; border-color: var(--line-strong); color: var(--ink-soft); }
+.kci-pillbtn--outline:hover { border-color: var(--ink-faint); color: var(--ink); }
+
+/* Empty state, pagination, confirm modal, error page. */
+.kci-serve__empty { text-align: center; padding: 48px 22px; }
+.kci-serve__empty-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    border-radius: 16px;
+    background: var(--violet-50);
+    color: var(--violet-600);
+    font-size: 1.4rem;
+    margin-bottom: 12px;
+}
+.kci-serve__empty h2 { margin: 0 0 6px; color: var(--navy-900); }
+.kci-serve__pager { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.kci-serve__pager .kci-muted { margin: 0; }
+.kci-pagination { display: flex; align-items: center; gap: 6px; }
+.kci-pagination__item {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 36px;
+    height: 36px;
+    padding: 0 10px;
+    border-radius: 10px;
+    border: 1px solid var(--line-strong);
+    background: #fff;
+    color: var(--ink-soft);
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-decoration: none;
+}
+a.kci-pagination__item:hover { border-color: var(--violet-500); color: var(--violet-700); }
+.kci-pagination__item.is-current {
+    background: linear-gradient(135deg, var(--violet-700), var(--violet-500));
+    border-color: transparent;
+    color: #fff;
+}
+
+.kci-modal { position: fixed; inset: 0; z-index: 200; display: flex; align-items: center; justify-content: center; padding: 20px; }
+.kci-modal[hidden] { display: none; }
+.kci-modal__backdrop { position: absolute; inset: 0; background: rgba(7, 13, 26, 0.55); backdrop-filter: blur(2px); }
+.kci-modal__box {
+    position: relative;
+    width: min(440px, 100%);
+    background: #fff;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-lg);
+    padding: 24px;
+}
+.kci-modal__title { margin: 0 0 8px; font-size: 1.1rem; color: var(--navy-900); }
+.kci-modal__text { margin: 0 0 12px; color: var(--ink-soft); font-size: 0.9rem; }
+.kci-modal__note { margin: 0 0 6px; }
+.kci-modal__actions { justify-content: flex-end; margin-top: 14px; }
+body.kci-modal-open { overflow: hidden; }
+
+.kci-error { display: flex; justify-content: center; padding: 56px 20px; }
+.kci-error__card {
+    width: min(480px, 100%);
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 32px;
+    text-align: center;
+}
+.kci-error__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    background: #fef2f2;
+    color: #b91c1c;
+    font-size: 1.3rem;
+    margin-bottom: 12px;
+}
+.kci-error__card h1 { margin: 0 0 8px; color: var(--navy-900); font-size: 1.2rem; }
+.kci-error__card p { color: var(--ink-soft); }
+.kci-error__card .kci-btn { margin-top: 8px; }
+
+/* Sidebar Serve badge and upcoming labels (never truncated). */
+.kci-nav__label { flex: 1; min-width: 0; }
+.kci-nav__badge {
+    flex: none;
+    min-width: 24px;
+    padding: 1px 8px;
+    border-radius: 999px;
+    background: linear-gradient(135deg, var(--violet-700), var(--violet-500));
+    color: #fff;
+    font-size: 0.74rem;
+    font-weight: 700;
+    text-align: center;
+}
+.kci-nav__item.is-disabled .kci-nav__badge { display: none; }
+
+/* Whole-card dashboard link: hover lift + visible keyboard focus. */
+a.kci-stat--link { display: block; color: inherit; text-decoration: none; transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease); }
+a.kci-stat--link:hover { transform: translateY(-3px); box-shadow: var(--shadow); }
+a.kci-stat--link:focus-visible { outline: 3px solid rgba(124, 58, 237, 0.55); outline-offset: 2px; }
+a.kci-stat--link:focus-visible { outline: 3px solid rgba(124, 58, 237, 0.55); outline-offset: 2px; }
+
+/* Serve table fits the content width at 1366px and 1100px: tighter cells,
+   short truncated message, wrapping ministry/availability, compact vertical
+   actions. Horizontal scroll returns only below 1100px; stacked cards at 900px. */
+table.kci-table.kci-serve__table { min-width: 0; }
+.kci-serve__table th, .kci-serve__table td { padding: 8px 10px; vertical-align: top; }
+.kci-serve__message { max-width: 220px; }
+.kci-serve__table td[data-label="Ministry"],
+.kci-serve__table td[data-label="Availability"] { white-space: normal; overflow-wrap: anywhere; min-width: 90px; }
+.kci-serve__rowactions { flex-direction: column; align-items: stretch; gap: 6px; }
+.kci-serve__rowactions .kci-serve__form { display: block; }
+.kci-serve__rowactions .kci-pillbtn { justify-content: center; width: 100%; }
+.kci-serve__table td[data-label="Actions"] { min-width: 130px; }
+.kci-tablewrap.kci-serve__wrap { overflow-x: visible; }
+@media (max-width: 1099px) {
+    .kci-tablewrap.kci-serve__wrap { overflow-x: auto; }
+    table.kci-table.kci-serve__table { min-width: 860px; }
+}
+
+/* At 900px and below each row becomes a stacked card: no horizontal scroll. */
+@media (max-width: 900px) {
+    .kci-serve__filters { align-items: stretch; flex-direction: column; }
+    .kci-serve__search-box input[type="search"] { width: 100%; }
+    .kci-serve__ministry select { width: 100%; max-width: none; }
+    .kci-serve__wrap { border: 0; background: transparent; overflow: visible; }
+    .kci-serve__table { display: block; min-width: 0; }
+    .kci-serve__table thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+    .kci-serve__table tbody { display: grid; gap: 14px; }
+    .kci-serve__table tbody tr {
+        display: grid;
+        gap: 10px;
+        background: #fff;
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow-sm);
+        padding: 16px;
+    }
+    .kci-serve__table td { display: block; padding: 0; border-bottom: 0; text-align: left; }
+    .kci-serve__table td::before {
+        content: attr(data-label);
+        display: block;
+        margin-bottom: 3px;
+        font-size: 0.72rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: var(--ink-faint);
+    }
+    .kci-serve__message { max-width: none; white-space: normal; }
+}
+
