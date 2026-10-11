@@ -1283,3 +1283,40 @@ table.kci-table.kci-serve__table { min-width: 0; }
     .kci-serve__message { max-width: none; white-space: normal; }
 }
 
+/* Giving confirmations: summary cards + a compact table that fits the
+   content width at 1366px and 1100px (no horizontal scroll). Cells stay
+   tight, long text truncates with the full value in a title attribute,
+   and row actions stack vertically. No horizontal scroll until below
+   1100px; stacked cards at 900px and below, mirroring the Serve table. */
+.kci-giveconf__summary { margin-bottom: 18px; }
+.kci-giveconf__sum .kci-stat__label { font-size: 0.85rem; font-weight: 600; color: var(--ink-soft); margin: 0 0 4px; }
+.kci-giveconf__sum .kci-stat__value { font-size: 1.5rem; font-weight: 700; color: var(--navy-900); margin: 0; font-variant-numeric: tabular-nums; }
+.kci-giveconf__sum .kci-stat__hint { margin: 2px 0 0; }
+.kci-giveconf__code { font-weight: 700; color: var(--navy-900); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.kci-giveconf__amount { font-weight: 700; color: var(--navy-900); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.kci-giveconf__trunc { display: inline-block; max-width: 130px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; vertical-align: bottom; }
+table.kci-table.kci-giveconf__table { min-width: 0; }
+.kci-giveconf__table th, .kci-giveconf__table td { padding: 8px 10px; vertical-align: top; }
+.kci-giveconf__table td[data-label="Type"] { white-space: normal; overflow-wrap: anywhere; min-width: 80px; }
+.kci-giveconf__table td[data-label="Actions"] { min-width: 128px; }
+.kci-giveconf__rowactions { flex-direction: column; align-items: stretch; gap: 6px; }
+.kci-giveconf__rowactions .kci-serve__form { display: block; }
+.kci-giveconf__rowactions .kci-pillbtn { justify-content: center; width: 100%; }
+.kci-tablewrap.kci-giveconf__wrap { overflow-x: visible; }
+@media (max-width: 1099px) {
+    .kci-tablewrap.kci-giveconf__wrap { overflow-x: auto; }
+    table.kci-table.kci-giveconf__table { min-width: 860px; }
+}
+@media (max-width: 900px) {
+    .kci-giveconf__filters { align-items: stretch; flex-direction: column; }
+    .kci-giveconf__wrap { border: 0; background: transparent; overflow: visible; }
+    .kci-giveconf__table { display: block; min-width: 0; }
+    .kci-giveconf__table thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+    .kci-giveconf__table tbody { display: grid; gap: 14px; }
+    .kci-giveconf__table tbody tr { display: grid; gap: 10px; background: #fff; border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow-sm); padding: 16px; }
+    .kci-giveconf__table td { display: block; padding: 0; border-bottom: 0; text-align: left; }
+    .kci-giveconf__table td::before { content: attr(data-label); display: block; margin-bottom: 3px; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-faint); }
+    .kci-giveconf__trunc { max-width: none; white-space: normal; }
+}
+
+

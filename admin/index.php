@@ -56,6 +56,7 @@ $stats = array(
         'sql'   => 'SELECT COUNT(*) AS c FROM giving_proofs WHERE status = ?',
         'p'     => 's',
         'v'     => 'pending',
+        'href'  => 'giving-confirmations.php?status=pending',
     ),
     'contact'  => array(
         'label' => 'Contact messages',

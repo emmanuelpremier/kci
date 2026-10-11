@@ -124,6 +124,17 @@ function admin_last4($number) {
     return '****' . substr($digits, -4);
 }
 
+/* Naira display: "₦12,500" with no decimals for whole numbers,
+ * two decimals otherwise (e.g. "₦12,500.75"). */
+function kci_naira($amount) {
+    $n = (float)$amount;
+    if (!is_finite($n)) { $n = 0.0; }
+    if (abs($n - round($n)) < 0.00001) {
+        return '₦' . number_format(round($n), 0, '.', ',');
+    }
+    return '₦' . number_format($n, 2, '.', ',');
+}
+
 /* Validate a candidate password. Returns an empty string when acceptable,
  * otherwise a clear error message for direct display. Reused by
  * admin/password.php; kept here so any future admin form can share it. */

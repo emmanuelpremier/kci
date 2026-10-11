@@ -21,6 +21,7 @@ $__navItems = array(
     array('key' => 'ministries','label' => 'Ministries',    'icon' => 'fa-people-group',       'file' => 'ministries.php'),
     array('key' => 'home',      'label' => 'Home Page',     'icon' => 'fa-house',              'file' => 'home-page.php'),
     array('key' => 'serve',     'label' => 'Serve',         'icon' => 'fa-hand-holding-heart', 'file' => 'serve-applications.php'),
+    array('key' => 'confirmations', 'label' => 'Confirmations', 'icon' => 'fa-hand-holding-dollar', 'file' => 'giving-confirmations.php'),
     array('key' => 'messages',  'label' => 'Messages',      'icon' => 'fa-envelope',           'file' => 'messages.php'),
 );
 
@@ -44,6 +45,27 @@ try {
 } catch (Throwable $ignored) {
     $__servePending = 0;
 }
+
+/* Pending giving confirmations for the Confirmations badge (0 on failure). */
+$__givingPending = 0;
+try {
+    if (isset($conn) && $conn instanceof mysqli) {
+        $__givingStmt = $conn->prepare('SELECT COUNT(*) AS c FROM giving_proofs WHERE status = ?');
+        if ($__givingStmt !== false) {
+            $__givingWanted = 'pending';
+            $__givingStmt->bind_param('s', $__givingWanted);
+            $__givingStmt->execute();
+            $__givingRes = $__givingStmt->get_result();
+            $__givingRow = ($__givingRes !== false) ? $__givingRes->fetch_assoc() : null;
+            if (is_array($__givingRow) && isset($__givingRow['c'])) {
+                $__givingPending = max(0, (int)$__givingRow['c']);
+            }
+            $__givingStmt->close();
+        }
+    }
+} catch (Throwable $ignored) {
+    $__givingPending = 0;
+}
 ?><!DOCTYPE html>
 <html lang="en">
 <head>
@@ -54,7 +76,7 @@ try {
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer">
-<link rel="stylesheet" href="admin.css?v=8">
+<link rel="stylesheet" href="admin.css?v=9">
 </head>
 <body class="kci-admin">
 <div class="kci-overlay" id="kci-overlay" hidden></div>
@@ -70,10 +92,14 @@ try {
     $__navExists = file_exists(__DIR__ . '/../' . $__navFile);
     $__navKey = (string)$__navItem['key'];
     /* Highlight by matching the running script file (Dashboard only on index.php;
-     * Serve also matches any future serve-* detail page). Falls back to $activeNav
-     * only when SCRIPT_NAME is unavailable (e.g. CLI). */
+     * Serve also matches any future serve-* detail page; Confirmations matches
+     * any giving-confirmation* page but never giving-settings.php). Falls back
+     * to $activeNav only when SCRIPT_NAME is unavailable (e.g. CLI). */
     $__navActive = ($__script !== '' && $__script === strtolower($__navFile));
     if (!$__navActive && $__navKey === 'serve' && $__script !== '' && strpos($__script, 'serve-') === 0) {
+        $__navActive = true;
+    }
+    if (!$__navActive && $__navKey === 'confirmations' && $__script !== '' && $__script !== 'giving-settings.php' && strpos($__script, 'giving-confirmation') === 0) {
         $__navActive = true;
     }
     if (!$__navActive && $__script === '' && $__nav !== '' && $__nav === $__navKey) {
@@ -86,6 +112,8 @@ try {
 <span class="kci-nav__label"><?php echo e((string)$__navItem['label']); ?></span>
 <?php if ((string)$__navItem['key'] === 'serve'): ?>
 <span class="kci-nav__badge" title="<?php echo (int)$__servePending; ?> pending application<?php echo ((int)$__servePending === 1) ? '' : 's'; ?>"><?php echo (int)$__servePending; ?></span>
+<?php elseif ((string)$__navItem['key'] === 'confirmations'): ?>
+<span class="kci-nav__badge" title="<?php echo (int)$__givingPending; ?> pending confirmation<?php echo ((int)$__givingPending === 1) ? '' : 's'; ?>"><?php echo (int)$__givingPending; ?></span>
 <?php endif; ?>
 </a>
 <?php else: ?>
@@ -124,4 +152,4 @@ try {
 <?php if (is_array($__flash) && isset($__flash['message'])): ?>
 <p class="kci-flash kci-flash--<?php echo e(isset($__flash['type']) ? $__flash['type'] : 'info'); ?>" role="status"><?php echo e($__flash['message']); ?></p>
 <?php endif; ?>
-<?php unset($__nav, $__script, $__title, $__display, $__initials, $__flash, $__navItems, $__navItem, $__navFile, $__navKey, $__navExists, $__navActive, $__servePending, $__serveStmt, $__serveRes, $__serveRow, $__serveWanted); ?>
+<?php unset($__nav, $__script, $__title, $__display, $__initials, $__flash, $__navItems, $__navItem, $__navFile, $__navKey, $__navExists, $__navActive, $__servePending, $__serveStmt, $__serveRes, $__serveRow, $__serveWanted, $__givingPending, $__givingStmt, $__givingRes, $__givingRow, $__givingWanted); ?>
