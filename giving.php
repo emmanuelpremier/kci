@@ -282,51 +282,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	</script>
 
 	<!--header-->
-	<section class="kc1">
-		<a href="index.php" class="kc2" aria-label="KCI home">
-			<img src="kci_image/im2.webp">
-			<span class="kc-logo-text">KCI</span>
-		</a>
-		<nav class="kc3" id="mainNav">
-			<ul>
-				<li><a href="index.php">Home</a>
-					<div class="line"></div>
-				</li>
-				<li><a href="aboutus.php">About</a>
-					<div class="linea"></div>
-				</li>
-				<li><a href="events.php">Events<i class="fa-solid fa-chevron-down arrow" aria-hidden="true"></i></a>
-					<div class="linec"></div>
-					<ul class="dropdown">
-						<li><a href="event.php?slug=oil-wine-summit">Oil &amp; Wine Summit</a></li>
-						<li><a href="event.php?slug=june-conference">June Conference</a></li>
-						<li><a href="event.php?slug=embers-of-glory">Embers Of Glory</a></li>
-					</ul>
-				</li>
-				<li class="linef"><a href="min.php">Ministries<i class="fa-solid fa-chevron-down arrow" aria-hidden="true"></i></a>
-					<div class="lined"></div>
-					<ul class="dropdown">
-						<li><a href="ministry.php?slug=global-missions">Missions</a></li>
-						<li><a href="ministry.php?slug=womens-ministry">Women's Ministry</a></li>
-						<li><a href="ministry.php?slug=youth-church">YC-The Youth Church</a></li>
-						<li><a href="ministry.php?slug=mighty-teens">MTC-Mighty Teens Church</a></li>
-						<li><a href="ministry.php?slug=children-church">Children Church</a></li>
-					</ul>
-				</li>
-				<li><a href="contact.php">Contact</a>
-					<div class="linee"></div>
-				</li>
-			</ul>
-		</nav>
-		<div class="kc4">
-			<a href="giving.php"><i class="fa-solid fa-hand-holding-heart kc-give-icon"></i>Give</a>
-		</div>
-		<button class="kc-menu-toggle" id="menuToggle" aria-label="Toggle menu">
-			<span></span>
-			<span></span>
-			<span></span>
-		</button>
-	</section>
+	<?php include 'header.php'; ?>
 	<main>
 	<!-- Hero -->
 	<section class="giving-hero">
