@@ -23,6 +23,7 @@ $__navItems = array(
     array('key' => 'serve',     'label' => 'Serve',         'icon' => 'fa-hand-holding-heart', 'file' => 'serve-applications.php'),
     array('key' => 'confirmations', 'label' => 'Confirmations', 'icon' => 'fa-hand-holding-dollar', 'file' => 'giving-confirmations.php'),
     array('key' => 'messages',  'label' => 'Messages',      'icon' => 'fa-envelope',           'file' => 'messages.php'),
+    array('key' => 'media',     'label' => 'Media',         'icon' => 'fa-images',             'file' => 'media.php'),
 );
 
 /* Pending Serve applications for the Serve badge (0 on any failure). */
@@ -76,7 +77,7 @@ try {
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer">
-<link rel="stylesheet" href="admin.css?v=9">
+<link rel="stylesheet" href="admin.css?v=11">
 </head>
 <body class="kci-admin">
 <div class="kci-overlay" id="kci-overlay" hidden></div>

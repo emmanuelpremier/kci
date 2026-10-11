@@ -276,4 +276,343 @@
       }
     }
   });
+
+  // Media library: drag-and-drop zone with image preview, client shrink,
+  // DataTransfer replacement and unsupported-format filtering.
+  var mediaDrop = $('kci-media-drop');
+  var mediaInput = $('kci-media-input');
+  var mediaPreview = $('kci-media-preview');
+  var mediaForm = $('kci-media-form');
+  var MEDIA_MAX_BYTES = 1572864;
+  var MEDIA_MAX_SIDE = 2400;
+  var MEDIA_EXPORT_SIDE = 2000;
+  var MEDIA_EXPORT_QUALITY = 0.85;
+  var MEDIA_UNSUPPORTED_MSG = 'This format is not supported. Please choose a JPEG, PNG or WebP picture. On iPhone, set the camera format to Most Compatible or share the photo as JPEG.';
+  var mediaBusy = false;
+  var mediaNotes = {};
+  var mediaRejected = [];
+  function mediaKey(file) {
+    if (!file) return '';
+    return String(file.name || '') + '|' + String(file.size || 0) + '|' + String(file.type || '');
+  }
+  function mediaFormatSize(bytes) {
+    bytes = Number(bytes) || 0;
+    if (bytes < 0) bytes = 0;
+    if (bytes >= 1048576) {
+      var mb = bytes / 1048576;
+      var r1 = Math.round(mb * 10) / 10;
+      if (Math.abs(r1 - Math.round(r1)) < 0.05) return String(Math.round(r1)) + ' MB';
+      return String(r1.toFixed(1)) + ' MB';
+    }
+    if (bytes >= 1024) {
+      var kb = Math.round(bytes / 1024);
+      if (kb < 1) kb = 1;
+      return String(kb) + ' KB';
+    }
+    return String(Math.round(bytes)) + ' bytes';
+  }
+  function mediaBaseName(name) {
+    var base = String(name || 'photo');
+    base = base.split('\\').join('/').split('/').pop() || 'photo';
+    var dot = base.lastIndexOf('.');
+    var stem = dot > 0 ? base.slice(0, dot) : base;
+    if (!stem) stem = 'photo';
+    return stem;
+  }
+  function mediaAllowedType(type, name) {
+    var t = String(type || '').toLowerCase();
+    if (t === 'image/jpeg' || t === 'image/png' || t === 'image/webp') return true;
+    if (!t) {
+      var n = String(name || '').toLowerCase();
+      if (/\.jpe?g$/.test(n) || /\.png$/.test(n) || /\.webp$/.test(n)) return true;
+    }
+    return false;
+  }
+  function mediaToast(message) {
+    var toast = $('kci-toast');
+    if (!toast) return;
+    toast.textContent = message;
+    toast.removeAttribute('hidden');
+    window.clearTimeout(toast._kciTimer || 0);
+    toast._kciTimer = window.setTimeout(function () { toast.setAttribute('hidden', ''); }, 2200);
+  }
+  function mediaHasTransparency(bitmap, w, h) {
+    try {
+      var cw = Math.min(64, w);
+      var ch = Math.min(64, h);
+      if (cw < 1 || ch < 1) return false;
+      var probe = document.createElement('canvas');
+      probe.width = cw;
+      probe.height = ch;
+      var ctx = probe.getContext('2d');
+      if (!ctx) return false;
+      ctx.drawImage(bitmap, 0, 0, cw, ch);
+      var px = null;
+      try { px = ctx.getImageData(0, 0, cw, ch); } catch (ignored) { return false; }
+      if (!px || !px.data) return false;
+      var data = px.data;
+      for (var i = 3; i < data.length; i += 16) {
+        if (data[i] < 254) return true;
+      }
+      return false;
+    } catch (ignored2) { return false; }
+  }
+  function mediaNewFile(blob, baseStem, ext, type) {
+    try {
+      return new File([blob], baseStem + ext, { type: type });
+    } catch (ignored) {
+      return null;
+    }
+  }
+  function mediaShrinkOne(file) {
+    if (!file || !mediaAllowedType(file.type, file.name)) {
+      return Promise.resolve({ file: file, note: '' });
+    }
+    var needBySize = (file.size || 0) > MEDIA_MAX_BYTES;
+    var decode = null;
+    try {
+      if (typeof createImageBitmap !== 'function') {
+        return Promise.resolve({ file: file, note: '' });
+      }
+      try {
+        decode = createImageBitmap(file, { imageOrientation: 'from-image' });
+      } catch (oldSig) {
+        decode = createImageBitmap(file);
+      }
+    } catch (ignored) { return Promise.resolve({ file: file, note: '' }); }
+    return Promise.resolve(decode).then(function (bitmap) {
+      var closeBm = function () { try { if (bitmap && bitmap.close) bitmap.close(); } catch (ignoredC) {} };
+      if (!bitmap) return { file: file, note: '' };
+      var w = bitmap.width || 0;
+      var h = bitmap.height || 0;
+      if (!w || !h) { closeBm(); return { file: file, note: '' }; }
+      var needs = needBySize || w > MEDIA_MAX_SIDE || h > MEDIA_MAX_SIDE;
+      if (!needs) { closeBm(); return { file: file, note: '' }; }
+      var isPng = String(file.type || '').toLowerCase() === 'image/png';
+      var transparent = isPng ? mediaHasTransparency(bitmap, w, h) : false;
+      var longest = Math.max(w, h);
+      var scale = longest > MEDIA_EXPORT_SIDE ? (MEDIA_EXPORT_SIDE / longest) : 1;
+      if (scale > 1) scale = 1;
+      var outW = Math.max(1, Math.round(w * scale));
+      var outH = Math.max(1, Math.round(h * scale));
+      var canvas = document.createElement('canvas');
+      canvas.width = outW;
+      canvas.height = outH;
+      var ctx = canvas.getContext('2d');
+      if (!ctx) { closeBm(); return { file: file, note: '' }; }
+      var useWebp = transparent;
+      var outType = useWebp ? 'image/webp' : 'image/jpeg';
+      var outExt = useWebp ? '.webp' : '.jpg';
+      if (!useWebp) {
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(0, 0, outW, outH);
+      }
+      try { ctx.drawImage(bitmap, 0, 0, outW, outH); } catch (drawErr) {
+        closeBm();
+        return { file: file, note: '' };
+      }
+      closeBm();
+      if (typeof canvas.toBlob !== 'function') return { file: file, note: '' };
+      return new Promise(function (resolve) {
+        var settled = false;
+        var finish = function (blob) {
+          if (settled) return;
+          settled = true;
+          if (!blob) { resolve({ file: file, note: '' }); return; }
+          var made = mediaNewFile(blob, mediaBaseName(file.name), outExt, outType);
+          if (!made) { resolve({ file: file, note: '' }); return; }
+          var note = 'Shrunk from ' + mediaFormatSize(file.size) + ' to ' + mediaFormatSize(made.size);
+          resolve({ file: made, note: note });
+        };
+        try {
+          canvas.toBlob(finish, outType, MEDIA_EXPORT_QUALITY);
+        } catch (ignoredT) { finish(null); }
+        window.setTimeout(function () { finish(null); }, 15000);
+      });
+    }, function () {
+      return { file: file, note: '' };
+    });
+  }
+  function mediaRenderPreview(files) {
+    if (!mediaPreview || !mediaInput) return;
+    while (mediaPreview.firstChild) mediaPreview.removeChild(mediaPreview.firstChild);
+    mediaRejected.forEach(function (msg) {
+      var p = document.createElement('p');
+      p.className = 'kci-media__note kci-media__note--error';
+      p.setAttribute('role', 'alert');
+      p.textContent = msg;
+      mediaPreview.appendChild(p);
+    });
+    var list = files ? Array.prototype.slice.call(files, 0, 10) : [];
+    list.forEach(function (file) {
+      if (!file) return;
+      var isImg = file.type && file.type.indexOf('image/') === 0;
+      if (!isImg) {
+        var nm = String(file.name || '').toLowerCase();
+        if (!(/\.jpe?g$/.test(nm) || /\.png$/.test(nm) || /\.webp$/.test(nm))) return;
+      }
+      var card = document.createElement('div');
+      card.className = 'kci-media__pick';
+      var img = document.createElement('img');
+      img.alt = file.name || 'Selected picture preview';
+      try {
+        var url = URL.createObjectURL(file);
+        img.src = url;
+        img.onload = function () { try { URL.revokeObjectURL(url); } catch (ignored) {} };
+      } catch (ignored) {
+        var reader = new FileReader();
+        reader.onload = function () { img.src = reader.result; };
+        try { reader.readAsDataURL(file); } catch (ignored2) { return; }
+      }
+      card.appendChild(img);
+      var key = mediaKey(file);
+      if (mediaNotes[key]) {
+        var note = document.createElement('small');
+        note.className = 'kci-media__note';
+        note.textContent = mediaNotes[key];
+        card.appendChild(note);
+      }
+      mediaPreview.appendChild(card);
+    });
+  }
+  function mediaProcessSelection(rawList, done) {
+    var files = rawList ? Array.prototype.slice.call(rawList, 0, 10) : [];
+    mediaRejected = [];
+    var kept = [];
+    files.forEach(function (f) {
+      if (!f) return;
+      if (!mediaAllowedType(f.type, f.name)) {
+        mediaRejected.push((f.name || 'That file') + ': ' + MEDIA_UNSUPPORTED_MSG);
+        return;
+      }
+      kept.push(f);
+    });
+    var finish = function (finalFiles) {
+      try {
+        if (typeof DataTransfer === 'function' && mediaInput) {
+          var dt = new DataTransfer();
+          finalFiles.forEach(function (f) { try { dt.items.add(f); } catch (ignored) {} });
+          mediaInput.files = dt.files;
+        }
+      } catch (ignored2) { /* keep original selection */ }
+      mediaRenderPreview(mediaInput && mediaInput.files && mediaInput.files.length ? mediaInput.files : finalFiles);
+      mediaBusy = false;
+      if (typeof done === 'function') done();
+    };
+    if (!kept.length) {
+      try {
+        if (typeof DataTransfer === 'function' && mediaInput) {
+          mediaInput.files = new DataTransfer().files;
+        } else if (mediaInput) { mediaInput.value = ''; }
+      } catch (ignored3) { if (mediaInput) { try { mediaInput.value = ''; } catch (ignored4) {} } }
+      mediaBusy = false;
+      mediaRenderPreview([]);
+      if (typeof done === 'function') done();
+      return;
+    }
+    var canShrink = (typeof createImageBitmap === 'function');
+    if (!canShrink) {
+      finish(kept);
+      return;
+    }
+    mediaBusy = true;
+    mediaRenderPreview(kept);
+    var out = new Array(kept.length);
+    var pending = kept.length;
+    kept.forEach(function (f, idx) {
+      mediaShrinkOne(f).then(function (r) {
+        var nf = (r && r.file) ? r.file : f;
+        out[idx] = nf;
+        if (r && r.note) mediaNotes[mediaKey(nf)] = r.note;
+        pending -= 1;
+        if (pending <= 0) finish(out);
+      }, function () {
+        out[idx] = f;
+        pending -= 1;
+        if (pending <= 0) finish(out);
+      });
+    });
+  }
+  if (mediaDrop && mediaInput) {
+    mediaInput.addEventListener('change', function () { mediaProcessSelection(mediaInput.files); });
+    ['dragenter', 'dragover'].forEach(function (name) {
+      mediaDrop.addEventListener(name, function (ev) {
+        ev.preventDefault();
+        mediaDrop.classList.add('is-dragover');
+        if (ev.dataTransfer) ev.dataTransfer.dropEffect = 'copy';
+      });
+    });
+    ['dragleave', 'drop'].forEach(function (name) {
+      mediaDrop.addEventListener(name, function (ev) {
+        if (name === 'drop') return;
+        ev.preventDefault();
+        mediaDrop.classList.remove('is-dragover');
+      });
+    });
+    mediaDrop.addEventListener('drop', function (ev) {
+      ev.preventDefault();
+      mediaDrop.classList.remove('is-dragover');
+      var dt = ev.dataTransfer;
+      if (dt && dt.files && dt.files.length) {
+        mediaProcessSelection(dt.files);
+      }
+    });
+    mediaDrop.addEventListener('click', function (ev) {
+      if (ev.target === mediaInput) return;
+      mediaInput.click();
+    });
+    mediaDrop.addEventListener('keydown', function (ev) {
+      if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); mediaInput.click(); }
+    });
+    if (mediaForm) {
+      mediaForm.addEventListener('submit', function (ev) {
+        if (mediaBusy) {
+          ev.preventDefault();
+          mediaToast('Please wait while pictures are prepared.');
+          return;
+        }
+        if (mediaInput && mediaInput.files && mediaInput.files.length) {
+          var bad = [];
+          var okAny = false;
+          Array.prototype.forEach.call(mediaInput.files, function (f) {
+            if (!f) return;
+            if (mediaAllowedType(f.type, f.name)) { okAny = true; }
+            else { bad.push(f.name || 'That file'); }
+          });
+          if (!okAny && bad.length) {
+            ev.preventDefault();
+            mediaProcessSelection(mediaInput.files);
+          }
+        }
+      });
+    }
+  }
+
+  // Media library: copy-link buttons with clipboard fallback + toast.
+  document.addEventListener('click', function (ev) {
+    var btn = ev.target && ev.target.closest ? ev.target.closest('[data-copy-link]') : null;
+    if (!btn) return;
+    var link = btn.getAttribute('data-copy-link') || '';
+    var done = function () { mediaToast('Link copied to clipboard.'); };
+    var fallback = function () {
+      try {
+        var ta = document.createElement('textarea');
+        ta.value = link;
+        ta.setAttribute('readonly', '');
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        var ok = document.execCommand('copy');
+        document.body.removeChild(ta);
+        if (ok) { done(); return; }
+      } catch (ignored) { /* fall through */ }
+      window.prompt('Copy this link:', link);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(link).then(done, fallback);
+    } else {
+      fallback();
+    }
+  });
 })();
