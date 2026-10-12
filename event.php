@@ -157,7 +157,7 @@ if (!empty($slug) && !$event) {
 				<p><?= htmlspecialchars($event['description']) ?></p>
 				<?php if (!empty($event['content'])): ?>
 					<h3>Additional Details</h3>
-					<p><?= htmlspecialchars($event['content']) ?></p>
+					<p><?= nl2br(htmlspecialchars($event['content'])) ?></p>
 				<?php endif; ?>
 			</div>
 			<aside class="event-detail-sidebar">

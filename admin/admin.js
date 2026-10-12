@@ -615,4 +615,147 @@
       fallback();
     }
   });
+
+  /* Shared picture inputs (admin/includes/image_picker.php): shrink the
+     chosen file in the browser when supported (data-kci-shrink) and show it
+     in the field's preview img (data-kci-preview) right away. */
+  (function () {
+    'use strict';
+    var pickers = document.querySelectorAll('input[type="file"][data-kci-shrink]');
+    if (!pickers.length) return;
+    var DEFAULT_IMG = '../kci_image/im2.webp';
+    function shrinkBlob(file, maxSide) {
+      if (typeof createImageBitmap !== 'function' || typeof OffscreenCanvas !== 'function') return Promise.resolve(null);
+      return createImageBitmap(file).then(function (bmp) {
+        var scale = Math.min(1, maxSide / Math.max(bmp.width, bmp.height));
+        var w = Math.max(1, Math.round(bmp.width * scale));
+        var h = Math.max(1, Math.round(bmp.height * scale));
+        var canvas = new OffscreenCanvas(w, h);
+        var ctx = canvas.getContext('2d');
+        if (!ctx) return null;
+        ctx.drawImage(bmp, 0, 0, w, h);
+        if (bmp.close) bmp.close();
+        if (!canvas.convertToBlob) return null;
+        var type = (file.type === 'image/png') ? 'image/png' : 'image/webp';
+        return canvas.convertToBlob({ type: type, quality: 0.85 });
+      }, function () { return null; });
+    }
+    Array.prototype.forEach.call(pickers, function (pickInput) {
+      pickInput.addEventListener('change', function () {
+        var pickFile = pickInput.files && pickInput.files[0];
+        var pickId = pickInput.getAttribute('data-kci-preview') || '';
+        var pickImg = pickId ? document.getElementById(pickId) : null;
+        if (!pickFile) { if (pickImg) pickImg.src = DEFAULT_IMG; return; }
+        var pickUrl = null;
+        try { pickUrl = URL.createObjectURL(pickFile); } catch (ignoredPick) { pickUrl = null; }
+        if (pickImg && pickUrl) pickImg.src = pickUrl;
+        if (pickFile.size <= 400000) return;
+        shrinkBlob(pickFile, 1600).then(function (blob) {
+          if (!blob) return;
+          try {
+            var dt = new DataTransfer();
+            dt.items.add(new File([blob], pickFile.name || 'photo.webp', { type: blob.type }));
+            pickInput.files = dt.files;
+          } catch (ignoredShrink) { /* keep the original file */ }
+        });
+      });
+    });
+  })();
+})();
+
+/* Events module (event-edit.php): live preview card, character counters,
+   blob-URL picture preview, slug preview on the add form and the slug
+   "Change link" toggle on the edit form. Runs only on pages with
+   #eventPreview, so every other admin page is untouched. */
+(function () {
+  'use strict';
+  function ev$(id) { return document.getElementById(id); }
+  var eventPreview = ev$('eventPreview');
+  if (!eventPreview) return;
+
+  var evTitle = ev$('event-title');
+  var evDate = ev$('event-date');
+  var evLoc = ev$('event-location');
+  var evDesc = ev$('event-description');
+  var evBody = ev$('event-content');
+  var evOutTitle = ev$('eventPreviewTitle');
+  var evOutDate = ev$('eventPreviewDate');
+  var evOutLoc = ev$('eventPreviewLoc');
+  var evOutDesc = ev$('eventPreviewDesc');
+  var evOutImg = ev$('eventPreviewImg');
+  var evDescCount = ev$('event-desc-count');
+  var evBodyCount = ev$('event-content-count');
+  var evMonths = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+  function evFormatDate(raw) {
+    var value = String(raw || '');
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) return '';
+    var parts = value.split('-');
+    var y = parseInt(parts[0], 10);
+    var m = parseInt(parts[1], 10);
+    var d = parseInt(parts[2], 10);
+    if (!y || !m || !d || m < 1 || m > 12) return '';
+    return evMonths[m - 1] + ' ' + d + ', ' + y;
+  }
+
+  function evRender() {
+    if (evOutTitle) evOutTitle.textContent = (evTitle && evTitle.value.trim()) ? evTitle.value.trim() : 'Your event title';
+    if (evOutDate) evOutDate.textContent = (evDate && evDate.value.trim()) ? evFormatDate(evDate.value.trim()) : 'Pick a date';
+    if (evOutLoc) evOutLoc.textContent = (evLoc && evLoc.value.trim()) ? evLoc.value.trim() : 'Kingdomite Church International';
+    if (evOutDesc) evOutDesc.textContent = (evDesc && evDesc.value.trim()) ? evDesc.value.trim() : 'Your short description appears here.';
+    if (evDescCount) evDescCount.textContent = String(evDesc ? evDesc.value.length : 0);
+    if (evBodyCount) evBodyCount.textContent = String(evBody ? evBody.value.length : 0);
+  }
+
+  [evTitle, evLoc, evDesc, evBody].forEach(function (input) {
+    if (input) input.addEventListener('input', evRender);
+  });
+  if (evDate) evDate.addEventListener('change', evRender);
+
+  var evFile = ev$('image-file');
+  var evRemove = document.querySelector('input[name="image_remove"]');
+  var evBlobUrl = null;
+  if (evFile) {
+    evFile.addEventListener('change', function () {
+      var file = evFile.files && evFile.files[0];
+      if (!file || !evOutImg) return;
+      if (evBlobUrl) { URL.revokeObjectURL(evBlobUrl); evBlobUrl = null; }
+      try { evBlobUrl = URL.createObjectURL(file); } catch (ignoredBlob) { evBlobUrl = null; }
+      if (evBlobUrl) evOutImg.src = evBlobUrl;
+    });
+  }
+  if (evRemove) {
+    evRemove.addEventListener('change', function () {
+      if (evRemove.checked && evOutImg) evOutImg.src = '../kci_image/im2.webp';
+    });
+  }
+
+  var evSlugOut = ev$('event-slug-preview-value');
+  if (evSlugOut && evTitle) {
+    var evSyncSlug = function () {
+      var value = evTitle.value;
+      try { value = value.normalize ? value.normalize('NFD').replace(/[\u0300-\u036f]/g, '') : value; } catch (ignoredNorm) { /* keep raw */ }
+      value = value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+/, '').slice(0, 60).replace(/-+$/, '');
+      evSlugOut.textContent = value || 'event';
+    };
+    evTitle.addEventListener('input', evSyncSlug);
+    evSyncSlug();
+  }
+
+  var evSlugToggle = ev$('event-slug-toggle');
+  if (evSlugToggle) {
+    evSlugToggle.addEventListener('click', function () {
+      var editBox = ev$('event-slug-edit');
+      var locked = ev$('event-slug-locked');
+      var flag = ev$('event-change-slug');
+      var slugInput = ev$('event-slug');
+      if (editBox) editBox.removeAttribute('hidden');
+      if (locked) locked.setAttribute('hidden', '');
+      if (flag) flag.value = '1';
+      evSlugToggle.setAttribute('hidden', '');
+      if (slugInput) slugInput.focus();
+    });
+  }
+
+  evRender();
 })();

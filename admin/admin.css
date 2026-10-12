@@ -1266,7 +1266,6 @@ body.kci-modal-open { overflow: hidden; }
 a.kci-stat--link { display: block; color: inherit; text-decoration: none; transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease); }
 a.kci-stat--link:hover { transform: translateY(-3px); box-shadow: var(--shadow); }
 a.kci-stat--link:focus-visible { outline: 3px solid rgba(124, 58, 237, 0.55); outline-offset: 2px; }
-a.kci-stat--link:focus-visible { outline: 3px solid rgba(124, 58, 237, 0.55); outline-offset: 2px; }
 
 /* Serve table fits the content width at 1366px and 1100px: tighter cells,
    short truncated message, wrapping ministry/availability, compact vertical
@@ -1353,5 +1352,57 @@ table.kci-table.kci-giveconf__table { min-width: 0; }
     .kci-giveconf__table td::before { content: attr(data-label); display: block; margin-bottom: 3px; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-faint); }
     .kci-giveconf__trunc { max-width: none; white-space: normal; }
 }
+
+/* ---------- Events module (events.php / event-edit.php) ---------- */
+/* Event table: picture + title cell, truncated title/location, compact
+   vertical actions. Fits the content width at 1366px and 1100px, mirroring
+   the Serve and Confirmations tables; stacked cards at 900px and below. */
+table.kci-table.kci-event__table { min-width: 0; }
+.kci-event__table th, .kci-event__table td { padding: 8px 10px; vertical-align: middle; }
+.kci-event__cell { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.kci-event__thumb { width: 56px; height: 40px; border-radius: 8px; object-fit: cover; border: 1px solid var(--line-strong); background: var(--bg); flex: none; }
+.kci-event__title { display: block; max-width: 260px; font-weight: 600; color: var(--navy-900); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.kci-event__loc { display: inline-block; max-width: 180px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; vertical-align: bottom; }
+.kci-event__table td[data-label="Date"] { white-space: nowrap; }
+.kci-event__table td[data-label="Location"] { white-space: normal; overflow-wrap: anywhere; min-width: 90px; }
+.kci-event__table td[data-label="Actions"] { min-width: 130px; }
+.kci-event__actions { flex-direction: column; align-items: stretch; gap: 6px; }
+.kci-event__actions .kci-serve__form { display: block; }
+.kci-event__actions .kci-pillbtn { justify-content: center; width: 100%; }
+.kci-tablewrap.kci-event__wrap { overflow-x: visible; }
+@media (max-width: 1099px) {
+    .kci-tablewrap.kci-event__wrap { overflow-x: auto; }
+    table.kci-table.kci-event__table { min-width: 820px; }
+    .kci-event__title { max-width: 220px; }
+}
+@media (max-width: 900px) {
+    .kci-event__wrap { border: 0; background: transparent; overflow: visible; }
+    .kci-event__table { display: block; min-width: 0; }
+    .kci-event__table thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+    .kci-event__table tbody { display: grid; gap: 14px; }
+    .kci-event__table tbody tr { display: grid; gap: 10px; background: #fff; border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow-sm); padding: 16px; }
+    .kci-event__table td { display: block; padding: 0; border-bottom: 0; text-align: left; }
+    .kci-event__table td::before { content: attr(data-label); display: block; margin-bottom: 3px; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-faint); }
+    .kci-event__title, .kci-event__loc { max-width: none; white-space: normal; }
+}
+
+/* Picture picker (shared includes/image_picker.php): preview thumb +
+   remove checkbox. */
+.kci-imagepick__preview { display: block; width: 160px; height: 110px; object-fit: cover; border-radius: 12px; border: 1px solid var(--line-strong); background: var(--bg); margin-bottom: 10px; }
+.kci-imagepick input[type="file"] { display: block; font-size: 0.85rem; }
+.kci-imagepick__remove { display: flex; align-items: center; gap: 8px; margin: 8px 0 6px; font-size: 0.85rem; color: var(--ink-soft); cursor: pointer; }
+
+/* Amber warning shown when unlocking the slug on the edit form. */
+.kci-warnbox { display: flex; align-items: center; gap: 8px; margin: 0 0 8px; padding: 8px 12px; border-radius: 10px; background: #fffbeb; border: 1px solid #fde68a; color: #92400e; font-size: 0.82rem; font-weight: 600; }
+
+/* Event live-preview card (id="eventPreview" on event-edit.php). */
+.kci-eventprev { border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; background: #fff; box-shadow: var(--shadow-sm); }
+.kci-eventprev__media { position: relative; }
+.kci-eventprev__media img { display: block; width: 100%; height: 180px; object-fit: cover; background: var(--bg); }
+.kci-eventprev__loc { position: absolute; left: 10px; bottom: 10px; max-width: calc(100% - 20px); padding: 4px 10px; border-radius: 999px; background: rgba(7, 13, 26, 0.72); color: #fff; font-size: 0.72rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.kci-eventprev__body { padding: 14px 16px 16px; }
+.kci-eventprev__body h3 { margin: 0 0 6px; color: var(--navy-900); font-size: 1rem; }
+.kci-eventprev__date { margin: 0 0 8px; color: var(--violet-700); font-size: 0.82rem; font-weight: 700; }
+.kci-eventprev__body p:last-child { margin: 0; color: var(--ink-soft); font-size: 0.86rem; line-height: 1.5; }
 
 

@@ -71,9 +71,9 @@ function admin_error_page($title, $bodyHtml) {
         . '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'
         . '<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">'
         . '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer">'
-        . '<link rel="stylesheet" href="admin.css?v=11">'
+        . '<link rel="stylesheet" href="admin.css?v=12">'
         . '</head><body class="kci-login">' . $bodyHtml
-        . '<script src="admin.js?v=11"></script>'
+        . '<script src="admin.js?v=12"></script>'
         . '</body></html>';
 }
 
@@ -173,4 +173,104 @@ function admin_password_error($new, $username, $displayName) {
         return 'Your new password must mix letters with at least one number or symbol.';
     }
     return '';
+}
+
+/* Slug for events: HTML stripped, accents transliterated, anything not a letter
+ * or digit becomes a dash, dashes trimmed, max 60 chars, fallback "event". */
+function kci_slugify($title) {
+    $title = strip_tags((string)$title);
+    $map = array(
+        'à' => 'a', 'á' => 'a', 'â' => 'a', 'ã' => 'a', 'ä' => 'a', 'å' => 'a',
+        'ç' => 'c', 'è' => 'e', 'é' => 'e', 'ê' => 'e', 'ë' => 'e',
+        'ì' => 'i', 'í' => 'i', 'î' => 'i', 'ï' => 'i',
+        'ñ' => 'n', 'ò' => 'o', 'ó' => 'o', 'ô' => 'o', 'õ' => 'o', 'ö' => 'o',
+        'ù' => 'u', 'ú' => 'u', 'û' => 'u', 'ü' => 'u',
+        'ý' => 'y', 'ÿ' => 'y', 'ß' => 'ss',
+        'À' => 'a', 'Á' => 'a', 'Â' => 'a', 'Ã' => 'a', 'Ä' => 'a', 'Å' => 'a',
+        'Ç' => 'c', 'È' => 'e', 'É' => 'e', 'Ê' => 'e', 'Ë' => 'e',
+        'Ì' => 'i', 'Í' => 'i', 'Î' => 'i', 'Ï' => 'i',
+        'Ñ' => 'n', 'Ò' => 'o', 'Ó' => 'o', 'Ô' => 'o', 'Õ' => 'o', 'Ö' => 'o',
+        'Ù' => 'u', 'Ú' => 'u', 'Û' => 'u', 'Ü' => 'u',
+        'Ý' => 'y',
+    );
+    $title = strtr($title, $map);
+    if (function_exists('iconv')) {
+        $converted = @iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $title);
+        if (is_string($converted) && $converted !== '') {
+            $title = $converted;
+        }
+    }
+    $title = strtolower($title);
+    $title = preg_replace('/[^a-z0-9]+/', '-', $title);
+    $title = trim((string)$title, '-');
+    if (function_exists('mb_substr')) {
+        $title = mb_substr($title, 0, 60, 'UTF-8');
+    } else {
+        $title = substr($title, 0, 60);
+    }
+    $title = rtrim((string)$title, '-');
+    if ($title === '') {
+        $title = 'event';
+    }
+    return $title;
+}
+
+/* Unique event slug: append -2, -3 ... until no other event row uses it. */
+function kci_unique_slug($conn, $base, $excludeId = 0) {
+    $base = strtolower(trim((string)$base));
+    if (!preg_match('/^[a-z0-9-]{1,60}$/', $base)) {
+        $base = kci_slugify($base);
+    }
+    $base = trim($base, '-');
+    if ($base === '') {
+        $base = 'event';
+    }
+    if (function_exists('mb_substr')) {
+        $base = mb_substr($base, 0, 60, 'UTF-8');
+    } else {
+        $base = substr($base, 0, 60);
+    }
+    $base = rtrim($base, '-');
+    if ($base === '') {
+        $base = 'event';
+    }
+    $excludeId = (int)$excludeId;
+    $candidate = $base;
+    $suffix = 2;
+    try {
+        while (true) {
+            $stmt = $conn->prepare('SELECT id FROM events WHERE slug = ? LIMIT 1');
+            if ($stmt === false) {
+                return $candidate;
+            }
+            $stmt->bind_param('s', $candidate);
+            $stmt->execute();
+            $res = $stmt->get_result();
+            $row = ($res !== false) ? $res->fetch_assoc() : null;
+            $stmt->close();
+            if (!is_array($row) || !isset($row['id'])) {
+                return $candidate;
+            }
+            if ($excludeId > 0 && (int)$row['id'] === $excludeId) {
+                return $candidate;
+            }
+            $tail = '-' . $suffix;
+            if (function_exists('mb_substr')) {
+                $stem = mb_substr($base, 0, 60 - strlen($tail), 'UTF-8');
+            } else {
+                $stem = substr($base, 0, 60 - strlen($tail));
+            }
+            $stem = rtrim((string)$stem, '-');
+            if ($stem === '') {
+                $stem = 'event';
+            }
+            $candidate = $stem . $tail;
+            $suffix++;
+            if ($suffix > 500) {
+                return $candidate;
+            }
+        }
+    } catch (Throwable $ignored) {
+        return $candidate;
+    }
 }

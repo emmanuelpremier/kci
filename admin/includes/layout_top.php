@@ -77,7 +77,7 @@ try {
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer">
-<link rel="stylesheet" href="admin.css?v=11">
+<link rel="stylesheet" href="admin.css?v=12">
 </head>
 <body class="kci-admin">
 <div class="kci-overlay" id="kci-overlay" hidden></div>
@@ -94,13 +94,17 @@ try {
     $__navKey = (string)$__navItem['key'];
     /* Highlight by matching the running script file (Dashboard only on index.php;
      * Serve also matches any future serve-* detail page; Confirmations matches
-     * any giving-confirmation* page but never giving-settings.php). Falls back
+     * any giving-confirmation* page but never giving-settings.php; Events
+     * matches events.php, event-edit.php and event-action.php). Falls back
      * to $activeNav only when SCRIPT_NAME is unavailable (e.g. CLI). */
     $__navActive = ($__script !== '' && $__script === strtolower($__navFile));
     if (!$__navActive && $__navKey === 'serve' && $__script !== '' && strpos($__script, 'serve-') === 0) {
         $__navActive = true;
     }
     if (!$__navActive && $__navKey === 'confirmations' && $__script !== '' && $__script !== 'giving-settings.php' && strpos($__script, 'giving-confirmation') === 0) {
+        $__navActive = true;
+    }
+    if (!$__navActive && $__navKey === 'events' && $__script !== '' && in_array($__script, array('events.php', 'event-edit.php', 'event-action.php'), true)) {
         $__navActive = true;
     }
     if (!$__navActive && $__script === '' && $__nav !== '' && $__nav === $__navKey) {

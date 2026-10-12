@@ -4,6 +4,6 @@ if (!defined('KCI_ADMIN')) { http_response_code(403); exit; }
 ?>
 </main>
 </div>
-<script src="admin.js?v=11" defer></script>
+<script src="admin.js?v=12" defer></script>
 </body>
 </html>

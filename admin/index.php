@@ -78,6 +78,7 @@ $stats = array(
         'icon'  => 'fa-calendar-plus',
         'color' => 'rose',
         'sql'   => 'SELECT COUNT(*) AS c FROM events WHERE date >= CURDATE()',
+        'href'  => 'events.php?tab=upcoming',
     ),
     'ministries' => array(
         'label' => 'Active ministries',
@@ -136,7 +137,7 @@ include __DIR__ . '/includes/layout_top.php';
 <div class="kci-grid kci-grid--3">
 <?php foreach ($stats as $stat): ?>
 <?php if (isset($stat['href'])): ?>
-<a class="kci-stat kci-stat--link" href="<?php echo e($stat['href']); ?>" aria-label="<?php echo e($stat['label'] . ': ' . (int)$stat['count'] . ' — ' . $stat['hint'] . '. View pending serve applications.'); ?>">
+<a class="kci-stat kci-stat--link" href="<?php echo e($stat['href']); ?>" aria-label="<?php echo e($stat['label'] . ': ' . (int)$stat['count'] . ' — ' . $stat['hint'] . '. View details.'); ?>">
 <p class="kci-stat__label"><i class="fa-solid <?php echo e($stat['icon']); ?>"></i> <?php echo e($stat['label']); ?></p>
 <p class="kci-stat__value"><?php echo (int)$stat['count']; ?></p>
 <p class="kci-stat__hint"><?php echo e($stat['hint']); ?> <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></p>
