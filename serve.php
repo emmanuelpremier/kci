@@ -8,6 +8,7 @@
  */
 include("kci_db.php");
 include_once("kci_validate.php");
+include_once __DIR__ . '/notify.php';
 
 function serve_esc($value) {
 	return htmlspecialchars((string)$value, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8', false);
@@ -137,6 +138,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 			$serveSubmitted = true;
 			$serveSubmittedName = $serveName;
 			$serveSubmittedMinistry = $chosenMinistry['name'];
+			try {
+				$e = function ($v) { return htmlspecialchars((string)$v, ENT_QUOTES, 'UTF-8'); };
+				$nAvail = $serveAvailability === null ? '' : $serveAvailability;
+				$nMsgV = $serveMessage === null ? '' : $serveMessage;
+				$nSub = 'New Serve application from ' . trim(preg_replace('/[\r\n]+/', ' ', $serveName));
+				$nUrl = function_exists('kci_admin_url') ? kci_admin_url('serve-applications.php') : 'admin/serve-applications.php';
+				$nBody = '<h2>New serve application</h2><table cellpadding="6">'
+					. '<tr><td><b>Name</b></td><td>' . $e($serveName) . '</td></tr>'
+					. '<tr><td><b>Email</b></td><td>' . $e($serveEmail) . '</td></tr>'
+					. '<tr><td><b>Phone</b></td><td>' . $e($servePhone) . '</td></tr>'
+					. '<tr><td><b>Ministry</b></td><td>' . $e($serveSubmittedMinistry) . '</td></tr>'
+					. '<tr><td><b>Availability</b></td><td>' . $e($nAvail) . '</td></tr>'
+					. '<tr><td><b>Message</b></td><td>' . nl2br($e($nMsgV)) . '</td></tr></table>'
+					. '<p><a href="' . $e($nUrl) . '">View in admin</a></p>';
+				if (function_exists('notify_admin')) { notify_admin($nSub, $nBody, $serveEmail); }
+			} catch (Throwable $ignored) {}
 		} catch (Throwable $e) {
 			/* Never expose database details to visitors. */
 			$serveErrors[] = 'We could not save your application right now. Please try again later.';

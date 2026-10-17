@@ -12,6 +12,7 @@
  */
 include("kci_db.php");
 include_once("kci_validate.php");
+include_once __DIR__ . '/notify.php';
 
 function form_esc($value) {
 	return htmlspecialchars((string)$value, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8', false);
@@ -119,6 +120,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 				$formStmt->execute();
 				$formStmt->close();
 				$formSubmitted = true;
+				try {
+					$e = function ($v) { return htmlspecialchars((string)($v === null ? '' : $v), ENT_QUOTES, 'UTF-8'); };
+					$nRt = ($formEmail !== null && $formEmail !== '') ? $formEmail : null;
+					$nSub = 'New First-timer form from ' . trim(preg_replace('/[\r\n]+/', ' ', $formName));
+					$nUrl = function_exists('kci_admin_url') ? kci_admin_url('first-timers.php') : 'admin/first-timers.php';
+					$nBody = '<h2>New first-timer response</h2><table cellpadding="6">'
+						. '<tr><td><b>Name</b></td><td>' . $e($formName) . '</td></tr>'
+						. '<tr><td><b>Phone</b></td><td>' . $e($formPhone) . '</td></tr>'
+						. '<tr><td><b>Email</b></td><td>' . $e($formEmail) . '</td></tr>'
+						. '<tr><td><b>Visit date</b></td><td>' . $e($formVisitDate) . '</td></tr>'
+						. '<tr><td><b>Heard from</b></td><td>' . $e($formHeardFrom) . '</td></tr>'
+						. '<tr><td><b>Prayer need</b></td><td>' . nl2br($e($formPrayerNeed)) . '</td></tr></table>'
+						. '<p><a href="' . $e($nUrl) . '">View in admin</a></p>';
+					if (function_exists('notify_admin')) { notify_admin($nSub, $nBody, $nRt); }
+				} catch (Throwable $ignored) {}
 			} catch (Throwable $e) {
 				/* Never expose database details to visitors. */
 				$formErrors[] = 'We could not save your details right now. Please try again in a moment.';

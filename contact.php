@@ -13,6 +13,7 @@
 include("kci_db.php");
 include_once("kci_validate.php");
 include_once("site_config.php");
+include_once __DIR__ . '/notify.php';
 
 function contact_esc($value) {
 	return htmlspecialchars((string)$value, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8', false);
@@ -89,6 +90,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 			$contactStmt->close();
 			$contactSubmitted = true;
 			$contactSubmittedName = $contactName;
+			try {
+				$nName = function_exists('contact_esc') ? contact_esc($contactName) : htmlspecialchars($contactName, ENT_QUOTES, 'UTF-8');
+				$nEmail = function_exists('contact_esc') ? contact_esc($contactEmail) : htmlspecialchars($contactEmail, ENT_QUOTES, 'UTF-8');
+				$nPhone = function_exists('contact_esc') ? contact_esc($contactPhone) : htmlspecialchars($contactPhone, ENT_QUOTES, 'UTF-8');
+				$nSubj = function_exists('contact_esc') ? contact_esc($contactSubject) : htmlspecialchars($contactSubject, ENT_QUOTES, 'UTF-8');
+				$nMsg = nl2br(function_exists('contact_esc') ? contact_esc($contactMessage) : htmlspecialchars($contactMessage, ENT_QUOTES, 'UTF-8'));
+				$nSub = 'New Contact message from ' . trim(preg_replace('/[\r\n]+/', ' ', $contactName));
+				$nUrl = function_exists('kci_admin_url') ? kci_admin_url('messages.php') : 'admin/messages.php';
+				$nUrlE = htmlspecialchars($nUrl, ENT_QUOTES, 'UTF-8');
+				$nBody = '<h2>New contact message</h2><table cellpadding="6">'
+					. '<tr><td><b>Name</b></td><td>' . $nName . '</td></tr>'
+					. '<tr><td><b>Email</b></td><td>' . $nEmail . '</td></tr>'
+					. '<tr><td><b>Phone</b></td><td>' . $nPhone . '</td></tr>'
+					. '<tr><td><b>Subject</b></td><td>' . $nSubj . '</td></tr>'
+					. '<tr><td><b>Message</b></td><td>' . $nMsg . '</td></tr></table>'
+					. '<p><a href="' . $nUrlE . '">View in admin</a></p>';
+				if (function_exists('notify_admin')) { notify_admin($nSub, $nBody, $contactEmail); }
+			} catch (Throwable $ignored) {}
 		} catch (Throwable $e) {
 			/* Never expose database details to visitors. */
 			$contactErrors[] = 'We could not send your message right now. Please try again later.';

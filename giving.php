@@ -13,6 +13,7 @@ include_once("kci_validate.php");
 include_once("kci_db.php");
 include_once("kci_settings.php");
 include_once("site_config.php");
+include_once __DIR__ . '/notify.php';
 
 /* Bank account details — stored in site_settings and edited on
    admin/giving-settings.php; kci_giving_details() supplies the
@@ -240,6 +241,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 					'amount'     => number_format($giveAmount, 2),
 					'reference'  => 'KCI-' . str_pad((string)$newId, 6, '0', STR_PAD_LEFT),
 				);
+				try {
+					$e = function ($v) { return htmlspecialchars((string)($v === null ? '' : $v), ENT_QUOTES, 'UTF-8'); };
+					$nRt = ($emailOrNull !== null && $emailOrNull !== '') ? $emailOrNull : null;
+					$nSub = 'New Giving confirmation from ' . trim(preg_replace('/[\r\n]+/', ' ', $giveValues['full_name']));
+					$nUrl = function_exists('kci_admin_url') ? kci_admin_url('giving-confirmations.php') : 'admin/giving-confirmations.php';
+					$nBody = '<h2>New giving confirmation</h2><table cellpadding="6">'
+						. '<tr><td><b>Ref</b></td><td>' . $e('KCI-' . str_pad((string)$newId, 6, '0', STR_PAD_LEFT)) . '</td></tr>'
+						. '<tr><td><b>Name</b></td><td>' . $e($giveValues['full_name']) . '</td></tr>'
+						. '<tr><td><b>Phone</b></td><td>' . $e($givePhoneNormalized) . '</td></tr>'
+						. '<tr><td><b>Email</b></td><td>' . $e($emailOrNull) . '</td></tr>'
+						. '<tr><td><b>Amount (NGN)</b></td><td>' . $e(number_format($giveAmount, 2)) . '</td></tr>'
+						. '<tr><td><b>Type</b></td><td>' . $e($giveValues['giving_type']) . '</td></tr>'
+						. '<tr><td><b>Give date</b></td><td>' . $e($giveValues['give_date']) . '</td></tr>'
+						. '<tr><td><b>Sender account</b></td><td>' . $e($senderOrNull) . '</td></tr>'
+						. '<tr><td><b>Reference</b></td><td>' . $e($refOrNull) . '</td></tr>'
+						. '<tr><td><b>Note</b></td><td>' . nl2br($e($noteOrNull)) . '</td></tr></table>'
+						. '<p><a href="' . $e($nUrl) . '">View in admin</a></p>';
+					if (function_exists('notify_admin')) { notify_admin($nSub, $nBody, $nRt); }
+				} catch (Throwable $ignored) {}
 				header('Location: giving.php?sent=1#confirm');
 				exit;
 			} catch (Throwable $e) {
