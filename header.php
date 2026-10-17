@@ -45,51 +45,31 @@ $navMinistries = [];
    the most recent past events to fill the limit. Single query; the split
    and ordering happen in PHP so only one round-trip is needed. */
 try {
-	$navEventStmt = $conn->prepare("SELECT title, slug, date FROM events ORDER BY date ASC");
-	if ($navEventStmt) {
-		$navEventStmt->execute();
-		$navEventResult = $navEventStmt->get_result();
-		$navAllEvents = [];
-		if ($navEventResult) {
-			while ($navRow = $navEventResult->fetch_assoc()) {
-				$navAllEvents[] = $navRow;
-			}
+	$navAllEvents = kci_get_events($conn);
+	$navToday = date('Y-m-d');
+	$navUpcoming = [];
+	$navPast = [];
+	foreach ($navAllEvents as $navRow) {
+		$navDay = date('Y-m-d', strtotime($navRow['date']));
+		if ($navDay >= $navToday) {
+			$navUpcoming[] = $navRow;
+		} else {
+			$navPast[] = $navRow;
 		}
-		$navEventStmt->close();
-		$navToday = date('Y-m-d');
-		$navUpcoming = [];
-		$navPast = [];
-		foreach ($navAllEvents as $navRow) {
-			$navDay = date('Y-m-d', strtotime($navRow['date']));
-			if ($navDay >= $navToday) {
-				$navUpcoming[] = $navRow;
-			} else {
-				$navPast[] = $navRow;
-			}
-		}
-		usort($navUpcoming, function ($a, $b) { return strtotime($a['date']) - strtotime($b['date']); });
-		usort($navPast, function ($a, $b) { return strtotime($b['date']) - strtotime($a['date']); });
-		$navLimit = max(1, (int)$navEventLimit);
-		$navEvents = array_slice(array_merge($navUpcoming, $navPast), 0, $navLimit);
 	}
+	usort($navUpcoming, function ($a, $b) { return strtotime($a['date']) - strtotime($b['date']); });
+	usort($navPast, function ($a, $b) { return strtotime($b['date']) - strtotime($a['date']); });
+	$navLimit = max(1, (int)$navEventLimit);
+	$navEvents = array_slice(array_merge($navUpcoming, $navPast), 0, $navLimit);
 } catch (Throwable $navE) {
 	$navEvents = [];
 }
 
-/* 2) Ministries: active only, ordered by id, limited. */
+/* 2) Ministries: active only, ordered by id, limited — single cached query. */
 try {
-	$navMinLimit = max(1, (int)$navMinistryLimit);
-	$navMinStmt = $conn->prepare("SELECT name, slug FROM ministries WHERE status = 'active' ORDER BY id ASC LIMIT " . $navMinLimit);
-	if ($navMinStmt) {
-		$navMinStmt->execute();
-		$navMinResult = $navMinStmt->get_result();
-		if ($navMinResult) {
-			while ($navMinRow = $navMinResult->fetch_assoc()) {
-				$navMinistries[] = $navMinRow;
-			}
-		}
-		$navMinStmt->close();
-	}
+	$navAllMinistries = kci_get_ministries($conn);
+	$navLimit = max(1, (int)$navMinistryLimit);
+	$navMinistries = array_slice($navAllMinistries, 0, $navLimit);
 } catch (Throwable $navE) {
 	$navMinistries = [];
 }
@@ -103,7 +83,7 @@ if (empty($navMinistries)) {
 ?>
 	<section class="kc1">
 		<a href="index.php" class="kc2" aria-label="KCI home">
-			<img src="kci_image/im2.webp">
+			<img src="kci_image/im2.webp" width="358" height="363" alt="KCI logo" loading="eager" fetchpriority="high">
 			<span class="kc-logo-text">KCI</span>
 		</a>
 		<nav class="kc3" id="mainNav">

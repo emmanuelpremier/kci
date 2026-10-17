@@ -125,7 +125,226 @@
   }
 }
 
-/* ---------- 2b. 360px overflow audit guards (minimal) ---------- */
+/* ---------- 3. FIRST-TIMER FORM (form.php): pills must wrap ---------- */
+/* Cause: .firsttimer-chips already has flex-wrap, but each
+   .firsttimer-chip is inline-flex with no min-width:0 / max-width:100%,
+   and the inner pill <span> keeps one-line padding (9px 19px) with no
+   wrapping. On a 320-360px card the intrinsic width of a long label
+   ("A friend or family member") plus padding is wider than the card,
+   so the flex item overflows the card's right edge.
+   Desktop is untouched: only small screens change. */
+@media (max-width: 768px){
+  .firsttimer-page .firsttimer-wrap{
+    overflow-x: clip;
+  }
+  .firsttimer-page .firsttimer-card,
+  .firsttimer-page .firsttimer-form,
+  .firsttimer-page .firsttimer-grid,
+  .firsttimer-page .firsttimer-field,
+  .firsttimer-page .firsttimer-chips,
+  .firsttimer-page .firsttimer-actions{
+    min-width: 0;
+    max-width: 100%;
+  }
+  .firsttimer-page .firsttimer-chip{
+    min-width: 0;
+    max-width: 100%;
+  }
+  .firsttimer-page .firsttimer-chip span{
+    box-sizing: border-box;
+    min-width: 0;
+    max-width: 100%;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    line-height: 1.5;
+  }
+  .firsttimer-page .firsttimer-input,
+  .firsttimer-page .firsttimer-textarea,
+  .firsttimer-page .firsttimer-btn{
+    box-sizing: border-box;
+    min-width: 0;
+    max-width: 100%;
+  }
+}
+@media (max-width: 480px){
+  .firsttimer-page .firsttimer-chips{
+    gap: 8px;
+  }
+  .firsttimer-page .firsttimer-chip{
+    flex: 1 1 100%;
+  }
+  .firsttimer-page .firsttimer-chip span{
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+    padding: 10px 14px;
+  }
+  .firsttimer-page .firsttimer-card{
+    overflow-x: clip;
+  }
+}
+
+/* ---------- 4. SITE-WIDE SMALL-SCREEN OVERFLOW GUARDS ---------- */
+/* Shared fix (no page-by-page patches): every pill/chip/button group
+   must wrap, every flex row that can meet a long label must wrap, and
+   nothing may be wider than its card. Desktop untouched: only
+   max-width: 768px / 480px below. */
+@media (max-width: 768px){
+  .firsttimer-page .firsttimer-chips{
+    flex-wrap: wrap;
+  }
+  .firsttimer-page .firsttimer-chip,
+  .firsttimer-page .firsttimer-chip span{
+    min-width: 0;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+  /* Ministries / ministry / location / quotes / giving / contact /
+     serve / event buttons: never force a sideways scroll. */
+  .ministries-page .ministries-btn,
+  .ministry-page .ministry-btn,
+  .firsttimer-page .firsttimer-btn,
+  .location-page .location-btn,
+  .quotes-page .quotes-btn,
+  .giving-page .giving-btn,
+  .giving-page .giving-copy,
+  .contact-page .contact-btn,
+  .serve-page .serve-btn,
+  .location-page .location-pill{
+    min-width: 0;
+    max-width: 100%;
+    box-sizing: border-box;
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+  .ministries-page .ministries-hero__inner,
+  .ministries-page .featured-ministry__inner,
+  .ministry-page .ministry-detail__grid,
+  .ministry-page .ministry-error__card,
+  .giving-page .giving-main__inner,
+  .giving-page .giving-hero__inner,
+  .quotes-page .quotes-section__inner,
+  .location-page .location-map__inner,
+  .location-page .location-info__grid,
+  .firsttimer-page .firsttimer-card{
+    min-width: 0;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+  /* Rows that are flex without wrap on desktop must wrap on phones. */
+  .ministry-page .ministry-meet,
+  .giving-page .giving-card__bottom,
+  .quotes-page .quotes-verse__foot,
+  .location-page .location-times li,
+  .firsttimer-page .firsttimer-section__title{
+    flex-wrap: wrap;
+    min-width: 0;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+  .ministries-page .ministry-card__link{
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+  /* Images and grids can never push the viewport wider. */
+  .home-page img,
+  .ministries-page img,
+  .ministry-page img,
+  .quotes-page img,
+  .giving-page img,
+  .serve-page img,
+  .location-page img,
+  .contact-page img,
+  .firsttimer-page img{
+    max-width: 100%;
+  }
+  .ministries-page .ministries-grid,
+  .giving-page .giving-ways__grid,
+  .location-page .location-info__grid{
+    min-width: 0;
+    max-width: 100%;
+  }
+  .about-page img,
+  .contact-page img,
+  .event-page img,
+  .events-page img{
+    max-width: 100%;
+  }
+  /* Giving two-column split must never force a second column. */
+  .giving-page .giving-split{
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+@media (max-width: 480px){
+  /* Single-column card grids on phones (tablets keep 2-col). */
+  .ministries-page .ministries-grid,
+  .quotes-page .quotes-grid--images,
+  .quotes-page .quotes-grid--scripture,
+  .giving-page .giving-ways__grid,
+  .location-page .location-info__grid{
+    grid-template-columns: minmax(0, 1fr);
+  }
+  /* Long pill labels take the full row and wrap to two lines. */
+  .ministries-page .ministries-hero__actions,
+  .ministry-page .ministry-actions,
+  .firsttimer-page .firsttimer-chips,
+  .location-page .location-card__actions,
+  .location-page .location-help__actions,
+  .quotes-page .quotes-band__actions,
+  .giving-page .giving-band__actions,
+  .giving-page .giving-help__actions{
+    flex-wrap: wrap;
+    gap: 8px;
+    min-width: 0;
+    max-width: 100%;
+  }
+  .ministries-page .ministries-hero__actions .ministries-btn,
+  .ministry-page .ministry-actions .ministry-btn,
+  .firsttimer-page .firsttimer-actions .firsttimer-btn,
+  .location-page .location-card__actions .location-btn,
+  .location-page .location-pill,
+  .quotes-page .quotes-btn,
+  .giving-page .giving-btn{
+    flex: 1 1 100%;
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+  .firsttimer-page .firsttimer-chip span,
+  .ministries-page .ministries-filter{
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+  /* Bank-card digits: shrink spacing so they fit a 320px card. */
+  .giving-page .giving-card__number{
+    white-space: normal;
+    overflow-wrap: anywhere;
+    word-break: break-all;
+    letter-spacing: .06em;
+    font-size: clamp(1rem, 5.4vw, 1.2rem);
+  }
+  .giving-page .giving-card__name{
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+  /* Hero badge never hangs past the photo on a 320px phone. */
+  .firsttimer-page .firsttimer-hero__badge{
+    left: 14px;
+    right: 14px;
+    max-width: calc(100% - 28px);
+    box-sizing: border-box;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    text-align: center;
+    justify-content: center;
+  }
+  .ministry-page .ministry-error__card{
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
 /* Global safety: padding + 100% widths must include padding. */
 @media (max-width: 600px){
   .home-page .kc13,

@@ -64,6 +64,7 @@ $stats = array(
         'icon'  => 'fa-envelope',
         'color' => 'blue',
         'sql'   => 'SELECT COUNT(*) AS c FROM contact_messages WHERE created_at >= DATE_SUB(NOW(), INTERVAL 7 DAY)',
+        'href'  => 'messages.php',
     ),
     'first'    => array(
         'label' => 'First-timers',
@@ -71,6 +72,7 @@ $stats = array(
         'icon'  => 'fa-user-check',
         'color' => 'green',
         'sql'   => 'SELECT COUNT(*) AS c FROM first_timers WHERE created_at >= DATE_SUB(NOW(), INTERVAL 30 DAY)',
+        'href'  => 'first-timers.php',
     ),
     'events'   => array(
         'label' => 'Upcoming events',
@@ -88,6 +90,7 @@ $stats = array(
         'sql'   => 'SELECT COUNT(*) AS c FROM ministries WHERE status = ?',
         'p'     => 's',
         'v'     => 'active',
+        'href'  => 'ministries.php',
     ),
 );
 

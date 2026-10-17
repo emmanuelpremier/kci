@@ -53,5 +53,12 @@ if (isset($_SERVER['HTTP_IF_NONE_MATCH']) && trim((string)$_SERVER['HTTP_IF_NONE
     http_response_code(304);
     exit;
 }
+if ($created !== false && $created > 0 && isset($_SERVER['HTTP_IF_MODIFIED_SINCE'])) {
+    $ims = strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE']);
+    if ($ims !== false && $ims >= $created) {
+        http_response_code(304);
+        exit;
+    }
+}
 echo $data;
 exit;

@@ -17,5 +17,5 @@ define('CHURCH_NAME', 'Kingdomite Church International');
 define('CHURCH_ADDRESS', 'Beside Jumbo Close, off Ogboso Road, Obaema, Oyigbo, Rivers State, Nigeria');
 define('CHURCH_PHONE', '+234 806 497 9241');
 define('CHURCH_WHATSAPP_URL', 'https://wa.me/2348064979241');
-define('CHURCH_EMAIL', 'dkcifamily@gmail.com');
+define('CHURCH_EMAIL', 'emmanuelpremier662@gmail.com');
 define('CHURCH_FACEBOOK_URL', 'https://www.facebook.com/profile.php?id=100083099004068');

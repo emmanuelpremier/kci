@@ -6,7 +6,15 @@
  * every page. Does NOT edit or duplicate the existing inline menu
  * scripts (the #menuToggle click handler + dropdown toggle) — it only
  * makes the open menu close when the visitor scrolls, taps/clicks
- * outside the menu, or presses Escape.
+ * outside the menu, taps a menu link, or presses Escape.
+ *
+ * Close-on-scroll mirrors admin/admin.js exactly: remember the scroll
+ * position when the menu opens, close it once the page has moved more
+ * than 12px, ignore touches that started inside the menu, and use a
+ * passive listener. Every close path removes the "open" class, so the
+ * drawer always slides out with the same CSS transition as tapping the
+ * X icon (transform 0.22s cubic-bezier(0.22, 1, 0.36, 1) — the admin
+ * drawer's --dur/--ease; see the .kc3 rule in kci.css).
  */
 (function () {
 	'use strict';
@@ -111,6 +119,22 @@
 		var isInside =
 			mainNav.contains(target) || menuToggle.contains(target);
 		if (!isInside && mainNav.classList.contains('open')) {
+			closeMenu();
+		}
+	});
+
+	// --- Tap or click a menu link -------------------------------------------
+	// Any link inside the drawer closes the menu (the page usually
+	// navigates anyway; in-page anchors now close it too). Chevron taps
+	// are excluded: they only open/close the dropdown in place and are
+	// handled by the inline page script.
+	mainNav.addEventListener('click', function (e) {
+		if (!e.target || !e.target.closest) {
+			return;
+		}
+		var isLink = e.target.closest('a') !== null;
+		var isChevron = e.target.closest('.arrow') !== null;
+		if (isLink && !isChevron && mainNav.classList.contains('open')) {
 			closeMenu();
 		}
 	});

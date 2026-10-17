@@ -135,31 +135,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	<meta name="description" content="Planning your first visit to Kingdomite Church International? Fill the first-timer form and we will be expecting you.">
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap">
 	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-	<link rel="stylesheet" type="text/css" href="kci.css?v=13">
-	<link rel="stylesheet" type="text/css" href="mobilefix.css?v=1">
+	<link rel="stylesheet" type="text/css" href="kci.css?v=26">
+	<link rel="stylesheet" type="text/css" href="mobilefix.css?v=3">
 	<link rel="stylesheet" href="form.css?v=1">
-	<link rel="stylesheet" type="text/css" href="mobile-header.css?v=1">
+	<link rel="stylesheet" type="text/css" href="mobile-header.css?v=3">
 	<link rel="icon" type="image/png" href="kci_image">
 	<title>Plan Your First Visit | Kingdomite Church International</title>
 
 	<!-- inserting of icon link from cdjns -->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
-<body class="firsttimer-page">
-	<!-- First-Time Visitor page: prime the scroll-reveal initial state
-	     before the first paint. It runs at the top of <body> (exactly
-	     like location.php) so document.body already exists when the
-	     class is added. Skipped for reduced-motion users and when
-	     IntersectionObserver is unavailable, so content is never hidden. -->
-	<script type="text/javascript">
-		(function () {
-			var reduced = window.matchMedia &&
-				window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-			if (reduced || !('IntersectionObserver' in window)) return;
-			document.body.classList.add('firsttimer-anim-ready');
-		})();
-	</script>
+<body class="firsttimer-page"
+	data-reveal-ready="firsttimer-anim-ready"
+	data-reveal-targets=".firsttimer-reveal, .kc118 .kc119"
+	data-reveal-margin="0px 0px -6% 0px"
+	data-reveal-safety="load">
+	<!-- Shared reveal engine (kci-reveal.js): primes the scroll-reveal
+	     initial state before the first paint, then drives the single
+	     IntersectionObserver. -->
+	<script src="kci-reveal.js" defer></script>
 
 	<!--header-->
 	<?php include 'header.php'; ?>
@@ -186,7 +182,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 					</ul>
 				</div>
 				<div class="firsttimer-hero__media firsttimer-reveal">
-					<img src="kci_image/img20.webp" alt="A congregation gathered in worship at Kingdomite Church International">
+					<img src="kci_image/img20.webp" alt="A congregation gathered in worship at Kingdomite Church International" width="652" height="451" loading="lazy" decoding="async">
 					<span class="firsttimer-hero__badge">
 						<i class="fa-solid fa-chair" aria-hidden="true"></i> We saved you a seat
 					</span>
@@ -399,73 +395,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 			}
 		});
 	</script>
-	<script type="text/javascript">
-		// First-Timer page: lightweight IntersectionObserver scroll-reveal.
-		// Fully self-contained - it does NOT touch the mobile menu, the
-		// dropdowns, the header scroll code, or the form POST/validation
-		// above. It only adds a reveal class.
-		(function () {
-			var page = document.querySelector('.firsttimer-page');
-			if (!page) return;
-
-			// The pre-paint script (see top of <body>) only primes the page
-			// when motion is allowed and IntersectionObserver exists. If it
-			// was skipped, nothing is hidden and this can stop here.
-			if (!document.body.classList.contains('firsttimer-anim-ready')) return;
-
-			var targets = page.querySelectorAll('.firsttimer-reveal, .kc118 .kc119');
-
-			if (!targets.length) return;
-
-			// Safety net: nothing is ever left invisible. Anything already
-			// on screen after a layout change (an image, font or viewport
-			// resize shifting content) is revealed at once.
-			function revealInView() {
-				var viewport = window.innerHeight || document.documentElement.clientHeight;
-				targets.forEach(function (element) {
-					if (element.classList.contains('is-visible')) return;
-					var rect = element.getBoundingClientRect();
-					if (rect.width === 0 && rect.height === 0) return;
-					if (rect.top <= viewport * 0.94 && rect.bottom >= 0) element.classList.add('is-visible');
-				});
-			}
-
-			var observer;
-
-			try {
-				observer = new IntersectionObserver(function (entries) {
-					entries.forEach(function (entry) {
-						if (!entry.isIntersecting) return;
-						// Each element reveals once and is unobserved straight
-						// afterwards; the observer itself stays in use for the
-						// elements that have not arrived yet.
-						entry.target.classList.add('is-visible');
-						observer.unobserve(entry.target);
-					});
-				}, { threshold: 0.15, rootMargin: '0px 0px -6% 0px' });
-
-				targets.forEach(function (target) {
-					observer.observe(target);
-				});
-
-				// Reveal anything already in view on load (hero, top of
-				// the form after a validation-error reload with #anchor).
-				revealInView();
-			} catch (error) {
-				// Never leave content hidden if anything goes wrong.
-				document.body.classList.remove('firsttimer-anim-ready');
-				return;
-			}
-
-			// Same safety net for a viewport that changes after priming
-			// (rotating a phone, resizing a window).
-			var resizeTimer = null;
-			window.addEventListener('resize', function () {
-				if (resizeTimer) window.clearTimeout(resizeTimer);
-				resizeTimer = window.setTimeout(revealInView, 120);
-			});
-		})();
-	</script>
+	<!-- The scroll-reveal that used to live here now comes from the shared
+	     kci-reveal.js engine included right after <body> (see the
+	     data-reveal-* attributes on <body> for its configuration). -->
 	<script type="text/javascript">
 		// "How did you hear about us?" chips: mirror the selected radio's
 		// state onto its pill so the styling survives keyboard use too.

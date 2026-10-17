@@ -12,6 +12,7 @@
  */
 include("kci_db.php");
 include_once("kci_validate.php");
+include_once("site_config.php");
 
 function contact_esc($value) {
 	return htmlspecialchars((string)$value, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8', false);
@@ -103,29 +104,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	<meta name="description" content="Contact Kingdomite Church International — questions, prayer requests or planning your first visit.">
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap">
 	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-	<link rel="stylesheet" type="text/css" href="kci.css?v=20">
-	<link rel="stylesheet" type="text/css" href="mobilefix.css?v=1">
-	<link rel="stylesheet" type="text/css" href="mobile-header.css?v=1">
+	<link rel="stylesheet" type="text/css" href="kci.css?v=26">
+	<link rel="stylesheet" type="text/css" href="mobilefix.css?v=3">
+	<link rel="stylesheet" type="text/css" href="mobile-header.css?v=3">
 	<link rel="icon" type="image/png" href="kci_image">
 	<title>Contact Us | Kingdomite Church International</title>
-	<!-- Contact page: prime the scroll-reveal initial state before the first
-	     paint. Skipped for reduced-motion users and when IntersectionObserver
-	     is unavailable, so the content is never left hidden. -->
-	<script type="text/javascript">
-		(function () {
-			var reduced = window.matchMedia &&
-				window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-			if (reduced || !('IntersectionObserver' in window)) return;
-			document.body.classList.add('contact-anim-ready');
-		})();
-	</script>
+	<!-- The scroll-reveal is primed by the shared kci-reveal.js engine,
+	     included right after <body> with the page's data-reveal-*
+	     configuration (it must not run from <head>, where document.body
+	     does not exist yet). -->
 
 
 	<!-- inserting of icon link from cdjns -->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
-<body class="contact-page">
+<body class="contact-page"
+	data-reveal-ready="contact-anim-ready"
+	data-reveal-targets=".contact-info__item, .contact-form-card, .contact-form-card .contact-eyebrow, .contact-form-card__title, .contact-form-card__text, .contact-times, .contact-expect, .contact-cta__title, .contact-cta__text, .contact-cta .contact-btn, .kc118 .kc119"
+	data-reveal-margin="0px 0px -6% 0px"
+	data-reveal-safety="resize">
+	<!-- Shared reveal engine (kci-reveal.js): primes the scroll-reveal
+	     initial state before the first paint, then drives the single
+	     IntersectionObserver. -->
+	<script src="kci-reveal.js" defer></script>
+
 	<!--header-->
 	<?php include 'header.php'; ?>
 
@@ -160,7 +164,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 				<article class="contact-info__item">
 					<span class="contact-info__icon" aria-hidden="true"><i class="fa-solid fa-envelope"></i></span>
 					<h3>Email Us</h3>
-					<p><a href="mailto:dkcifamily@gmail.com">dkcifamily@gmail.com</a></p>
+					<p><a href="mailto:<?= contact_esc(CHURCH_EMAIL) ?>"><?= contact_esc(CHURCH_EMAIL) ?></a></p>
 				</article>
 				<article class="contact-info__item">
 					<span class="contact-info__icon" aria-hidden="true"><i class="fa-solid fa-location-dot"></i></span>
@@ -335,85 +339,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 			}
 		});
 	</script>
-	<script type="text/javascript">
-		// Contact page: lightweight IntersectionObserver scroll-reveal.
-		// Fully self-contained - it does NOT touch the mobile menu, the
-		// dropdowns, the header scroll code, or the contact form POST/
-		// validation/submission above. It only adds a reveal class.
-		(function () {
-			var page = document.querySelector('.contact-page');
-			if (!page) return;
-
-			// The pre-paint script (see top of <body>) only primes the page
-			// when motion is allowed and IntersectionObserver exists. If it
-			// was skipped, nothing is hidden and this can stop here.
-			if (!document.body.classList.contains('contact-anim-ready')) return;
-
-			var targets = page.querySelectorAll(
-				'.contact-info__item, ' +
-				'.contact-form-card, ' +
-				'.contact-form-card .contact-eyebrow, ' +
-				'.contact-form-card__title, ' +
-				'.contact-form-card__text, ' +
-				'.contact-times, ' +
-				'.contact-expect, ' +
-				'.contact-cta__title, ' +
-				'.contact-cta__text, ' +
-				'.contact-cta .contact-btn, ' +
-				'.kc118 .kc119'
-			);
-
-			if (!targets.length) return;
-
-			function reveal(element) {
-				if (element.classList.contains('is-visible')) return;
-				element.classList.add('is-visible');
-			}
-
-			// Safety net: nothing is ever left invisible. Anything already
-			// on screen after a layout change (an image, font or viewport
-			// resize shifting content) is revealed at once.
-			function revealInView() {
-				var viewport = window.innerHeight || document.documentElement.clientHeight;
-				targets.forEach(function (element) {
-					if (element.classList.contains('is-visible')) return;
-					var rect = element.getBoundingClientRect();
-					if (rect.width === 0 && rect.height === 0) return;
-					if (rect.top <= viewport * 0.94 && rect.bottom >= 0) reveal(element);
-				});
-			}
-
-			var observer;
-
-			try {
-				observer = new IntersectionObserver(function (entries) {
-					entries.forEach(function (entry) {
-						if (!entry.isIntersecting) return;
-						// Each element reveals once and is unobserved straight
-						// afterwards; the observer itself stays in use for the
-						// elements that have not arrived yet.
-						entry.target.classList.add('is-visible');
-						observer.unobserve(entry.target);
-					});
-				}, { threshold: 0.15, rootMargin: '0px 0px -6% 0px' });
-
-				targets.forEach(function (target) {
-					observer.observe(target);
-				});
-			} catch (error) {
-				// Never leave content hidden if anything goes wrong.
-				document.body.classList.remove('contact-anim-ready');
-				return;
-			}
-
-			// Same safety net for a viewport that changes after priming
-			// (rotating a phone, resizing a window).
-			var resizeTimer = null;
-			window.addEventListener('resize', function () {
-				if (resizeTimer) window.clearTimeout(resizeTimer);
-				resizeTimer = window.setTimeout(revealInView, 120);
-			});
-		})();
-	</script>
+	<!-- The scroll-reveal that used to live here now comes from the shared
+	     kci-reveal.js engine included right after <body> (see the
+	     data-reveal-* attributes on <body> for its configuration). -->
 </body>
 </html>

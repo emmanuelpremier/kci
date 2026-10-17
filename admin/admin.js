@@ -29,6 +29,31 @@
     if (ev.key === 'Escape') { setDrawer(false); setUserMenu(false); }
   });
 
+  // Close the drawer on scroll (mobile only) — mirrors kci_nav.js on the
+  // public site: remember the scroll position when the drawer opens and
+  // close it once the page scrolls more than 12px. Touches that start
+  // inside the sidebar (a tall drawer scrolling itself) are ignored.
+  var drawerOpenY = 0;
+  var drawerTouchTarget = null;
+  var sidebar = $('kci-sidebar');
+  var _setDrawer = setDrawer;
+  setDrawer = function (open) {
+    _setDrawer(open);
+    if (open) drawerOpenY = window.scrollY || 0;
+  };
+  window.addEventListener('scroll', function () {
+    if (window.innerWidth > 900) return;
+    if (!document.body || !document.body.classList.contains('is-drawer-open')) return;
+    var scrolledEnough = Math.abs((window.scrollY || 0) - drawerOpenY) > 12;
+    var startedTouchInside = drawerTouchTarget !== null && sidebar && sidebar.contains(drawerTouchTarget);
+    if (scrolledEnough && !startedTouchInside) setDrawer(false);
+  }, { passive: true });
+  if (sidebar) {
+    sidebar.addEventListener('touchstart', function (e) { drawerTouchTarget = e.target; }, { passive: true });
+    sidebar.addEventListener('touchend', function () { drawerTouchTarget = null; }, { passive: true });
+    sidebar.addEventListener('touchcancel', function () { drawerTouchTarget = null; }, { passive: true });
+  }
+
   // User dropdown menu.
   var userBtn = $('kci-user-btn');
   var userMenu = $('kci-user-menu');

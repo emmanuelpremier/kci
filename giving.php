@@ -12,6 +12,7 @@ session_start();
 include_once("kci_validate.php");
 include_once("kci_db.php");
 include_once("kci_settings.php");
+include_once("site_config.php");
 
 /* Bank account details — stored in site_settings and edited on
    admin/giving-settings.php; kci_giving_details() supplies the
@@ -25,7 +26,7 @@ $cardTheme = $giving['theme'];
 
 /* Contact details — edit here only; the page reads these. */
 $whatsappUrl = "https://wa.me/2348064979241";
-$churchEmail = "dkcifamily@gmail.com";
+$churchEmail = CHURCH_EMAIL;
 $churchPhone = "+234 806 497 9241";
 
 /* Grouped for display only ("9013 194 092"); copying uses raw digits. */
@@ -257,29 +258,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	<meta name="description" content="<?= giving_esc('Give to Kingdomite Church International — our ' . $bankName . ' account details and a simple form to confirm your tithe, offering, seed or gift.') ?>">
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap">
 	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-	<link rel="stylesheet" type="text/css" href="kci.css?v=21">
-	<link rel="stylesheet" type="text/css" href="mobilefix.css?v=1">
+	<link rel="stylesheet" type="text/css" href="kci.css?v=26">
+	<link rel="stylesheet" type="text/css" href="mobilefix.css?v=3">
 	<link rel="stylesheet" href="giving.css?v=2">
-	<link rel="stylesheet" type="text/css" href="mobile-header.css?v=1">
+	<link rel="stylesheet" type="text/css" href="mobile-header.css?v=3">
 	<link rel="icon" type="image/png" href="kci_image">
 	<title>Give | Kingdomite Church International</title>
 
 	<!-- inserting of icon link from cdjns -->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
-<body class="giving-page">
-	<!-- Giving page: prime the scroll-reveal initial state before the
-	     first paint. Skipped for reduced-motion users and when
-	     IntersectionObserver is unavailable, so content is never hidden. -->
-	<script type="text/javascript">
-		(function () {
-			var reduced = window.matchMedia &&
-				window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-			if (reduced || !('IntersectionObserver' in window)) return;
-			document.body.classList.add('giving-anim-ready');
-		})();
-	</script>
+<body class="giving-page"
+	data-reveal-ready="giving-anim-ready"
+	data-reveal-targets=".giving-reveal, .kc118 .kc119"
+	data-reveal-margin="0px 0px -6% 0px"
+	data-reveal-safety="load">
+	<!-- Shared reveal engine (kci-reveal.js): primes the scroll-reveal
+	     initial state before the first paint, then drives the single
+	     IntersectionObserver. -->
+	<script src="kci-reveal.js" defer></script>
 
 	<!--header-->
 	<?php include 'header.php'; ?>
@@ -587,49 +586,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 			}
 		});
 	</script>
-	<script type="text/javascript">
-		// Giving page: lightweight IntersectionObserver scroll-reveal.
-		// It only adds a reveal class and can never leave content
-		// hidden (validation-error reloads included).
-		(function () {
-			var page = document.querySelector('.giving-page');
-			if (!page) return;
-			if (!document.body.classList.contains('giving-anim-ready')) return;
-			var targets = page.querySelectorAll('.giving-reveal, .kc118 .kc119');
-			if (!targets.length) return;
-			function revealInView() {
-				var viewport = window.innerHeight || document.documentElement.clientHeight;
-				targets.forEach(function (element) {
-					if (element.classList.contains('is-visible')) return;
-					var rect = element.getBoundingClientRect();
-					if (rect.width === 0 && rect.height === 0) return;
-					if (rect.top <= viewport * 0.94 && rect.bottom >= 0) element.classList.add('is-visible');
-				});
-			}
-			var observer;
-			try {
-				observer = new IntersectionObserver(function (entries) {
-					entries.forEach(function (entry) {
-						if (!entry.isIntersecting) return;
-						entry.target.classList.add('is-visible');
-						observer.unobserve(entry.target);
-					});
-				}, { threshold: 0.15, rootMargin: '0px 0px -6% 0px' });
-				targets.forEach(function (target) {
-					observer.observe(target);
-				});
-				revealInView();
-			} catch (error) {
-				document.body.classList.remove('giving-anim-ready');
-				return;
-			}
-			var resizeTimer = null;
-			window.addEventListener('resize', function () {
-				if (resizeTimer) window.clearTimeout(resizeTimer);
-				resizeTimer = window.setTimeout(revealInView, 120);
-			});
-		})();
-	</script>
+	<!-- The scroll-reveal that used to live here now comes from the shared
+	     kci-reveal.js engine included right after <body> (see the
+	     data-reveal-* attributes on <body> for its configuration). -->
 	<script type="text/javascript">
 		// 3D card flip: tap/click plus keyboard (Enter/Space).
 		// Hover flip is handled in CSS on hover-capable devices only.

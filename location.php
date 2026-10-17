@@ -20,7 +20,8 @@ $mapEmbedUrl = "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1521.17478
 $directionsUrl = "https://www.google.com/maps/search/?api=1&query=" . urlencode($churchAddress);
 $whatsappUrl = "https://wa.me/2348064979241";
 $facebookUrl = "https://www.facebook.com/profile.php?id=100083099004068";
-$churchEmail = "dkcifamily@gmail.com";
+include_once("site_config.php"); /* CHURCH_EMAIL lives in site_config.php. */
+$churchEmail = CHURCH_EMAIL;
 $churchPhone = "+234 806 497 9241";
 
 function location_esc($value) {
@@ -35,29 +36,27 @@ function location_esc($value) {
 	<meta name="description" content="<?= location_esc('Find Kingdomite Church International — map, directions, service times and contact details for our Oyigbo, Rivers State location.') ?>">
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap">
 	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-	<link rel="stylesheet" type="text/css" href="kci.css?v=21">
-	<link rel="stylesheet" type="text/css" href="mobilefix.css?v=1">
+	<link rel="stylesheet" type="text/css" href="kci.css?v=26">
+	<link rel="stylesheet" type="text/css" href="mobilefix.css?v=3">
 	<link rel="stylesheet" href="location.css?v=1">
-	<link rel="stylesheet" type="text/css" href="mobile-header.css?v=1">
+	<link rel="stylesheet" type="text/css" href="mobile-header.css?v=3">
 	<link rel="icon" type="image/png" href="kci_image">
 	<title>Find Us | Kingdomite Church International</title>
 
 	<!-- inserting of icon link from cdjns -->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
-<body class="location-page">
-	<!-- Location page: prime the scroll-reveal initial state before the
-	     first paint. Skipped for reduced-motion users and when
-	     IntersectionObserver is unavailable, so content is never hidden. -->
-	<script type="text/javascript">
-		(function () {
-			var reduced = window.matchMedia &&
-				window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-			if (reduced || !('IntersectionObserver' in window)) return;
-			document.body.classList.add('location-anim-ready');
-		})();
-	</script>
+<body class="location-page"
+	data-reveal-ready="location-anim-ready"
+	data-reveal-targets=".location-reveal, .kc118 .kc119"
+	data-reveal-margin="0px 0px -6% 0px"
+	data-reveal-safety="resize">
+	<!-- Shared reveal engine (kci-reveal.js): primes the scroll-reveal
+	     initial state before the first paint, then drives the single
+	     IntersectionObserver. -->
+	<script src="kci-reveal.js" defer></script>
 
 	<!--header-->
 	<?php include 'header.php'; ?>
@@ -212,69 +211,9 @@ function location_esc($value) {
 			}
 		});
 	</script>
-	<script type="text/javascript">
-		// Location page: lightweight IntersectionObserver scroll-reveal.
-		// Fully self-contained - it does NOT touch the mobile menu, the
-		// dropdowns or the header scroll code above. It only adds a reveal
-		// class.
-		(function () {
-			var page = document.querySelector('.location-page');
-			if (!page) return;
-
-			// The pre-paint script (see top of <body>) only primes the page
-			// when motion is allowed and IntersectionObserver exists. If it
-			// was skipped, nothing is hidden and this can stop here.
-			if (!document.body.classList.contains('location-anim-ready')) return;
-
-			var targets = page.querySelectorAll('.location-reveal, .kc118 .kc119');
-
-			if (!targets.length) return;
-
-			// Safety net: nothing is ever left invisible. Anything already
-			// on screen after a layout change (an image, font or viewport
-			// resize shifting content) is revealed at once.
-			function revealInView() {
-				var viewport = window.innerHeight || document.documentElement.clientHeight;
-				targets.forEach(function (element) {
-					if (element.classList.contains('is-visible')) return;
-					var rect = element.getBoundingClientRect();
-					if (rect.width === 0 && rect.height === 0) return;
-					if (rect.top <= viewport * 0.94 && rect.bottom >= 0) element.classList.add('is-visible');
-				});
-			}
-
-			var observer;
-
-			try {
-				observer = new IntersectionObserver(function (entries) {
-					entries.forEach(function (entry) {
-						if (!entry.isIntersecting) return;
-						// Each element reveals once and is unobserved straight
-						// afterwards; the observer itself stays in use for the
-						// elements that have not arrived yet.
-						entry.target.classList.add('is-visible');
-						observer.unobserve(entry.target);
-					});
-				}, { threshold: 0.15, rootMargin: '0px 0px -6% 0px' });
-
-				targets.forEach(function (target) {
-					observer.observe(target);
-				});
-			} catch (error) {
-				// Never leave content hidden if anything goes wrong.
-				document.body.classList.remove('location-anim-ready');
-				return;
-			}
-
-			// Same safety net for a viewport that changes after priming
-			// (rotating a phone, resizing a window).
-			var resizeTimer = null;
-			window.addEventListener('resize', function () {
-				if (resizeTimer) window.clearTimeout(resizeTimer);
-				resizeTimer = window.setTimeout(revealInView, 120);
-			});
-		})();
-	</script>
+	<!-- The scroll-reveal that used to live here now comes from the shared
+	     kci-reveal.js engine included right after <body> (see the
+	     data-reveal-* attributes on <body> for its configuration). -->
 	<script type="text/javascript">
 		// "Copy Address": copy the church address to the clipboard and
 		// briefly confirm it on the button itself.

@@ -1,6 +1,7 @@
 html{
-	scroll-behavior: smooth;
-	overflow-x: hidden;
+	scroll-behavior: auto;
+	overflow-x: clip;
+	overflow-y: visible;
 }
 body{
 	margin: 0;
@@ -8,7 +9,8 @@ body{
 	font-family: 'Poppins', sans-serif;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
-	overflow-x: hidden;
+	overflow-x: clip;
+	overflow-y: visible;
 	width: 100%;
 }
 /* ===== PREMIUM HEADER ===== */
@@ -30,13 +32,12 @@ body{
 	backdrop-filter: blur(20px) saturate(180%);
 	-webkit-backdrop-filter: blur(20px) saturate(180%);
 	border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-	transition: background 0.4s ease, box-shadow 0.4s ease, height 0.3s ease;
+	transition: background 0.4s ease, box-shadow 0.4s ease;
 }
 .kc1.scrolled{
 	background: rgba(15, 15, 20, 0.92);
 	box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
 	border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-	height: 72px;
 }
 /* Logo */
 .kc2{
@@ -79,6 +80,12 @@ body{
 	height: 100%;
 	display: flex;
 	align-items: center;
+	/* Desktop dropdown width, border-box: min-width 220px content +
+	   1px border each side. Consumed by the desktop .dropdown rule and
+	   the .linec/.lined hover underline in the min-width:901px block,
+	   so the line and the box it sits above can never drift apart.
+	   Inert by itself on mobile (only defines the custom property). */
+	--dd-width: 222px;
 }
 .kc3 ul li a{
 	font-family: 'Poppins', sans-serif;
@@ -107,20 +114,20 @@ body{
 .line, .linea, .linec, .lined, .linee{
 	position: absolute;
 	bottom: 0;
-	left: 50%;
-	transform: translateX(-50%);
-	width: 0;
+	left: 0;
+	transform: scaleX(0);
 	height: 2px;
 	background: linear-gradient(90deg, #e8443d, #f07b3e);
-	transition: width 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+	transition: transform 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
 	border-radius: 2px;
 	pointer-events: none;
+	transform-origin: left;
 }
-.kc3 ul li:hover .line{ width: 32px; }
-.kc3 ul li:hover .linea{ width: 36px; }
-.kc3 ul li:hover .linec{ width: 52px; }
-.kc3 ul li:hover .lined{ width: 70px; }
-.kc3 ul li:hover .linee{ width: 48px; }
+.kc3 ul li:hover .line{ transform: scaleX(1); width: 32px; }
+.kc3 ul li:hover .linea{ transform: scaleX(1); width: 36px; }
+.kc3 ul li:hover .linec{ transform: scaleX(1); width: 52px; }
+.kc3 ul li:hover .lined{ transform: scaleX(1); width: 70px; }
+.kc3 ul li:hover .linee{ transform: scaleX(1); width: 48px; }
 /* Dropdown — with hover bridge to prevent flicker */
 .kc3 ul li .dropdown{
 	display: block;
@@ -167,12 +174,12 @@ body{
 	font-size: 12.5px;
 	font-weight: 400;
 	color: rgba(255, 255, 255, 0.75);
-	transition: color 0.25s ease, background 0.25s ease, padding-left 0.25s ease;
+	transition: color 0.25s ease, background 0.25s ease, transform 0.25s ease;
 }
 .kc3 ul li .dropdown li a:hover{
 	color: #fff;
 	background: rgba(255, 255, 255, 0.04);
-	padding-left: 26px;
+	transform: translateX(4px);
 }
 /* Give Button - Premium Gradient */
 .kc4{
@@ -970,16 +977,16 @@ body{
 	position: absolute;
 	top: 0;
 	right: 0;
-	width: 0;
+	width: 150%;
 	height: 100%;
 	background-color: white;
-	transform: skewX(35deg);
+	transform: skewX(35deg) scaleX(0);
 	transform-origin: top right;
-	transition: width 0.4s ease;
+	transition: transform 0.4s ease;
 	z-index: -1;
 }
 .fb-link:hover .kc34::before{
-	width: 150%;
+	transform: skewX(35deg) scaleX(1);
 	right: -25%;
 }
 .fb-link:hover .kc36{
@@ -1214,9 +1221,6 @@ body{
 	.kc3 ul li.open > ul {
 		display: block;
 	}
-	.kc3 ul li:hover ul {
-		transform: none;
-	}
 	.menu-toggle {
 		display: block;
 	}
@@ -1267,42 +1271,12 @@ body{
 	}
 }
 
-<script>
-	const menuToggle = document.querySelector('.menu-toggle');
-	const nav = document.querySelector('.kc3');
-
-	if (menuToggle && nav) {
-		menuToggle.addEventListener('click', function () {
-			const isOpen = nav.classList.toggle('open');
-			menuToggle.classList.toggle('active', isOpen);
-			menuToggle.setAttribute('aria-expanded', String(isOpen));
-		});
-	}
-
-	if (window.innerWidth <= 1024) {
-		document.querySelectorAll('.kc3 li').forEach(function (item) {
-			const submenu = item.querySelector('ul');
-			if (!submenu) return;
-
-			item.addEventListener('click', function (event) {
-				if (window.innerWidth <= 1024) {
-					event.preventDefault();
-					item.classList.toggle('open');
-				}
-			});
-		});
-	}
-</script>
-
-
-
-
 	/* About Us Page styling */
 .kc42{
 	box-sizing: border-box;
 	border: red solid 1px;
 	width: 100%;
-	margin-top: 10px;
+	margin-top: 0; /* was 10px — pushed the About hero below the fixed header; Home's .kc5 starts at the very top, behind the header */
 	padding-top: 40px;
 	background: url("kci_image/img14.webp");
 	background-size: cover;
@@ -2366,6 +2340,9 @@ body{
 }
 .kc118 .kc120 .kc122 img{
 	width: 100%;
+	height: 100%;
+	object-fit: contain;
+	display: block;
 }
 .kc118 .kc120 .kc123{
 	display: flex;
@@ -2440,6 +2417,25 @@ body{
 /** Mobile Responsiveness **/
 /* Premium Header Mobile */
 @media (max-width: 900px){
+	/* The mobile drawer opens ONLY by tapping the chevron (.dropdown-open,
+	   toggled by the inline page script). Neutralise the desktop hover rules
+	   so a touch-triggered :hover can never open a submenu or rotate a
+	   chevron. These sit BEFORE the .dropdown-open rules below, so when a
+	   tap sets both :hover and .dropdown-open the open state (same
+	   specificity, later in the file) still wins and the menu stays open. */
+	.kc3 ul li:hover > a .arrow{
+		transform: none;
+	}
+	.kc3 ul li:hover .dropdown{
+		opacity: 0;
+		visibility: hidden;
+		max-height: 0;
+		padding: 0;
+		pointer-events: none;
+	}
+	.kc3 ul li .dropdown::before{
+		display: none; /* desktop hover-bridge only; it blocks taps on touch */
+	}
 	.about-page .kc3 > ul > li:nth-child(3) > a .arrow,
 	.about-page .kc3 > ul > li.linef > a .arrow,
 	.home-page .kc3 > ul > li:nth-child(3) > a .arrow,
@@ -2462,27 +2458,36 @@ body{
 		display: flex;
 	}
 	.kc3{
+		display: block; /* always laid out; slides off-screen (not display:none) so it can animate */
 		position: fixed;
 		top: 0;
-		right: -100%;
+		right: 0; /* anchored to the RIGHT edge so the drawer slides in from the right */
+		left: auto;
 		width: 300px;
 		max-width: 80vw;
 		height: 100vh;
 		background: rgba(15, 15, 20, 0.98);
 		backdrop-filter: blur(30px);
 		-webkit-backdrop-filter: blur(30px);
-		transition: right 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+		transition: transform 0.22s cubic-bezier(0.22, 1, 0.36, 1); /* same timing & easing as the admin drawer (admin.css --dur/--ease) */
+		transform: translateX(105%); /* parked off-screen to the RIGHT */
 		padding: 100px 0 40px;
 		z-index: 999;
 		border-left: 1px solid rgba(255, 255, 255, 0.06);
+		overflow-x: hidden;
+		overflow-y: auto;
+		-webkit-overflow-scrolling: touch;
 	}
 	.kc3.open{
-		right: 0;
+		transform: translateX(0);
 	}
 	.kc3 ul{
 		flex-direction: column;
 		height: auto;
 		align-items: stretch;
+		background: transparent; /* the drawer already provides the backdrop */
+		border-radius: 0;
+		overflow: visible;
 	}
 	.kc3 ul li{
 		padding: 0;
@@ -2497,6 +2502,7 @@ body{
 		padding: 14px 30px;
 		font-size: 14px;
 		width: 100%;
+		box-sizing: border-box; /* include the 30px side padding so links never overflow the drawer */
 	}
 	/* Align the active underline with the mobile link text. */
 	.kc3 > ul > li > .line,
@@ -2507,28 +2513,45 @@ body{
 		left: 30px;
 		transform: none;
 	}
+	/* Closed: the submenu collapses to ZERO height. max-height (not
+	   scaleY — a scaled element still occupies its full layout height,
+	   which used to leave a big empty gap under Events and push
+	   Ministries far down the drawer). Links are hidden and untappable. */
 	.kc3 ul li .dropdown{
+		display: block;
 		position: static;
 		transform: none;
 		box-shadow: none;
 		border: none;
 		border-radius: 0;
 		background: rgba(255, 255, 255, 0.03);
-		max-height: 0;
+		opacity: 0;
+		visibility: hidden;
+		pointer-events: none;
 		overflow: hidden;
+		max-height: 0;
+		padding: 0;
+		margin-top: 0;
+		transition: opacity 0.3s ease, max-height 0.3s ease, padding 0.3s ease, visibility 0.3s;
+	}
+	/* Open (chevron tap only — never hover): real, visible, tappable
+	   links listed directly under their parent with normal spacing.
+	   1000px is taller than any submenu (max 10 ministry links), so
+	   nothing is clipped; the drawer itself scrolls. */
+	.kc3 ul li.dropdown-open .dropdown{
 		opacity: 1;
 		visibility: visible;
-		transition: max-height 0.3s ease;
-	}
-	.kc3 ul li.dropdown-open .dropdown{
-		max-height: 300px;
+		pointer-events: auto;
+		max-height: 1000px;
+		padding: 8px 0;
 	}
 	.kc3 ul li .dropdown li a{
 		padding-left: 50px;
 		font-size: 12.5px;
+		transition: transform 0.2s ease;
 	}
 	.kc3 ul li .dropdown li a:hover{
-		padding-left: 54px;
+		transform: translateX(4px);
 	}
 	.kc4{
 		margin-left: auto;
@@ -6939,7 +6962,7 @@ body{
 /* --- 5. Responsive ----------------------------------------- */
 
 /* The four info cards only stay on one row while there is room for the
-   longest value (dkcifamily@gmail.com) to sit
+   longest value (emmanuelpremier662@gmail.com) to sit
    on a single line; below that they fall back to two columns instead of
    breaking the address apart. Each card therefore needs roughly 1240px of
    viewport before the address still has a comfortable margin, and 1240px
@@ -9325,5 +9348,212 @@ body{
 		            background .25s ease, color .25s ease,
 		            border-color .25s ease;
 		transition-delay: 0s;
+	}
+}
+
+/* ============================================================
+   HOME PAGE — ENTRANCE & SCROLL REVEAL ANIMATIONS
+   (index.php only)
+   ------------------------------------------------------------
+   Same system as About / Events / Event Detail / Contact /
+   First-Timer / Giving / Location / Ministries / Quotes /
+   Serve: the shared kci-reveal.js (included right after <body>)
+   adds .home-anim-ready before the first paint and adds
+   .is-visible to every target through one IntersectionObserver.
+   Both classes are required for anything to be hidden, so
+   reduced-motion visitors, browsers without IntersectionObserver
+   and no-JS visitors simply never get the hidden starting state.
+
+   The hero (.kc5) uses keyframes (not transitions) so it always
+   plays on load with a staggered rise, exactly like the heroes
+   on the other pages. Only opacity plus the independent
+   `translate` property is animated (never `transform`), so the
+   existing :hover lifts on the quote cards (.kc14-.kc17), the
+   welcome cards (.kc11/.kc12) and the pastor social links keep
+   working exactly as before. Timing matches the rest of the
+   site: a 12-24px rise over .7-.8s on cubic-bezier(.22, 1,
+   .36, 1). The footer keeps the shared 14px / .7s beat used by
+   About, Contact and Form.
+
+   The reveal rules below deliberately repeat each card's own
+   hover transition list with 0s delays and use selectors that
+   outrank the phone-only `transition` shorthand in
+   mobilefix.css, which used to wipe the reveal transition (and
+   its stagger) off the quote cards at <=900px.
+   ================================================================ */
+
+/* --- 1. Hero (.kc5): welcoming page-load stagger ------------- */
+/* Keyframes so the hero always animates on load; `backwards`
+   fill holds each line at its start state during its delay and
+   releases it once the animation has finished. */
+@keyframes home-hero-rise{
+	from{ opacity: 0; translate: 0 24px; }
+	to{ opacity: 1; translate: none; }
+}
+.home-page .kc5 > *{
+	animation: home-hero-rise .8s cubic-bezier(.22, 1, .36, 1) backwards;
+}
+.home-page .kc5 > *:nth-child(1){ animation-delay: .10s; }
+.home-page .kc5 > *:nth-child(2){ animation-delay: .24s; }
+.home-page .kc5 > *:nth-child(3){ animation-delay: .38s; }
+
+/* --- Shared "before reveal" state (scroll sections) ---------- */
+.home-page.home-anim-ready .home-reveal{
+	opacity: 0;
+	translate: 0 24px;
+	transition:
+		opacity .75s cubic-bezier(.22, 1, .36, 1),
+		translate .75s cubic-bezier(.22, 1, .36, 1);
+	transition-delay: var(--home-reveal-delay, 0s);
+}
+
+/* --- Revealed state (JS adds .is-visible when scrolled in) --- */
+.home-page.home-anim-ready .home-reveal.is-visible{
+	opacity: 1;
+	translate: none;
+}
+
+/* --- 2. Welcome block (.kc6): heading ladders in, copy after - */
+/* The .kc7 container only drifts up as a whole; the icon, the
+   small "WELCOME" label and the "TO THE FAMILY!" heading fade
+   in one after another, exactly like the section headings on
+   About / Contact / Ministries. */
+.home-page.home-anim-ready .kc6 .kc7.home-reveal{
+	opacity: 1;
+	translate: 0 14px;
+	transition: translate .75s cubic-bezier(.22, 1, .36, 1);
+}
+.home-page.home-anim-ready .kc6 .kc7.home-reveal.is-visible{
+	translate: none;
+}
+.home-page.home-anim-ready .kc6 .kc7.home-reveal:not(.is-visible) .kc9 > *{
+	opacity: 0;
+	translate: 0 18px;
+}
+.home-page.home-anim-ready .kc6 .kc7.home-reveal .kc9 > *{
+	transition:
+		opacity .7s cubic-bezier(.22, 1, .36, 1),
+		translate .7s cubic-bezier(.22, 1, .36, 1);
+	transition-delay: var(--home-reveal-delay, 0s);
+}
+.home-page.home-anim-ready .kc6 .kc7.home-reveal.is-visible .kc9 > *{
+	opacity: 1;
+	translate: none;
+}
+.home-page.home-anim-ready .kc6 .kc7.home-reveal .kc9 > *:nth-child(1){ --home-reveal-delay: 0s; }
+.home-page.home-anim-ready .kc6 .kc7.home-reveal .kc9 > *:nth-child(2){ --home-reveal-delay: .10s; }
+.home-page.home-anim-ready .kc6 .kc7.home-reveal .kc9 > *:nth-child(3){ --home-reveal-delay: .20s; }
+
+/* --- 3. Welcome cards (.kc11/.kc12): left to right ----------- */
+/* The cards repeat their own hover transition list (lift +
+   shadow + border) with 0s delays, so only opacity/translate
+   are staggered and the hover lift is never slowed down. */
+.home-page.home-anim-ready .kc10 .kc11.home-reveal,
+.home-page.home-anim-ready .kc10 .kc12.home-reveal{
+	transition:
+		transform .3s ease,
+		box-shadow .3s ease,
+		border-color .3s ease,
+		opacity .75s cubic-bezier(.22, 1, .36, 1),
+		translate .75s cubic-bezier(.22, 1, .36, 1);
+	transition-delay: 0s, 0s, 0s, var(--home-reveal-delay, 0s), var(--home-reveal-delay, 0s);
+}
+
+/* --- 4. Quote cards (.kc14-.kc17): staggered cascade --------- */
+/* Same trick: the cards repeat their hover transition list
+   (the image zoom lives on the img itself) with 0s delays, and
+   the selector outranks the phone-only `transition` shorthand
+   in mobilefix.css so the reveal and its stagger keep working
+   at every width. */
+.home-page.home-anim-ready .kc13 .kc14.home-reveal,
+.home-page.home-anim-ready .kc13 .kc15.home-reveal,
+.home-page.home-anim-ready .kc13 .kc16.home-reveal,
+.home-page.home-anim-ready .kc13 .kc17.home-reveal{
+	transition:
+		transform .35s cubic-bezier(.22, 1, .36, 1),
+		box-shadow .35s ease,
+		opacity .75s cubic-bezier(.22, 1, .36, 1),
+		translate .75s cubic-bezier(.22, 1, .36, 1);
+	transition-delay: 0s, 0s, var(--home-reveal-delay, 0s), var(--home-reveal-delay, 0s);
+}
+
+/* --- Stagger: headings, cards, pastor columns, testimony ----- */
+.home-page.home-anim-ready .kc6 .kc8{ --home-reveal-delay: .30s; }
+.home-page.home-anim-ready .kc13 .kc18{ --home-reveal-delay: 0s; }
+.home-page.home-anim-ready .kc13 .kc14{ --home-reveal-delay: .10s; }
+.home-page.home-anim-ready .kc13 .kc15{ --home-reveal-delay: .18s; }
+.home-page.home-anim-ready .kc13 .kc16{ --home-reveal-delay: .26s; }
+.home-page.home-anim-ready .kc13 .kc17{ --home-reveal-delay: .34s; }
+.home-page.home-anim-ready .kc13 .kc20{ --home-reveal-delay: .42s; }
+.home-page.home-anim-ready .kc22 .kc23{ --home-reveal-delay: 0s; }
+.home-page.home-anim-ready .kc22 .kc24{ --home-reveal-delay: .12s; }
+.home-page.home-anim-ready .kc30 .kc31{ --home-reveal-delay: 0s; }
+.home-page.home-anim-ready .kc30 .testimoney{ --home-reveal-delay: .12s; }
+
+/* --- Footer (.kc118 .kc119): the shared 14px / .7s beat ----- */
+.home-page.home-anim-ready .kc118 .kc119{
+	opacity: 0;
+	translate: 0 14px;
+	transition:
+		opacity .7s cubic-bezier(.22, 1, .36, 1),
+		translate .7s cubic-bezier(.22, 1, .36, 1);
+}
+.home-page.home-anim-ready .kc118 .kc119.is-visible{
+	opacity: 1;
+	translate: none;
+}
+
+/* --- Reduced motion: show everything, animate nothing -------- */
+@media (prefers-reduced-motion: reduce){
+	.home-page .kc5 > *{
+		animation: none;
+	}
+	.home-page.home-anim-ready .home-reveal,
+	.home-page.home-anim-ready .kc6 .kc7.home-reveal .kc9 > *,
+	.home-page.home-anim-ready .kc118 .kc119{
+		opacity: 1;
+		translate: none;
+		transition: none;
+	}
+}
+
+/* Desktop scroll perf (speed-optimization follow-up): fixed-attachment
+   heroes force a full repaint on every scroll tick on desktop, which
+   reads as hang/lag. Use scroll on desktop (mobile already uses
+   scroll). Placed last so it beats the base hero rules above. */
+@media (min-width: 901px){
+	.kc5,
+	.kc42,
+	.event-hero{
+		background-attachment: scroll;
+	}
+}
+
+/* Desktop nav underline sizing (approved fix): the hover underline
+   now sizes to the item instead of a hard-coded width. Dropdown
+   parents (Events, Ministries) underline exactly the .dropdown box
+   below them: one shared --dd-width (defined on .kc3 ul li) drives
+   both the desktop .dropdown width (border-box) and the underline
+   width, and both start at left:0, so line and dropdown end at the
+   same point. Plain links (Home, About, Contact) underline just the
+   text (left:18px; right:18px — the li's 0 18px padding), sized by
+   width:auto + left/right. Desktop only (>900px), so the
+   max-width:900px mobile underline rules are untouched. */
+@media (min-width: 901px){
+	.kc3 ul li .dropdown{
+		box-sizing: border-box;
+		width: var(--dd-width);
+	}
+	.kc3 ul li:hover .linec,
+	.kc3 ul li:hover .lined{
+		width: var(--dd-width);
+		left: 0;
+	}
+	.kc3 ul li:hover .line,
+	.kc3 ul li:hover .linea,
+	.kc3 ul li:hover .linee{
+		width: auto;
+		left: 18px;
+		right: 18px;
 	}
 }

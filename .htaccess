@@ -1,0 +1,32 @@
+# KCI — Apache performance config
+# Compression + long-term browser caching for static assets
+
+# Enable compression
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/css text/javascript application/javascript application/x-javascript text/plain text/xml image/svg+xml
+    <IfModule mod_setenvif.c>
+        # Netscape 4.x has problems
+        BrowserMatch ^Mozilla/4 gzip-only-text/html
+        BrowserMatch ^Mozilla/4\.0[678] no-gzip
+        BrowserMatch \bMSIE !no-gzip !gzip-only-text/html
+    </IfModule>
+</IfModule>
+
+<IfModule mod_headers.c>
+    # Long-term cache for static assets (1 year). Files use ?v= query strings
+    # so changing the version forces a re-fetch.
+    <FilesMatch "\.(css|js|woff2|woff|ttf|eot|ico|gif|png|jpe?g|webp)$">
+        Header set Cache-Control "public, max-age=31536000, immutable"
+        Header set X-Content-Type-Options "nosniff"
+    </FilesMatch>
+
+    # HTML: short cache, must revalidate
+    <FilesMatch "\.(html|php)$">
+        Header set Cache-Control "public, max-age=0, must-revalidate"
+    </FilesMatch>
+</IfModule>
+
+# Brotli via mod_brotli (if available)
+<IfModule mod_brotli.c>
+    AddOutputFilterByType BR text/html text/css text/javascript application/javascript application/x-javascript text/plain text/xml image/svg+xml
+</IfModule>

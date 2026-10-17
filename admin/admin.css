@@ -753,6 +753,20 @@ table.kci-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; mi
     .kci-hamburger { display: inline-flex; }
     .kci-content { padding: 20px 16px; }
     .kci-user__name { display: none; }
+    /* Sticky topbar on mobile: position:sticky (base .kci-topbar rule) is
+       broken by the html/body overflow-x:hidden rule below, so — like the
+       public-site mobile header — the topbar is fixed and body padding-top
+       reserves its height so content keeps its position. Solid background
+       so page content does not ghost through while scrolling under it.
+       z-index stays below the overlay (60) and sidebar (70). */
+    .kci-topbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        background: #fff;
+    }
+    body.kci-admin { padding-top: var(--topbar-h); }
 }
 
 @media (max-width: 560px) {
@@ -1386,6 +1400,44 @@ table.kci-table.kci-event__table { min-width: 0; }
     .kci-event__title, .kci-event__loc { max-width: none; white-space: normal; }
 }
 
+/* ---------- Ministries module (ministries.php) ---------- */
+/* Ministry table: picture (or icon circle) + name cell with an application
+   count subline, truncated category/meeting, compact vertical actions.
+   Mirrors the Events table so both admin list pages share the same look.
+   Fits the content width at 1366px and 1100px; horizontal scroll returns
+   below 1100px; stacked cards at 900px and below. */
+table.kci-table.kci-min__table { min-width: 0; }
+.kci-min__table th, .kci-min__table td { padding: 8px 10px; vertical-align: middle; }
+.kci-min__cell { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.kci-min__thumb { width: 52px; height: 52px; border-radius: 10px; object-fit: cover; border: 1px solid var(--line-strong); background: var(--bg); flex: none; }
+.kci-min__iconcircle { flex: none; width: 52px; height: 52px; border-radius: 10px; display: inline-flex; align-items: center; justify-content: center; background: linear-gradient(135deg, var(--violet-700), var(--violet-500)); color: #fff; font-size: 1.25rem; }
+.kci-min__meta { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.kci-min__title { display: block; max-width: 260px; font-weight: 600; color: var(--navy-900); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.kci-min__apps { font-size: 0.78rem; }
+.kci-min__cat { display: inline-block; max-width: 150px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; vertical-align: bottom; }
+.kci-min__meeting { display: inline-block; max-width: 160px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; vertical-align: bottom; }
+.kci-min__table td[data-label="Meeting"] { white-space: normal; overflow-wrap: anywhere; min-width: 90px; }
+.kci-min__table td[data-label="Actions"] { min-width: 130px; }
+.kci-min__actions { flex-direction: column; align-items: stretch; gap: 6px; }
+.kci-min__actions .kci-serve__form { display: block; }
+.kci-min__actions .kci-pillbtn { justify-content: center; width: 100%; }
+.kci-tablewrap.kci-min__wrap { overflow-x: visible; }
+@media (max-width: 1099px) {
+    .kci-tablewrap.kci-min__wrap { overflow-x: auto; }
+    table.kci-table.kci-min__table { min-width: 820px; }
+    .kci-min__title { max-width: 220px; }
+}
+@media (max-width: 900px) {
+    .kci-min__wrap { border: 0; background: transparent; overflow: visible; }
+    .kci-min__table { display: block; min-width: 0; }
+    .kci-min__table thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+    .kci-min__table tbody { display: grid; gap: 14px; }
+    .kci-min__table tbody tr { display: grid; gap: 10px; background: #fff; border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow-sm); padding: 16px; }
+    .kci-min__table td { display: block; padding: 0; border-bottom: 0; text-align: left; }
+    .kci-min__table td::before { content: attr(data-label); display: block; margin-bottom: 3px; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-faint); }
+    .kci-min__title, .kci-min__cat, .kci-min__meeting { max-width: none; white-space: normal; }
+}
+
 /* Picture picker (shared includes/image_picker.php): preview thumb +
    remove checkbox. */
 .kci-imagepick__preview { display: block; width: 160px; height: 110px; object-fit: cover; border-radius: 12px; border: 1px solid var(--line-strong); background: var(--bg); margin-bottom: 10px; }
@@ -1404,5 +1456,51 @@ table.kci-table.kci-event__table { min-width: 0; }
 .kci-eventprev__body h3 { margin: 0 0 6px; color: var(--navy-900); font-size: 1rem; }
 .kci-eventprev__date { margin: 0 0 8px; color: var(--violet-700); font-size: 0.82rem; font-weight: 700; }
 .kci-eventprev__body p:last-child { margin: 0; color: var(--ink-soft); font-size: 0.86rem; line-height: 1.5; }
+
+/* ===== Mobile record cards: Serve, Confirmations, Messages, Events and
+   Ministries list pages ===== */
+/* Scoped to the existing stacked-card breakpoint (900px) and only to the
+   five list tables. Two corrections:
+   (1) The 1099px tier's `table.kci-table.kci-…__table { min-width: 860/820px }`
+   rules out-specify the card-mode `min-width: 0` rules, so cards stayed
+   820-860px wide on phones (horizontal scrolling, left-crowded content).
+   These higher-specificity / later rules restore a viewport-fitting width.
+   (2) Row action pills were sized for the ~130px desktop Actions column
+   (stacked, width: 100%), which stretched them into full-width bars inside
+   the full-width mobile card. On phones they wrap neatly and stay compact
+   and content-sized.
+   first-timers.php (kci-ftlist__table) shares the base classes and is
+   explicitly excluded so its mobile layout is unchanged. Desktop and the
+   901-1099px horizontal-scroll tier are untouched. */
+@media (max-width: 900px) {
+    table.kci-table.kci-serve__table:not(.kci-ftlist__table),
+    table.kci-table.kci-giveconf__table,
+    table.kci-table.kci-event__table,
+    table.kci-table.kci-min__table { min-width: 0; }
+
+    /* Long values (emails, message excerpts, locations, meeting notes)
+       wrap safely inside the card instead of overflowing it. */
+    table.kci-table.kci-serve__table:not(.kci-ftlist__table) tbody td,
+    table.kci-table.kci-giveconf__table tbody td,
+    table.kci-table.kci-event__table tbody td,
+    table.kci-table.kci-min__table tbody td { overflow-wrap: anywhere; }
+
+    /* Contact icon rows wrap instead of pushing the card wider. */
+    table.kci-table.kci-serve__table:not(.kci-ftlist__table) .kci-serve__contact { flex-wrap: wrap; }
+
+    /* Compact, content-sized action pills in a wrapping row. Overrides the
+       desktop column/stretch + width:100% rules for these five pages only. */
+    table.kci-table.kci-serve__table:not(.kci-ftlist__table) td[data-label="Actions"] .kci-serve__rowactions {
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 6px;
+    }
+    table.kci-table.kci-serve__table:not(.kci-ftlist__table) td[data-label="Actions"] .kci-pillbtn {
+        width: auto;
+        padding: 8px 13px;
+    }
+}
+
 
 

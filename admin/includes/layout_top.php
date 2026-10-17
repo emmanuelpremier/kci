@@ -67,6 +67,27 @@ try {
 } catch (Throwable $ignored) {
     $__givingPending = 0;
 }
+
+/* Unread contact messages for the Messages badge (0 on any failure). */
+$__messagesUnread = 0;
+try {
+    if (isset($conn) && $conn instanceof mysqli) {
+        $__messagesStmt = $conn->prepare('SELECT COUNT(*) AS c FROM contact_messages WHERE is_read = ?');
+        if ($__messagesStmt !== false) {
+            $__messagesUnreadWanted = 0;
+            $__messagesStmt->bind_param('i', $__messagesUnreadWanted);
+            $__messagesStmt->execute();
+            $__messagesRes = $__messagesStmt->get_result();
+            $__messagesRow = ($__messagesRes !== false) ? $__messagesRes->fetch_assoc() : null;
+            if (is_array($__messagesRow) && isset($__messagesRow['c'])) {
+                $__messagesUnread = max(0, (int)$__messagesRow['c']);
+            }
+            $__messagesStmt->close();
+        }
+    }
+} catch (Throwable $ignored) {
+    $__messagesUnread = 0;
+}
 ?><!DOCTYPE html>
 <html lang="en">
 <head>
@@ -77,7 +98,7 @@ try {
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer">
-<link rel="stylesheet" href="admin.css?v=12">
+<link rel="stylesheet" href="admin.css?v=14">
 </head>
 <body class="kci-admin">
 <div class="kci-overlay" id="kci-overlay" hidden></div>
@@ -119,6 +140,8 @@ try {
 <span class="kci-nav__badge" title="<?php echo (int)$__servePending; ?> pending application<?php echo ((int)$__servePending === 1) ? '' : 's'; ?>"><?php echo (int)$__servePending; ?></span>
 <?php elseif ((string)$__navItem['key'] === 'confirmations'): ?>
 <span class="kci-nav__badge" title="<?php echo (int)$__givingPending; ?> pending confirmation<?php echo ((int)$__givingPending === 1) ? '' : 's'; ?>"><?php echo (int)$__givingPending; ?></span>
+<?php elseif ((string)$__navItem['key'] === 'messages' && $__messagesUnread > 0): ?>
+<span class="kci-nav__badge" title="<?php echo (int)$__messagesUnread; ?> unread message<?php echo ((int)$__messagesUnread === 1) ? '' : 's'; ?>"><?php echo (int)$__messagesUnread; ?></span>
 <?php endif; ?>
 </a>
 <?php else: ?>
@@ -157,4 +180,4 @@ try {
 <?php if (is_array($__flash) && isset($__flash['message'])): ?>
 <p class="kci-flash kci-flash--<?php echo e(isset($__flash['type']) ? $__flash['type'] : 'info'); ?>" role="status"><?php echo e($__flash['message']); ?></p>
 <?php endif; ?>
-<?php unset($__nav, $__script, $__title, $__display, $__initials, $__flash, $__navItems, $__navItem, $__navFile, $__navKey, $__navExists, $__navActive, $__servePending, $__serveStmt, $__serveRes, $__serveRow, $__serveWanted, $__givingPending, $__givingStmt, $__givingRes, $__givingRow, $__givingWanted); ?>
+<?php unset($__nav, $__script, $__title, $__display, $__initials, $__flash, $__navItems, $__navItem, $__navFile, $__navKey, $__navExists, $__navActive, $__servePending, $__serveStmt, $__serveRes, $__serveRow, $__serveWanted, $__givingPending, $__givingStmt, $__givingRes, $__givingRow, $__givingWanted, $__messagesUnread, $__messagesStmt, $__messagesRes, $__messagesRow, $__messagesUnreadWanted); ?>

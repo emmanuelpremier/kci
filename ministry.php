@@ -74,28 +74,25 @@ if ($slug !== '' && !$isActive) {
 	<meta name="description" content="<?= $isActive ? ministry_esc($ministry['name']) . ' ministry' : 'Ministry' ?> at Kingdomite Church International">
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap">
 	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-	<link rel="stylesheet" type="text/css" href="kci.css?v=12">
-	<link rel="stylesheet" type="text/css" href="mobilefix.css?v=1">
-	<link rel="stylesheet" type="text/css" href="mobile-header.css?v=1">
+	<link rel="stylesheet" type="text/css" href="kci.css?v=26">
+	<link rel="stylesheet" type="text/css" href="mobilefix.css?v=3">
+	<link rel="stylesheet" type="text/css" href="mobile-header.css?v=3">
 	<link rel="icon" type="image/png" href="kci_image">
 	<title><?= $isActive ? ministry_esc($ministry['name']) : ministry_esc($errorTitle) ?> | Kingdomite Church International</title>
 
 	<!-- inserting of icon link from cdjns -->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
-<body class="ministry-page">
-	<!-- Prime the reveal initial state before the first paint. Skipped for
-	     reduced-motion users and when IntersectionObserver is unavailable,
-	     so content is never left hidden. -->
-	<script type="text/javascript">
-		(function () {
-			var reduced = window.matchMedia &&
-				window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-			if (reduced || !('IntersectionObserver' in window)) return;
-			document.body.classList.add('ministry-anim-ready');
-		})();
-	</script>
+<body class="ministry-page"
+	data-reveal-ready="ministry-anim-ready"
+	data-reveal-targets=".ministry-page .ministry-hero__inner.ministry-reveal, .ministry-page .ministry-media.ministry-reveal, .ministry-page .ministry-content.ministry-reveal, .ministry-page .ministry-error__card.ministry-reveal, .ministry-page .kc118 .kc119"
+	data-reveal-safety="load"
+	data-reveal-margin="0px 0px -8% 0px">
+	<!-- Shared reveal engine (kci-reveal.js): primes the reveal initial state
+	     before the first paint, then drives the single IntersectionObserver. -->
+	<script src="kci-reveal.js" defer></script>
 	<!--header-->
 	<?php include 'header.php'; ?>
 
@@ -126,7 +123,7 @@ if ($slug !== '' && !$isActive) {
 					<?php if ($hasImage): ?>
 					<img src="<?= ministry_esc($ministry['image']) ?>"
 					     alt="<?= ministry_esc($ministry['name']) ?>"
-					     data-ministry-detail-img>
+					     width="800" height="600" loading="eager" decoding="async" data-ministry-detail-img>
 					<?php else: ?>
 					<span class="ministry-media__fallback" aria-hidden="true">
 						<i class="<?= !empty($ministry['icon']) ? ministry_esc($ministry['icon']) : 'fa-solid fa-church' ?>"></i>
@@ -241,42 +238,28 @@ if ($slug !== '' && !$isActive) {
 		})();
 	</script>
 	<script type="text/javascript">
-		// Ministry page: lightweight IntersectionObserver scroll reveal.
-		// Self-contained — it does not touch the mobile menu, dropdown or
-		// header scroll code above.
-		(function () {
+		// Reveal safety net: reveal any already-visible reveal target still hidden after 2 seconds.
+		window.setTimeout(function () {
 			var body = document.body;
-			if (!body || !body.classList.contains('ministry-anim-ready')) return;
-
-			var targets = document.querySelectorAll(
-				'.ministry-page .ministry-hero__inner.ministry-reveal, ' +
-				'.ministry-page .ministry-media.ministry-reveal, ' +
-				'.ministry-page .ministry-content.ministry-reveal, ' +
-				'.ministry-page .ministry-error__card.ministry-reveal, ' +
-				'.ministry-page .kc118 .kc119'
-			);
-
-			if (!targets.length) return;
-
-			try {
-				var observer = new IntersectionObserver(function (entries) {
-					entries.forEach(function (entry) {
-						if (entry.isIntersecting) {
-							entry.target.classList.add('is-visible');
-							observer.unobserve(entry.target);
-						}
-					});
-				}, { threshold: 0.15, rootMargin: '0px 0px -8% 0px' });
-
-				targets.forEach(function (target) {
-					observer.observe(target);
-				});
-			} catch (error) {
-				// Never leave content hidden if anything goes wrong.
-				body.classList.remove('ministry-anim-ready');
-			}
-		})();
+			var spec = body.getAttribute('data-reveal-targets');
+			if (!spec) return;
+			var targets;
+			try { targets = document.querySelectorAll(spec); } catch (e) { return; }
+			var viewport = window.innerHeight || document.documentElement.clientHeight;
+			targets.forEach(function (element) {
+				if (element.classList.contains('is-visible')) return;
+				if (element.classList.contains('is-hidden')) return;
+				var rect = element.getBoundingClientRect();
+				if (rect.width === 0 && rect.height === 0) return;
+				if (rect.top <= viewport * 0.94 && rect.bottom >= 0) {
+					element.classList.add('is-visible');
+				}
+			});
+		}, 2000);
 	</script>
+	<!-- The scroll-reveal that used to live here now comes from the shared
+	     kci-reveal.js engine included right after <body> (see the
+	     data-reveal-* attributes on <body> for its configuration). -->
 	<!--MINISTRY-FOOTER-->
 </body>
 </html>

@@ -44,29 +44,25 @@ if (!empty($slug) && !$event) {
 <meta name="description" content="Kingdomite Church Int'l">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" type="text/css" href="kci.css">
-<link rel="stylesheet" type="text/css" href="mobilefix.css?v=1">
+<link rel="stylesheet" type="text/css" href="kci.css?v=26">
+<link rel="stylesheet" type="text/css" href="mobilefix.css?v=3">
 <link rel="stylesheet" type="text/css" href="cleanup.css">
 <link rel="icon" type="image/png" href="kci_image">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <title><?= $event ? htmlspecialchars($event['title']) : 'Events' ?> | Kingdomite Church International</title>
 </head>
-<body class="events-page">
-	<!-- Event detail page: prime the scroll-reveal initial state before the
-	     first paint. Only rendered when a valid $event exists; skipped for
-	     reduced-motion users and when IntersectionObserver is unavailable, so
-	     the content is never left hidden. -->
-	<?php if ($event): ?>
-	<script type="text/javascript">
-		(function () {
-			var reduced = window.matchMedia &&
-				window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-			if (reduced || !('IntersectionObserver' in window)) return;
-			document.body.classList.add('event-detail-anim-ready');
-		})();
-	</script>
-	<?php endif; ?>
+<body class="events-page"<?php if ($event): ?>
+	data-reveal-ready="event-detail-anim-ready"
+	data-reveal-targets=".event-detail-content .event-detail-main .event-detail-label, .event-detail-content .event-detail-main h2, .event-detail-content .event-detail-main > p, .event-detail-content .event-detail-main h3, .event-detail-content .event-detail-main h3 + p, .event-detail-content .event-detail-sidebar .event-detail-card, .event-detail-cta .event-detail-cta-content h2, .event-detail-cta .event-detail-cta-content p, .event-detail-cta .event-detail-cta-button, .kc118 .kc119"
+	data-reveal-margin="0px 0px -8% 0px"<?php endif; ?>>
+	<!-- Shared reveal engine (kci-reveal.js): primes the scroll-reveal
+	     initial state before the first paint, then drives the single
+	     IntersectionObserver. The data-reveal-* attributes above are only
+	     rendered for the single-event view, so the listing view is never
+	     put into its hidden starting state. -->
+	<script src="kci-reveal.js" defer></script>
 
 	<!--header-->
 	<?php include 'header.php'; ?>
@@ -95,7 +91,9 @@ if (!empty($slug) && !$event) {
 				<?php foreach ($allEvents as $ev): ?>
 					<article class="event-card">
 						<div class="event-card-image">
-							<img src="<?= htmlspecialchars($ev['image']) ?>" alt="<?= htmlspecialchars($ev['title']) ?>">
+							<img src="<?= htmlspecialchars($ev['image']) ?>" alt="<?= htmlspecialchars($ev['title']) ?>" width="800" height="600" loading="lazy" decoding="async">
+			
+							
 							<span class="event-card-location"><i class="fa-solid fa-location-crosshairs"></i> <?= htmlspecialchars($ev['location']) ?></span>
 						</div>
 						<div class="event-card-body">
@@ -144,7 +142,7 @@ if (!empty($slug) && !$event) {
 				<?php endif; ?>
 			</div>
 			<div class="event-detail-hero-image">
-				<img src="<?= htmlspecialchars($event['image']) ?>" alt="<?= htmlspecialchars($event['title']) ?>">
+				<img src="<?= htmlspecialchars($event['image']) ?>" alt="<?= htmlspecialchars($event['title']) ?>" width="1200" height="800" loading="eager" decoding="async" fetchpriority="high">
 			</div>
 		</div>
 	</section>
@@ -217,49 +215,9 @@ if (!empty($slug) && !$event) {
 			}
 		});
 	</script>
-	<?php if ($event): ?>
-	<script type="text/javascript">
-		// Event detail page: lightweight IntersectionObserver scroll-reveal.
-		// Fully self-contained — it does NOT touch the mobile menu, the
-		// dropdowns or the header scroll/glassmorphism code above.
-		(function () {
-			var body = document.body;
-			if (!body || !body.classList.contains('event-detail-anim-ready')) return;
-
-			var targets = document.querySelectorAll(
-				'.event-detail-content .event-detail-main .event-detail-label, ' +
-				'.event-detail-content .event-detail-main h2, ' +
-				'.event-detail-content .event-detail-main > p, ' +
-				'.event-detail-content .event-detail-main h3, ' +
-				'.event-detail-content .event-detail-main h3 + p, ' +
-				'.event-detail-content .event-detail-sidebar .event-detail-card, ' +
-				'.event-detail-cta .event-detail-cta-content h2, ' +
-				'.event-detail-cta .event-detail-cta-content p, ' +
-				'.event-detail-cta .event-detail-cta-button, ' +
-				'.kc118 .kc119'
-			);
-
-			if (!targets.length) return;
-
-			try {
-				var observer = new IntersectionObserver(function (entries) {
-					entries.forEach(function (entry) {
-						if (entry.isIntersecting) {
-							entry.target.classList.add('is-visible');
-							observer.unobserve(entry.target);
-						}
-					});
-				}, { threshold: 0.15, rootMargin: '0px 0px -8% 0px' });
-
-				targets.forEach(function (target) {
-					observer.observe(target);
-				});
-			} catch (error) {
-				// Never leave content hidden if anything goes wrong.
-				body.classList.remove('event-detail-anim-ready');
-			}
-		})();
-	</script>
-	<?php endif; ?>
+	<!-- The scroll-reveal that used to live here now comes from the shared
+	     kci-reveal.js engine included right after <body> (see the
+	     data-reveal-* attributes on <body> for its configuration). It is
+	     only configured when a valid \ is rendered. -->
 </body>
 </html>

@@ -20,19 +20,12 @@ include("kci_db.php");
 $ministries = [];
 
 try {
-	$ministryStmt = $conn->prepare("SELECT id, name, slug, category, icon, image, description, meeting FROM ministries WHERE status = 'active' ORDER BY id ASC");
-	$ministryStmt->execute();
-	$ministryResult = $ministryStmt->get_result();
-	if ($ministryResult) {
-		while ($ministryRow = $ministryResult->fetch_assoc()) {
-			/* Card rendering below expects each ministry's slug under the
-			   'anchor' key and a fixed 'View Ministry' link label. */
-			$ministryRow['anchor'] = $ministryRow['slug'];
-			$ministryRow['link_label'] = 'View Ministry';
-			$ministries[] = $ministryRow;
-		}
+	$ministries = kci_get_ministries($conn);
+	foreach ($ministries as &$m) {
+		$m['anchor'] = $m['slug'];
+		$m['link_label'] = 'View Ministry';
 	}
-	$ministryStmt->close();
+	unset($m);
 } catch (Throwable $e) {
 	/* Never expose database details to visitors. */
 	$ministries = [];
@@ -85,28 +78,27 @@ foreach ($ministries as $ministry) {
 	<meta name="description" content="Ministries at Kingdomite Church International">
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap">
 	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-	<link rel="stylesheet" type="text/css" href="kci.css?v=20">
-	<link rel="stylesheet" type="text/css" href="mobilefix.css?v=1">
-	<link rel="stylesheet" type="text/css" href="mobile-header.css?v=1">
+	<link rel="stylesheet" type="text/css" href="kci.css?v=26">
+	<link rel="stylesheet" type="text/css" href="mobilefix.css?v=3">
+	<link rel="stylesheet" type="text/css" href="mobile-header.css?v=3">
 	<link rel="icon" type="image/png" href="kci_image">
 	<title>Ministries | Kingdomite Church International</title>
 
 	<!-- inserting of icon link from cdjns -->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
-<body class="ministries-page header-solid">
-	<!-- Ministries page: prime the scroll-reveal initial state before the first
-	     paint. Skipped for reduced-motion users and when IntersectionObserver
-	     is unavailable, so the content is never left hidden. -->
-	<script type="text/javascript">
-		(function () {
-			var reduced = window.matchMedia &&
-				window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-			if (reduced || !('IntersectionObserver' in window)) return;
-			document.body.classList.add('ministries-anim-ready');
-		})();
-	</script>
+<body class="ministries-page header-solid"
+	data-reveal-ready="ministries-anim-ready"
+	data-reveal-targets=".ministries-all__intro, .ministries-all__intro .ministries-eyebrow, .ministries-all__title, .ministries-all__text, .ministries-filters, .ministry-card, .featured-ministry__media, .featured-ministry__content, .featured-ministry__badge, .featured-ministry__title, .featured-ministry__text, .featured-ministry__stats, .featured-ministry__stat, .featured-ministry__foot, .kc118 .kc119"
+	data-reveal-margin="0px 0px -6% 0px"
+	data-reveal-safety="load"
+	data-reveal-reflow=".ministries-filters">
+	<!-- Shared reveal engine (kci-reveal.js): primes the scroll-reveal
+	     initial state before the first paint, then drives the single
+	     IntersectionObserver. -->
+	<script src="kci-reveal.js" defer></script>
 
 	<!--header-->
 	<?php include 'header.php'; ?>
@@ -136,8 +128,8 @@ foreach ($ministries as $ministry) {
 				<div class="ministries-hero__image">
 					<i class="fa-solid fa-people-group ministries-img-fallback" aria-hidden="true"></i>
 					<img src="kci_image/img40.webp"
-					     alt="Kingdomite Church International ministry team serving together"
-					     data-ministry-img>
+     alt="Kingdomite Church International ministry team serving together"
+     width="800" height="600" loading="eager" decoding="async" fetchpriority="high" data-ministry-img>
 				</div>
 			</div>
 		</section>
@@ -165,6 +157,7 @@ foreach ($ministries as $ministry) {
 			</div>
 
 			<div class="ministries-grid">
+				
 				<?php foreach ($ministries as $ministry): ?>
 					<article class="ministry-card"
 					         id="<?= htmlspecialchars($ministry['anchor']) ?>"
@@ -172,10 +165,11 @@ foreach ($ministries as $ministry) {
 						<span class="ministry-card__icon" aria-hidden="true">
 							<i class="<?= htmlspecialchars($ministry['icon']) ?>"></i>
 					</span>
+
 						<div class="ministry-card__tile">
 							<img src="<?= htmlspecialchars($ministry['image']) ?>"
 							     alt="<?= htmlspecialchars($ministry['name']) ?>"
-							     data-ministry-img>
+								     width="800" height="600" loading="eager" decoding="async" data-ministry-img>
 						</div>
 
 						<span class="ministry-card__category"><?= htmlspecialchars($ministry['category']) ?></span>
@@ -208,7 +202,7 @@ foreach ($ministries as $ministry) {
 					<i class="fa-solid fa-hand-holding-heart ministries-img-fallback" aria-hidden="true"></i>
 					<img src="<?= htmlspecialchars($featuredMinistry['image']) ?>"
 					     alt="<?= htmlspecialchars($featuredMinistry['name']) ?> at Kingdomite Church International"
-					     data-ministry-img>
+					     width="800" height="600" loading="lazy" decoding="async" data-ministry-img>
 				</div>
 
 				<div class="featured-ministry__content">
@@ -361,109 +355,33 @@ foreach ($ministries as $ministry) {
 			});
 
 			applyFilter('all');
-		})();
-	</script>
 
-	<script type="text/javascript">
-		// Ministries page: lightweight IntersectionObserver scroll-reveal.
-		// Fully self-contained - it does NOT touch the mobile menu, the
-		// dropdowns, the header scroll code, the category filter or the
-		// ministry image fallback above. It only adds a reveal class.
-		(function () {
-			var page = document.querySelector('.ministries-page');
-			if (!page) return;
-
-			// The pre-paint script (see top of <body>) only primes the page
-			// when motion is allowed and IntersectionObserver exists. If it
-			// was skipped, nothing is hidden and this can stop here.
-			if (!document.body.classList.contains('ministries-anim-ready')) return;
-
-			var targets = page.querySelectorAll(
-				'.ministries-all__intro, ' +
-				'.ministries-all__intro .ministries-eyebrow, ' +
-				'.ministries-all__title, ' +
-				'.ministries-all__text, ' +
-				'.ministries-filters, ' +
-				'.ministry-card, ' +
-				'.featured-ministry__media, ' +
-				'.featured-ministry__content, ' +
-				'.featured-ministry__badge, ' +
-				'.featured-ministry__title, ' +
-				'.featured-ministry__text, ' +
-				'.featured-ministry__stats, ' +
-				'.featured-ministry__stat, ' +
-				'.featured-ministry__foot, ' +
-				'.kc118 .kc119'
-			);
-
-			if (!targets.length) return;
-
-			function reveal(element) {
-				if (element.classList.contains('is-visible')) return;
-				element.classList.add('is-visible');
-			}
-
-			// Safety net: nothing is ever left invisible. Anything that is
-			// already on screen after the layout changes - switching a
-			// category filter reflows and re-shows cards - is revealed at
-			// once. Cards hidden by the filter are skipped, so a filtered
-			// card can never appear before it matches the active category.
-			function revealInView() {
+			// Reveal safety net: reveal any already-visible reveal target still hidden after 2 seconds.
+			window.setTimeout(function () {
+				var body = document.body;
+				var spec = body.getAttribute('data-reveal-targets');
+				if (!spec) return;
+				var targets;
+				try { targets = document.querySelectorAll(spec); } catch (e) { return; }
 				var viewport = window.innerHeight || document.documentElement.clientHeight;
 				targets.forEach(function (element) {
 					if (element.classList.contains('is-visible')) return;
 					if (element.classList.contains('is-hidden')) return;
 					var rect = element.getBoundingClientRect();
 					if (rect.width === 0 && rect.height === 0) return;
-					if (rect.top <= viewport * 0.94 && rect.bottom >= 0) reveal(element);
+					if (rect.top <= viewport * 0.94 && rect.bottom >= 0) {
+						element.classList.add('is-visible');
+					}
 				});
-			}
-
-			var observer;
-
-			try {
-				observer = new IntersectionObserver(function (entries) {
-					entries.forEach(function (entry) {
-						if (!entry.isIntersecting) return;
-						// Each element reveals once and is unobserved straight
-						// afterwards; the observer itself stays in use for the
-						// elements that have not arrived yet.
-						entry.target.classList.add('is-visible');
-						observer.unobserve(entry.target);
-					});
-				}, { threshold: 0.15, rootMargin: '0px 0px -6% 0px' });
-
-				targets.forEach(function (target) {
-					observer.observe(target);
-				});
-			} catch (error) {
-				// Never leave content hidden if anything goes wrong.
-				document.body.classList.remove('ministries-anim-ready');
-				return;
-			}
-
-			// After a category filter runs (the script above always runs
-			// first) the grid reflows: reveal whatever is on screen now and
-			// once more a moment later, in case an image or font shifts the
-			// layout. The filter logic itself is never touched.
-			var filters = page.querySelector('.ministries-filters');
-			if (filters) {
-				filters.addEventListener('click', function () {
-					window.requestAnimationFrame(revealInView);
-					window.setTimeout(revealInView, 350);
-				});
-			}
-
-			// Same safety net for a viewport that changes after priming
-			// (rotating a phone, resizing a window).
-			var resizeTimer = null;
-			window.addEventListener('resize', function () {
-				if (resizeTimer) window.clearTimeout(resizeTimer);
-				resizeTimer = window.setTimeout(revealInView, 120);
-			});
+			}, 2000);
 		})();
 	</script>
-	<script src="countup.js"></script>
+
+	<!-- The scroll-reveal that used to live here now comes from the shared
+	     kci-reveal.js engine included right after <body> (see the
+	     data-reveal-* attributes on <body> for its configuration,
+	     including the filter reflow and resize safety net). -->
+	<script src="countup.js" defer></script>
 </body>
 </html>
 
