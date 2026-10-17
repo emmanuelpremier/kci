@@ -38,7 +38,23 @@ $homeDefaults = array(
 $homePastorImage = kci_setting($conn, 'home_pastor_image', $homeDefaults['pastor_image']);
 $homePastorBio = kci_setting($conn, 'home_pastor_bio', $homeDefaults['pastor_bio']);
 for ($i = 1; $i <= 4; $i++) {
-    $homeQuoteImages[$i - 1] = kci_setting($conn, 'home_quote_image_' . $i, $homeDefaults['quote_images'][$i - 1]);
+    $img = kci_setting($conn, 'home_quote_image_' . $i, $homeDefaults['quote_images'][$i - 1]);
+    /* Only keep a saved picture that really resolves on the live server:
+       kci_image paths are case-sensitive on Linux, and a media.php
+       picture needs its media row. Anything else falls back to the
+       default - the same graphic quotes.php loads. */
+    $resolves = false;
+    if (preg_match('#^kci_image/[A-Za-z0-9._-]+$#', $img)) {
+        $resolves = is_file(__DIR__ . '/' . $img);
+    } elseif (preg_match('#^media\.php\?id=([1-9][0-9]*)$#', $img, $m)) {
+        try {
+            $rows = kci_query_once($conn, 'SELECT id FROM media WHERE id = ? LIMIT 1', array((int)$m[1]), 'i');
+        } catch (Throwable $ignored) {
+            $rows = array();
+        }
+        $resolves = is_array($rows) && count($rows) > 0;
+    }
+    $homeQuoteImages[$i - 1] = $resolves ? $img : $homeDefaults['quote_images'][$i - 1];
 }
 for ($i = 1; $i <= 3; $i++) {
     $homeQuoteTexts[$i - 1] = kci_setting($conn, 'home_quote_text_' . $i, $homeDefaults['quote_texts'][$i - 1]);
@@ -56,7 +72,7 @@ for ($i = 1; $i <= 3; $i++) {
 	<link rel="preload" as="font" href="https://fonts.gstatic.com/s/poppins/v20/pxiEyp8kv8JHgFVrJJfecg.ttf" crossorigin="anonymous">
 	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" media="print" onload="this.media='all'">
-	<link rel="stylesheet" type="text/css" href="kci.css?v=26">
+	<link rel="stylesheet" type="text/css" href="kci.css?v=27">
 	<link rel="stylesheet" type="text/css" href="mobilefix.css?v=3">
 	<link rel="icon" type="image/png" href="kci_image">
 	<link rel="preload" as="image" href="kci_image/im2.webp" fetchpriority="high">

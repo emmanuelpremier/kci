@@ -5,6 +5,14 @@
  * queried twice on one page load.
  */
 
+/* Single source of truth for wall-clock time: Africa/Lagos (UTC+1, no DST).
+ * Set here so every entry point (public pages + admin, local WAMP + Render)
+ * uses the same PHP timezone even when site_config.php / bootstrap.php
+ * load in a different order. */
+if (function_exists('date_default_timezone_set')) {
+    @date_default_timezone_set('Africa/Lagos');
+}
+
 if (getenv('DB_HOST')) {
     // ONLINE - Aiven on Render
     $host = getenv('DB_HOST');
@@ -22,6 +30,20 @@ if (getenv('DB_HOST')) {
 
 if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
+}
+
+/* Keep MySQL wall-clock functions (NOW(), CURDATE(), DATE_SUB(NOW(), ...),
+ * TIMESTAMP defaults such as admin_log.created_at) in the same Africa/Lagos
+ * (UTC+1) zone that PHP and admin_relative_time() display in. Render/Aiven
+ * sessions default to UTC, which made fresh rows look "1 hour ago" on live
+ * while local WAMP (system zone UTC+1) looked correct. Best-effort: if the
+ * server lacks named-zone tables, fall back to the numeric offset; a failure
+ * here must never break the page. No schema or data is changed. */
+try {
+    if (!@$conn->query("SET time_zone = 'Africa/Lagos'")) {
+        @$conn->query("SET time_zone = '+01:00'");
+    }
+} catch (Throwable $ignored) {
 }
 
 /* ----------------------------------------------------------------------

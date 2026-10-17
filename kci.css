@@ -4070,6 +4070,7 @@ body{
 
 /* View More */
 .home-page .kc13 .kc20{
+	grid-column: 1 / -1;
 	width: 100%;
 	margin: 34px 0 0;
 	padding: 0;
